@@ -1,0 +1,22 @@
+# REFERENCE ONLY: the same routing (minus weights and headers) as a classic Ingress.
+# You will meet Ingress in many existing clusters. It needs an Ingress controller
+# (Traefik, HAProxy, cloud controllers...). Note: the community ingress-nginx
+# controller was retired in March 2026; new platforms should prefer Gateway API.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: shop
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: shop.local
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service: { name: api-v1, port: { number: 80 } }
+          - path: /
+            pathType: Prefix
+            backend:
+              service: { name: website, port: { number: 80 } }

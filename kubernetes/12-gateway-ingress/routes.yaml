@@ -1,0 +1,29 @@
+# Owned by the APP team: how requests reach their Services.
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: showdown
+spec:
+  parentRefs:
+    - name: shop-gateway
+  hostnames:
+    - showdown.local          # the "real" domain (curl -H 'Host: showdown.local' ...)
+    - localhost               # so the lab also works in a browser at http://localhost:8888
+  rules:
+    # 1) Header-based routing: testers send "x-canary: true" to ALWAYS get v2
+    - matches:
+        - headers:
+            - name: x-canary
+              value: "true"
+      backendRefs:
+        - name: api-v2
+          port: 8080
+
+    # 2) Canary: 90% of all other traffic to v1, 10% to v2
+    - backendRefs:
+        - name: api-v1
+          port: 8080
+          weight: 90
+        - name: api-v2
+          port: 8080
+          weight: 10

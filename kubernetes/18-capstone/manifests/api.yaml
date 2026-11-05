@@ -1,0 +1,93 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-config
+  labels: { app.kubernetes.io/name: api, app.kubernetes.io/part-of: shop }
+data:
+  REDIS_HOST: redis
+  REDIS_PORT: "6379"
+  TITLE: "Cats vs Dogs"
+  VOTE_OPTIONS: "cats:🐱:Cats,dogs:🐶:Dogs"
+  THEME_COLOR: "#ff5a5f"
+  APP_VERSION: "1.0.0"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api                             # the frontend's nginx.conf proxies to http://api:8080
+  labels: { app.kubernetes.io/name: api, app.kubernetes.io/part-of: shop }
+spec:
+  selector: { app.kubernetes.io/name: api }
+  ports:
+    - name: http
+      port: 8080
+      targetPort: http
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  labels: { app.kubernetes.io/name: api, app.kubernetes.io/part-of: shop, app.kubernetes.io/component: backend }
+spec:
+  replicas: 2                           # the HPA takes over from here
+  revisionHistoryLimit: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate: { maxSurge: 1, maxUnavailable: 0 }
+  selector:
+    matchLabels: { app.kubernetes.io/name: api }
+  template:
+    metadata:
+      labels: { app.kubernetes.io/name: api, app.kubernetes.io/part-of: shop }
+    spec:
+      automountServiceAccountToken: false
+      enableServiceLinks: false          # no legacy REDIS_PORT=tcp://... env injection
+      terminationGracePeriodSeconds: 30
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        seccompProfile: { type: RuntimeDefault }
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels: { app.kubernetes.io/name: api }
+      containers:
+        - name: api
+          image: z2h/api:1.0
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef: { name: api-config }
+          ports:
+            - name: http
+              containerPort: 8080
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: { drop: ["ALL"] }
+          resources:
+            requests: { cpu: 100m, memory: 64Mi }
+            limits:   { memory: 128Mi }
+          startupProbe:
+            httpGet: { path: /healthz, port: http }
+            periodSeconds: 2
+            failureThreshold: 30
+          livenessProbe:
+            httpGet: { path: /healthz, port: http }      # process only, never dependencies
+            periodSeconds: 10
+            failureThreshold: 3
+          readinessProbe:
+            httpGet: { path: /readyz, port: http }       # includes Redis connectivity
+            periodSeconds: 5
+            failureThreshold: 2
+          lifecycle:
+            preStop:                    # let endpoints update before SIGTERM (zero-downtime rollouts)
+              exec: { command: ["sleep", "5"] }
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: tmp
+          emptyDir: {}

@@ -1,0 +1,10 @@
+# Will be REJECTED in a "restricted" namespace.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: insecure
+  namespace: secure-lab
+spec:
+  containers:
+    - name: app
+      image: nginx:1.27-alpine        # runs as root by default

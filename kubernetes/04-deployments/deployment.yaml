@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  labels:
+    app: api
+spec:
+  replicas: 3                     # desired state: 3 identical Pods
+  selector:
+    matchLabels:
+      app: api                    # "the Pods I own are the ones labelled app=api"
+  template:                       # the Pod template: every replica is created from this
+    metadata:
+      labels:
+        app: api                  # MUST match the selector above
+    spec:
+      containers:
+        - name: api
+          image: z2h/api:1.0
+          imagePullPolicy: IfNotPresent     # use the image loaded into the cluster (K01 Step 8)
+          ports:
+            - containerPort: 8080
+          # No REDIS_HOST yet: every Pod keeps votes in its OWN memory. Watch what that does…
+---
+# A Service gives the Pods one stable name ("api"). Lab K05 explains it in depth.
+apiVersion: v1
+kind: Service
+metadata:
+  name: api
+spec:
+  selector:
+    app: api
+  ports:
+    - port: 8080
+      targetPort: 8080

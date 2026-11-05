@@ -1,0 +1,9 @@
+# Pod Security Admission: the API server rejects Pods that violate the "restricted" standard.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: secure-lab
+  labels:
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/enforce-version: latest
+    pod-security.kubernetes.io/warn: restricted

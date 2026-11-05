@@ -1,0 +1,32 @@
+# Guardrails a platform team puts on a team namespace.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team-quota
+---
+# Defaults for containers that don't specify resources, plus min/max bounds.
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: defaults
+  namespace: team-quota
+spec:
+  limits:
+    - type: Container
+      defaultRequest: { cpu: 50m, memory: 64Mi }
+      default:        { cpu: 200m, memory: 128Mi }
+      max:            { cpu: "1",  memory: 512Mi }
+---
+# Total budget for the whole namespace.
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: budget
+  namespace: team-quota
+spec:
+  hard:
+    requests.cpu: "500m"
+    requests.memory: 512Mi
+    limits.cpu: "1"
+    limits.memory: 1Gi
+    pods: "5"

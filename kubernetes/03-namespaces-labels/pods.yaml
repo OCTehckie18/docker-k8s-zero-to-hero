@@ -1,0 +1,44 @@
+# Six pods with different labels, to practise selectors.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team-a
+  labels:
+    team: a
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team-b
+  labels:
+    team: b
+---
+apiVersion: v1
+kind: Pod
+metadata: { name: shop-frontend-prod, namespace: team-a, labels: { app: shop, tier: frontend, env: prod } }
+spec: { containers: [ { name: c, image: nginx:1.27-alpine } ] }
+---
+apiVersion: v1
+kind: Pod
+metadata: { name: shop-api-prod, namespace: team-a, labels: { app: shop, tier: api, env: prod } }
+spec: { containers: [ { name: c, image: nginx:1.27-alpine } ] }
+---
+apiVersion: v1
+kind: Pod
+metadata: { name: shop-api-dev, namespace: team-a, labels: { app: shop, tier: api, env: dev } }
+spec: { containers: [ { name: c, image: nginx:1.27-alpine } ] }
+---
+apiVersion: v1
+kind: Pod
+metadata: { name: blog-frontend-prod, namespace: team-b, labels: { app: blog, tier: frontend, env: prod } }
+spec: { containers: [ { name: c, image: nginx:1.27-alpine } ] }
+---
+apiVersion: v1
+kind: Pod
+metadata: { name: blog-api-staging, namespace: team-b, labels: { app: blog, tier: api, env: staging } }
+spec: { containers: [ { name: c, image: nginx:1.27-alpine } ] }
+---
+apiVersion: v1
+kind: Pod
+metadata: { name: blog-api-prod, namespace: team-b, labels: { app: blog, tier: api, env: prod } }
+spec: { containers: [ { name: c, image: nginx:1.27-alpine } ] }

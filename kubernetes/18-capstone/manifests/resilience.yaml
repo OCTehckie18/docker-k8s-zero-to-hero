@@ -1,0 +1,54 @@
+# Autoscaling, disruption budgets, and quotas for the shop namespace.
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: api
+spec:
+  scaleTargetRef: { apiVersion: apps/v1, kind: Deployment, name: api }
+  minReplicas: 2
+  maxReplicas: 6
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target: { type: Utilization, averageUtilization: 60 }
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: api
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels: { app.kubernetes.io/name: api }
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: frontend
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels: { app.kubernetes.io/name: frontend }
+---
+# With a ResourceQuota on requests, every Pod MUST declare requests, so give
+# Pods that forget (debug Pods, kubectl run ...) sensible defaults.
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: defaults
+spec:
+  limits:
+    - type: Container
+      defaultRequest: { cpu: 20m, memory: 32Mi }
+      default:        { memory: 128Mi }
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: shop-budget
+spec:
+  hard:
+    requests.cpu: "2"
+    requests.memory: 2Gi
+    pods: "20"

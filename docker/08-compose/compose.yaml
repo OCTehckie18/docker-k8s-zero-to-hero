@@ -1,0 +1,56 @@
+# 🐱 vs 🐶 The Showdown: frontend (nginx) → api (python) → redis
+# Run from this folder:  docker compose up -d --build
+name: showdown
+
+services:
+  frontend:
+    build: ../../apps/frontend
+    image: z2h/frontend:1.0
+    ports:
+      - "${FRONTEND_PORT:-8080}:8080"      # the ONLY published port
+    depends_on:
+      api:
+        condition: service_healthy        # wait until the API is healthy, not just "started"
+    restart: unless-stopped
+    networks: [web]
+
+  api:
+    build: ../../apps/api
+    image: z2h/api:1.0
+    environment:
+      REDIS_HOST: redis
+      APP_VERSION: ${APP_VERSION:-1.0.0}
+      TITLE: ${TITLE:-Cats vs Dogs}
+      VOTE_OPTIONS: ${VOTE_OPTIONS:-cats:🐱:Cats,dogs:🐶:Dogs}
+    depends_on:
+      redis:
+        condition: service_healthy
+    healthcheck:
+      # /readyz fails if Redis is unreachable, so "healthy" means "can really serve traffic"
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8080/readyz"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+    restart: unless-stopped
+    networks: [web, data]
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]   # persist to disk
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+    networks: [data]                     # NOT on "web": the frontend cannot reach Redis
+
+networks:
+  web: {}
+  data: {}
+
+volumes:
+  redis-data: {}

@@ -1,0 +1,54 @@
+# Two versions of the Showdown side by side: stable v1 and canary v2 (with unicorns).
+# Both store votes in the same Redis (kubernetes/stack/redis.yaml).
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: api-v1, labels: { app: api, version: v1 } }
+spec:
+  replicas: 2
+  selector: { matchLabels: { app: api, version: v1 } }
+  template:
+    metadata: { labels: { app: api, version: v1 } }
+    spec:
+      containers:
+        - name: api
+          image: z2h/api:1.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - { name: REDIS_HOST, value: redis }
+            - { name: APP_VERSION, value: "1.0.0" }
+            - { name: VOTE_OPTIONS, value: "cats:🐱:Cats,dogs:🐶:Dogs" }
+          ports: [ { containerPort: 8080 } ]
+---
+apiVersion: v1
+kind: Service
+metadata: { name: api-v1 }
+spec:
+  selector: { app: api, version: v1 }
+  ports: [ { port: 8080, targetPort: 8080 } ]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: api-v2, labels: { app: api, version: v2 } }
+spec:
+  replicas: 1
+  selector: { matchLabels: { app: api, version: v2 } }
+  template:
+    metadata: { labels: { app: api, version: v2 } }
+    spec:
+      containers:
+        - name: api
+          image: z2h/api:1.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - { name: REDIS_HOST, value: redis }
+            - { name: APP_VERSION, value: "2.0.0-canary" }
+            - { name: VOTE_OPTIONS, value: "cats:🐱:Cats,dogs:🐶:Dogs,unicorns:🦄:Unicorns" }
+            - { name: THEME_COLOR, value: "#b06bff" }
+          ports: [ { containerPort: 8080 } ]
+---
+apiVersion: v1
+kind: Service
+metadata: { name: api-v2 }
+spec:
+  selector: { app: api, version: v2 }
+  ports: [ { port: 8080, targetPort: 8080 } ]

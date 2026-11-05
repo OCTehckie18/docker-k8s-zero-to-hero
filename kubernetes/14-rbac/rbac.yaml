@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: rbac-lab
+---
+# An identity for a workload (Pods use ServiceAccounts; humans use users/groups).
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: pod-reader
+  namespace: rbac-lab
+---
+# WHAT is allowed: read Pods and their logs, in this namespace only.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: read-pods
+  namespace: rbac-lab
+rules:
+  - apiGroups: [""]               # "" = the core API group (pods, services, configmaps...)
+    resources: ["pods", "pods/log"]
+    verbs: ["get", "list", "watch"]
+---
+# WHO gets it: bind the Role to the ServiceAccount.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: pod-reader-can-read-pods
+  namespace: rbac-lab
+subjects:
+  - kind: ServiceAccount
+    name: pod-reader
+    namespace: rbac-lab
+roleRef:
+  kind: Role
+  name: read-pods
+  apiGroup: rbac.authorization.k8s.io
+---
+# A Pod running as that ServiceAccount, calling the Kubernetes API with its token.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: api-client
+  namespace: rbac-lab
+spec:
+  serviceAccountName: pod-reader
+  containers:
+    - name: client
+      image: curlimages/curl:8.11.1
+      command: ["sleep", "3600"]

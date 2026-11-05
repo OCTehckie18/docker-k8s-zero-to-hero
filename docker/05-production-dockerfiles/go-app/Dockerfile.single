@@ -1,0 +1,7 @@
+# Single stage: the final image ships the whole Go toolchain (~1.3GB)
+# just to run one small binary.
+FROM golang:1.23
+WORKDIR /src
+COPY . .
+RUN go build -o /server .
+CMD ["/server"]

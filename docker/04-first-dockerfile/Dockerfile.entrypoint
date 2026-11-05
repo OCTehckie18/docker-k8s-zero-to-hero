@@ -1,0 +1,4 @@
+# ENTRYPOINT = the program. CMD = its default arguments.
+FROM python:3.12-alpine
+ENTRYPOINT ["python"]
+CMD ["-c", "print('default args')"]

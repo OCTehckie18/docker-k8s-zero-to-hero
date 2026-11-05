@@ -1,0 +1,11 @@
+# kubectl apply -k kubernetes/18-capstone/manifests
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: shop
+resources:
+  - namespace.yaml
+  - redis.yaml
+  - api.yaml
+  - frontend.yaml
+  - resilience.yaml
+  - network-policies.yaml

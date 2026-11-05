@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  namespace: secure-lab
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: api }
+  template:
+    metadata:
+      labels: { app: api }
+    spec:
+      automountServiceAccountToken: false      # this app never calls the Kubernetes API
+      securityContext:                         # Pod level: applies to all containers
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001                         # mounted volumes become group-owned by 10001
+        seccompProfile:
+          type: RuntimeDefault                 # block dangerous syscalls
+      containers:
+        - name: api
+          image: z2h/api:1.0
+          imagePullPolicy: IfNotPresent
+          ports: [ { containerPort: 8080 } ]
+          readinessProbe:
+            httpGet: { path: /healthz, port: 8080 }
+            periodSeconds: 3
+          securityContext:                     # container level
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          resources:
+            requests: { cpu: 50m, memory: 64Mi }
+            limits:   { memory: 128Mi }
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp                  # the only writable path
+      volumes:
+        - name: tmp
+          emptyDir: {}

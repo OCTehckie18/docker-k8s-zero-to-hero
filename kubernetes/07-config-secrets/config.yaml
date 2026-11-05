@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: showdown-config
+data:
+  # key/value pairs -> environment variables (via envFrom)
+  TITLE: "Cats vs Dogs"
+  VOTE_OPTIONS: "cats:🐱:Cats,dogs:🐶:Dogs"
+  THEME_COLOR: "#ff5a5f"
+  APP_VERSION: "1.1.0"
+  # a whole file -> mounted as /etc/showdown/features.json
+  features.json: |
+    {
+      "confetti": true,
+      "max_votes_per_minute": 60
+    }
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: showdown-secret
+type: Opaque
+stringData:                     # plain text here; stored base64-encoded under .data
+  ADMIN_TOKEN: "dev-only-not-a-real-secret"
+  DB_PASSWORD: "s3cr3t-dev-only"

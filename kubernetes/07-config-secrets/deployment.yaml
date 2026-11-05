@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  labels: { app: api }
+spec:
+  replicas: 2
+  selector:
+    matchLabels: { app: api }
+  template:
+    metadata:
+      labels: { app: api }
+    spec:
+      containers:
+        - name: api
+          image: z2h/api:1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          # 1) every key of the ConfigMap becomes an env var
+          envFrom:
+            - configMapRef:
+                name: showdown-config
+          env:
+            - name: REDIS_HOST
+              value: redis
+            # 2) a single key from a Secret as one env var
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: showdown-secret
+                  key: DB_PASSWORD
+          volumeMounts:
+            # 3) ConfigMap keys as files (these update live when the ConfigMap changes)
+            - name: config-files
+              mountPath: /etc/showdown
+              readOnly: true
+            # 4) Secret keys as files (preferred over env vars for secrets)
+            - name: secret-files
+              mountPath: /etc/secrets
+              readOnly: true
+      volumes:
+        - name: config-files
+          configMap:
+            name: showdown-config
+            items:
+              - key: features.json
+                path: features.json
+        - name: secret-files
+          secret:
+            secretName: showdown-secret
+            defaultMode: 0400
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api
+spec:
+  selector: { app: api }
+  ports:
+    - port: 8080
+      targetPort: 8080
