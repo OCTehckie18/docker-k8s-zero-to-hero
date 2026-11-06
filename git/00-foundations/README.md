@@ -112,6 +112,13 @@ Why the middle step? Because you often change five things but want to save them 
 
 ![Branches](images/04-branches.svg)
 
+**How to read the picture.** Every dot is a commit, numbered in the order it was made. Its colour (and its lane) tells you **which branch it was made on**.
+- **1 "Add menu"** and **2 "Add hours"** are ordinary commits on **`main`**. They happened *before* any draft existed.
+- Right after 2, you create **`cold-coffee`**. It starts as an **exact copy of `main` at that moment**, so it already contains 1 and 2. That's why the green line grows out of dot 2.
+- **3** and **4** are made **only on `cold-coffee`**. Meanwhile `main` still shows just 1 and 2: customers never see the half-finished cold coffee.
+- **5** merges the draft into `main`. Now `main` has the cold coffee too.
+- **6** is a normal commit on `main` again.
+
 Picture the **menu board on the wall** at Vidyarthi Bhavan 📋. Customers order from it all day, so nobody scribbles on it directly. Changing the menu takes three steps:
 
 | Step | At Vidyarthi Bhavan | In Git |
