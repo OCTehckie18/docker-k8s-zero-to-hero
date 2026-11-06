@@ -24,6 +24,19 @@ docker build -t z2h/api:1.0 apps/api && docker build -t z2h/frontend:1.0 apps/fr
 
 ---
 
+## ACT 0: "Why?" (foundations) · 30–45 min · [D00](docker/00-foundations/README.md)
+Open with **stories, not commands**. Use the D00 diagrams as your slides.
+
+1. **The broken phone** 📱 *(D00 §1)*. Ask: *"Same phone, different seller: what made the difference?"* Let them say "the packaging", then reveal the mapping: app = phone, image = package, container = unboxed phone.
+2. **"It works on my machine!"** *(D00 §1)*. Perform the developer/tester/ops dialogue with two volunteers reading the lines. Everybody laughs, and everybody has lived it.
+3. **Houses vs apartments** 🏠🏢 *(D00 §4)*. Then the proof: `uname -r` in Alpine and in Ubuntu prints **the same kernel**. Let the room react.
+4. **The restaurant** 🍝 *(D00 §5)*. Customer, waiter, head chef, cooks. Then `docker version` shows Engine, containerd and runc: the kitchen staff, for real.
+5. **"Are you PID 1?"** *(D00 §7)*. `docker run --rm alpine ps` shows that the container believes it's alone in the world. Then `docker top` shows the host's view: two views of one process.
+
+Close Act 0 with: *"Now that you know what's inside the box, let's play with some boxes."*
+
+> For the Kubernetes half, open Act 3 the same way with [K00](kubernetes/00-foundations/README.md): the 3 a.m. pager dialogue, the container-port diagram, and the "try to out-delete the controller" demo.
+
 ## ACT 1: "The Box" (Docker basics) · 45 min
 
 ### Scene 1: The 3-second miracle 🍄 *(Lab D01)*
@@ -143,7 +156,7 @@ Close with the checklist on screen: *"Every line on this list is something you *
 ## 🗓️ Suggested formats
 | Format | Cover |
 |---|---|
-| **3-hour keynote workshop** | Scenes 1–3, 5–7, 9–12, then the Gauntlet (demo-led, audience votes) |
+| **3-hour keynote workshop** | Act 0 (short), Scenes 1–3, 5–7, 9–12, then the Gauntlet (demo-led, audience votes) |
 | **1 day hands-on** | D01–D08, K01–K08, 4 troubleshooting scenarios each |
 | **2 days, zero to hero** | Day 1: all Docker labs + D-scenarios + K01–K06. Day 2: K07–K18 + K-scenarios |
 | **Semester course** | One lab per session + one troubleshooting scenario as homework |

@@ -1,6 +1,8 @@
 # Lab D01: First Steps, and the Image Arcade 🕹️
 
 > ⏱ 30 min · 🟢 Absolute beginner · Needs: Docker installed ([setup](../../00-setup/README.md))
+>
+> 🧭 New to containers? Do **[D00 Docker Foundations](../00-foundations/README.md)** first: it explains *why* everything in this lab works.
 
 ## 🎯 What you'll learn
 - Check that Docker is installed and working

@@ -4,6 +4,7 @@ By the end of this track you can package any app into an image, run multi-contai
 
 | # | Lab | Time | Level |
 |---|---|---|---|
+| **D00** ⭐ | [**Docker Foundations**: why containers exist, how Docker works](00-foundations/README.md) · [quiz](00-foundations/quiz.md) | 2.5–3h | 🟢 |
 | D01 | [First Steps & the Image Arcade](01-first-steps/README.md) | 30m | 🟢 |
 | D02 | [Images & the Container Lifecycle](02-images-containers-lifecycle/README.md) | 40m | 🟢 |
 | D03 | [Meet the Showdown: ports, logs, exec, inspect](03-inside-containers/README.md) | 45m | 🟢 |

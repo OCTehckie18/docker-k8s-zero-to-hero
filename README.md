@@ -15,7 +15,7 @@ Hands-on labs for complete beginners: students, teachers, career-switchers, and 
 ---
 
 ## 🎯 Who this is for
-- **Never touched a terminal?** Start at [00-setup](00-setup/README.md) and Lab D01. Every command is given and explained.
+- **Never touched a terminal?** Start at [00-setup](00-setup/README.md), then [D00 Docker Foundations](docker/00-foundations/README.md): the why and how, with stories and diagrams, before any command. Every command after that is given and explained.
 - **Used Docker a bit?** Jump to [D05 production Dockerfiles](docker/05-production-dockerfiles/README.md) or [Kubernetes K01](kubernetes/01-cluster-tour/README.md).
 - **Teaching this?** Read [🎤 SHOWTIME.md](SHOWTIME.md), a keynote-style run-of-show with timings, lines, and "wow" moments.
 
@@ -38,6 +38,7 @@ It's ~250 lines of standard-library Python plus one HTML page: no frameworks, no
 ### 🐳 Track 1: Docker ([overview](docker/README.md))
 | Lab | You will… | Wow moment |
 |---|---|---|
+| [D00](docker/00-foundations/README.md) ⭐ | **foundations**: why containers exist, VM vs containers, Docker architecture, namespaces, cgroups, layers (12 diagrams + 50-question quiz) | 🤯 two Linux distros, one kernel |
 | [D01](docker/01-first-steps/README.md) | install check, first containers, **Image Arcade** | 🍄 Mario in your browser in one command |
 | [D02](docker/02-images-containers-lifecycle/README.md) | images vs containers, lifecycle, exit codes | why containers "die immediately" |
 | [D03](docker/03-inside-containers/README.md) | ports, logs, exec, inspect | 📱 the room votes; 💀 votes vanish |
@@ -54,6 +55,7 @@ It's ~250 lines of standard-library Python plus one HTML page: no frameworks, no
 ### ☸️ Track 2: Kubernetes ([overview](kubernetes/README.md))
 | Lab | You will… | Wow moment |
 |---|---|---|
+| [K00](kubernetes/00-foundations/README.md) ⭐ | **foundations**: why orchestration, architecture as a container port, desired state & reconciliation (9 diagrams + 50-question quiz) | ⎈ try to out-delete the controller |
 | [K01](kubernetes/01-cluster-tour/README.md) | cluster tour, kubectl essentials | Kubernetes runs on Kubernetes |
 | [K02](kubernetes/02-pods/README.md) | Pods, init containers, sidecars | CrashLoopBackOff, live |
 | [K03](kubernetes/03-namespaces-labels/README.md) | namespaces, labels, selectors | labels are the glue |

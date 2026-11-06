@@ -6,6 +6,7 @@ By the end of this track you can deploy, expose, update, scale, secure, and debu
 
 | # | Lab | Time | Level |
 |---|---|---|---|
+| **K00** ⭐ | [**Kubernetes Foundations**: why orchestration, how Kubernetes thinks](00-foundations/README.md) · [quiz](00-foundations/quiz.md) | 2.5–3h | 🟢 |
 | K01 | [Tour of a Cluster](01-cluster-tour/README.md) | 40m | 🟢 |
 | K02 | [Pods](02-pods/README.md) | 50m | 🟢 |
 | K03 | [Namespaces, Labels & Selectors](03-namespaces-labels/README.md) | 30m | 🟢 |

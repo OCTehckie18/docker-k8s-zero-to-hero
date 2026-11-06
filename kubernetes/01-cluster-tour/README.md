@@ -1,6 +1,8 @@
 # Lab K01: Tour of a Kubernetes Cluster
 
 > ⏱ 40 min · 🟢 Beginner · Needs: a running cluster ([setup](../../00-setup/README.md))
+>
+> 🧭 Do **[K00 Kubernetes Foundations](../00-foundations/README.md)** first: this lab puts its diagrams onto a real cluster.
 
 ## 🎯 What you'll learn
 - Check your tools and connect to a cluster
