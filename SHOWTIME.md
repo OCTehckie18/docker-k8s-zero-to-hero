@@ -25,8 +25,8 @@ docker build -t z2h/api:1.0 apps/api && docker build -t z2h/frontend:1.0 apps/fr
 ---
 
 ## PRELUDE: "Every change starts with Git" · 30–45 min · [Track 0](git/README.md)
-1. **The ₹1 espresso** ☕ *(G00 §1, G02)*. Read the owner/Asha/Ravi dialogue, then live: `git blame menu.md` names the commit in one second, and `git revert` fixes it safely. Ask: *"How long would this take with menu_FINAL_really.docx?"*
-2. **The cappuccino price war** ⚔️ *(G05)*. Two volunteers, two laptops (or two terminals on the projector): both change the same line and both push. The room watches the conflict markers appear, then decides the price together.
+1. **The ₹1 benne dosa** 🥞 *(G00 §1, G02)*. Read the owner/Asha/Ravi dialogue, then live: `git blame menu.md` names the commit in one second, and `git revert` fixes it safely. Ask: *"How long would this take with menu_FINAL_really.docx?"*
+2. **The ghee roast dosa price war** ⚔️ *(G05)*. Two volunteers, two laptops (or two terminals on the projector): both change the same line and both push. The room watches the conflict markers appear, then decides the price together.
 3. **The Friday incident** 🚨 *(G07)*. `git bisect run` names the guilty commit among the suspects in about 3 seconds. Then: *"…and that tag becomes the Docker image you'll build after lunch."* That's your bridge into the Docker acts.
 
 ## ACT 0: "Why?" (foundations) · 30–45 min · [D00](docker/00-foundations/README.md)
@@ -73,7 +73,7 @@ docker rm -f showdown && docker run -d --name showdown -p 8080:8080 z2h/api:1.0
 Refresh. **Every vote is gone.** Let the silence land. *"Where did they go? Hold that thought. We'll fix it in Act 2."*
 
 ### Scene 4: One image, infinite apps 🎩 *(Lab D04 Step 3)*
-Launch Food Fight 🍕, Editor Wars 🟢, and Best Season ☀️ on three ports, side by side. *"Same image. Zero rebuilds. Only configuration changed. This is how one image goes from your laptop to production."*
+Launch Bengaluru Breakfast Battle 🥞, Editor Wars 🟢, and Best Weekend Spot 🌳 on three ports, side by side. *"Same image. Zero rebuilds. Only configuration changed. This is how one image goes from your laptop to production."*
 
 ---
 
@@ -120,7 +120,7 @@ Typo the Service selector live. **The whole room's app goes red.** Pods: all Run
 ### Scene 12: THE KEYNOTE MOMENT 🎤 *(Lab K06)*
 This is the one they'll remember.
 1. Phones voting. Point at **failed: 0**.
-2. *"In the old days, releasing a new version meant a maintenance window. 2 a.m. Pizza. Prayers."*
+2. *"In the old days, releasing a new version meant a maintenance window. 2 a.m. Filter coffee. Prayers."*
 3. *"Today, I'm going to replace every server you're talking to, with a brand-new version, **while you're voting**."*
 4. Pause. *"And one more thing…"*
 ```bash
@@ -132,7 +132,7 @@ kubectl set env deployment/api APP_VERSION=2.0.0 VOTE_OPTIONS="cats:🐱:Cats,do
 **Encore, the disaster that wasn't:** ship a broken image tag. The rollout stalls, users are fine, `kubectl rollout undo`. *"Friday-evening deploys, solved."*
 
 ### Scene 13: Change the poll for the whole room *(Lab K07 Step 3)*
-Patch the ConfigMap to **The Great Food Fight** 🍕🍛🥞🍔. Nothing changes… *"Why not?"* (env vars are read at start) → `kubectl rollout restart`. The room flips to food, with zero downtime.
+Patch the ConfigMap to **The Great Bengaluru Food Fight** 🥞🍛☕🥙. Nothing changes… *"Why not?"* (env vars are read at start) → `kubectl rollout restart`. The room flips to food, with zero downtime.
 
 ### Scene 14: The canary 🐤 *(Lab K12, if time allows)*
 Gateway API, 90/10 split. **The 🦄 card flickers in and out** as 1 in 10 requests hits v2. Dial it to 50, then 100. *"That's how Netflix and Google ship: a little traffic first, then more."*

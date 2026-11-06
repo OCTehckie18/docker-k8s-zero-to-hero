@@ -1,7 +1,7 @@
 # G-04: A merge stopped halfway (conflict)
 
 ## 📖 The story
-You tried to merge `chai-price` into `main` and Git stopped with CONFLICT. Now every command feels risky. The team agreed the chai price is **₹70**.
+You tried to merge `coffee-price` into `main` and Git stopped with CONFLICT. Now every command feels risky. The team agreed the filter coffee price is **₹70**.
 
 ## 🔥 Symptoms
 - `git status` shows `You have unmerged paths` and `both modified: menu.md`
@@ -23,7 +23,7 @@ Keep the agreed line, delete all the markers, then mark the file as resolved.
 </details>
 <details><summary>✅ Root cause & fix</summary>
 
-Edit `menu.md` so the block becomes one line, `| Masala Chai | ₹70 |`, with no markers left. Then:
+Edit `menu.md` so the block becomes one line, `| Filter Coffee | ₹70 |`, with no markers left. Then:
 ```bash
 grep -c '<<<<<<<' menu.md      # 0
 git add menu.md

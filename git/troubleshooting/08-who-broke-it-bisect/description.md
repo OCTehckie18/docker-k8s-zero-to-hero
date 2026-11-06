@@ -1,10 +1,10 @@
-# G-08: Who broke the chai price? (bisect)
+# G-08: Who broke the filter coffee price? (bisect)
 
 ## 📖 The story
-Masala Chai shows **₹600** on the website. The last known good release is tag `v1.0`, and there are 10 commits since. Find the guilty commit in under a minute, then fix it the team-safe way.
+Filter Coffee shows **₹600** on the website. The last known good release is tag `v1.0`, and there are 10 commits since. Find the guilty commit in under a minute, then fix it the team-safe way.
 
 ## 🔥 Symptoms
-- `grep Chai menu.md` shows ₹600
+- `grep "Filter Coffee" menu.md` shows ₹600
 - `git log --oneline v1.0..main` lists 10 commits
 
 ## 🔍 Investigate
@@ -20,16 +20,16 @@ git bisect start HEAD v1.0
 </details>
 <details><summary>💡 Hint 2</summary>
 
-`! grep -q 'Masala Chai | ₹600 |' menu.md` is "good" when ₹600 is absent.
+`! grep -q 'Filter Coffee | ₹600 |' menu.md` is "good" when ₹600 is absent.
 </details>
 <details><summary>✅ Root cause & fix</summary>
 
 ```bash
 git bisect start HEAD v1.0
-git bisect run sh -c '! grep -q "Masala Chai | ₹600 |" menu.md'
+git bisect run sh -c '! grep -q "Filter Coffee | ₹600 |" menu.md'
 git bisect reset
 git revert --no-edit <the-first-bad-commit>
-grep "Masala Chai" menu.md          # ₹60 ✅
+grep "Filter Coffee" menu.md          # ₹60 ✅
 ```
 </details>
 

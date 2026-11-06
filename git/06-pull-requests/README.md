@@ -3,7 +3,7 @@
 > ⏱ 60 min · 🟡 Intermediate · Concept: [how real teams ship a change](../00-foundations/README.md#7-how-real-teams-ship-a-change)
 
 ## 📖 The story
-After the ₹1 espresso incident (G02), the owner made a new rule:
+After the ₹1 benne dosa incident (G02), the owner made a new rule:
 
 > *"Nothing reaches the live menu unless a second person has checked it, and the robot is happy."*
 
@@ -22,15 +22,15 @@ Two terminals: **YOU** (`~/z2h-git/cafe`) and **ASHA** (`~/z2h-git/asha`). Run t
 ### Step 1: Branch and build the feature (YOU)
 ```bash
 cd ~/z2h-git/cafe
-git switch -c feature/combo-offers
+git checkout -b feature/combo-offers
 cat > combos.md <<'EOF'
 # 🎁 Combo offers
 
 | Combo | Price |
 |---|---|
-| Espresso + Brownie | ₹210 |
-| Masala Chai + Veg Puff | ₹95 |
-| Cold Brew + Brownie | ₹2600 |
+| Benne Dosa + Mysore Pak | ₹210 |
+| Filter Coffee + Maddur Vada | ₹95 |
+| Cold Coffee + Mysore Pak | ₹2600 |
 EOF
 git add combos.md
 git commit -m "Add combo offers page"
@@ -57,7 +57,7 @@ Teams run automated checks on every PR. Here's ours, a tiny script that flags cr
 bash "$Z2H/git/06-pull-requests/check-menu.sh"
 ```
 ```
-❌ combos.md: suspicious price ₹2600  →  | Cold Brew + Brownie | ₹2600 |
+❌ combos.md: suspicious price ₹2600  →  | Cold Coffee + Mysore Pak | ₹2600 |
 🚫 menu check FAILED: fix the prices above before merging
 ```
 On GitHub this shows as a red ❌ on the PR, and **the merge button stays locked**. (See [`ci-example.yml`](ci-example.yml): that's the 15-line GitHub Actions file that would run it.)
@@ -71,7 +71,7 @@ git log --oneline main..origin/feature/combo-offers     # the commits in the PR
 git diff main...origin/feature/combo-offers            # the changes in the PR (three dots!)
 ```
 Her review comment (on GitHub it's attached to that exact line):
-> 💬 *"₹2600 for cold brew + brownie? I think you meant ₹260. Also, could we add a 'Valid until' line?"* → **Request changes**
+> 💬 *"₹2600 for cold coffee + Mysore Pak? I think you meant ₹260. Also, could we add a 'Valid until' line?"* → **Request changes**
 
 ### Step 5: Address the review (YOU)
 Fix it with **new commits on the same branch**. The PR updates automatically:
@@ -79,7 +79,7 @@ Fix it with **new commits on the same branch**. The PR updates automatically:
 cd ~/z2h-git/cafe
 sed -i.bak 's/₹2600/₹260/' combos.md && rm combos.md.bak
 printf '\n_Valid until 31 August._\n' >> combos.md
-git commit -am "Fix cold brew combo price; add validity date"
+git commit -am "Fix cold coffee combo price; add validity date"
 bash "$Z2H/git/06-pull-requests/check-menu.sh"     # ✅ menu check passed
 git push
 ```
@@ -89,7 +89,7 @@ git push
 cd ~/z2h-git/asha
 git fetch
 git diff main...origin/feature/combo-offers        # re-review: looks good ✅ Approve
-git switch main && git pull
+git checkout main && git pull
 git merge --no-ff origin/feature/combo-offers -m "Merge pull request #1 from feature/combo-offers"
 git push
 git push origin --delete feature/combo-offers      # GitHub's "Delete branch" button
@@ -100,7 +100,7 @@ git log --oneline --graph -5
 ### Step 7: Clean up your laptop (YOU)
 ```bash
 cd ~/z2h-git/cafe
-git switch main
+git checkout main
 git pull
 git branch -d feature/combo-offers
 git fetch --prune            # forget remote branches that were deleted on GitHub
@@ -112,8 +112,8 @@ git log --oneline -4
 Needs a free GitHub account and the GitHub CLI (`gh auth login`).
 ```bash
 cd ~/z2h-git/cafe
-gh repo create beanbyte-cafe --private --source . --remote github --push
-git switch -c feature/student-discount
+gh repo create benne-byte-darshini --private --source . --remote github --push
+git checkout -b feature/student-discount
 echo "| Student discount (show ID) | -10% |" >> combos.md     # (no ₹, so the price check ignores it)
 git commit -am "Add student discount"
 git push -u github feature/student-discount

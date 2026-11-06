@@ -1,11 +1,11 @@
-# Lab G05: Merge Conflicts: the Cappuccino Price War ☕⚔️
+# Lab G05: Merge Conflicts: the Ghee Roast Dosa Price War 🥞⚔️
 
 > ⏱ 40 min · 🟡 Intermediate · Concept: [merge conflicts](../00-foundations/README.md#8-merge-conflicts)
 
 ## 📖 The story
 Two good intentions, one line of text:
-- 👩 **Asha** switched to premium beans: *cappuccino ₹150 → ₹180*.
-- 🧑 **You** heard milk prices went up: *cappuccino ₹150 → ₹160*.
+- 👩 **Asha** switched to pure desi ghee: *ghee roast dosa ₹150 → ₹180*.
+- 🧑 **You** heard rice prices went up: *ghee roast dosa ₹150 → ₹160*.
 
 Neither knew about the other. Git can't decide who's right, and it shouldn't. Let's experience the conflict and resolve it calmly.
 
@@ -20,17 +20,17 @@ Use two terminals again: **YOU** (`cd ~/z2h-git/cafe`) and **ASHA** (`cd ~/z2h-g
 ### Step 1: Asha changes the price and ships it first (ASHA)
 ```bash
 cd ~/z2h-git/asha
-sed -i.bak 's/Cappuccino | ₹150/Cappuccino | ₹180/' menu.md && rm menu.md.bak
-git commit -am "Cappuccino ₹180: premium beans"
+sed -i.bak 's/Ghee Roast Dosa | ₹150/Ghee Roast Dosa | ₹180/' menu.md && rm menu.md.bak
+git commit -am "Ghee Roast Dosa ₹180: pure desi ghee"
 git push
 ```
 
 ### Step 2: You change the same line on your branch (YOU)
 ```bash
 cd ~/z2h-git/cafe
-git switch -c fix/cappuccino-price
-sed -i.bak 's/Cappuccino | ₹150/Cappuccino | ₹160/' menu.md && rm menu.md.bak
-git commit -am "Cappuccino ₹160: milk prices went up"
+git checkout -b fix/ghee-roast-price
+sed -i.bak 's/Ghee Roast Dosa | ₹150/Ghee Roast Dosa | ₹160/' menu.md && rm menu.md.bak
+git commit -am "Ghee Roast Dosa ₹160: rice prices went up"
 ```
 
 ### Step 3: Bring your branch up to date with main 💥
@@ -61,9 +61,9 @@ grep -n -A4 '<<<<<<<' menu.md
 ```
 ```
 <<<<<<< HEAD
-| Cappuccino | ₹160 |
+| Ghee Roast Dosa | ₹160 |
 =======
-| Cappuccino | ₹180 |
+| Ghee Roast Dosa | ₹180 |
 >>>>>>> origin/main
 ```
 | Marker | Means |
@@ -75,15 +75,15 @@ grep -n -A4 '<<<<<<<' menu.md
 🔍 Notice what **didn't** conflict: every other line merged automatically. Git only asks about the one line you both changed.
 
 ### Step 5: Talk, decide, resolve 🤝
-You message Asha. You agree: **₹170**, premium beans *and* a fair price. Open `menu.md` in any editor, replace the whole marked block with the agreed line, and **delete all three marker lines**:
+You message Asha. You agree: **₹170**, pure desi ghee *and* a fair price. Open `menu.md` in any editor, replace the whole marked block with the agreed line, and **delete all three marker lines**:
 ```
-| Cappuccino | ₹170 |
+| Ghee Roast Dosa | ₹170 |
 ```
 <details><summary>No editor handy? A one-liner that does the same</summary>
 
 ```bash
 sed -i.bak '/^<<<<<<< /,/^>>>>>>> /c\
-| Cappuccino | ₹170 |
+| Ghee Roast Dosa | ₹170 |
 ' menu.md && rm menu.md.bak
 ```
 </details>
@@ -98,25 +98,25 @@ git log --oneline --graph -5
 
 ### Step 6: Ship it
 ```bash
-git switch main
+git checkout main
 git pull
-git merge fix/cappuccino-price
+git merge fix/ghee-roast-price
 git push
-grep Cappuccino menu.md                 # | Cappuccino | ₹170 |  ✅
+grep 'Ghee Roast' menu.md                 # | Ghee Roast Dosa | ₹170 |  ✅
 ```
-**ASHA:** `git pull && grep Cappuccino menu.md`: everyone agrees. ☕🤝
+**ASHA:** `git pull && grep 'Ghee Roast' menu.md`: everyone agrees. ☕🤝
 
 ### Step 7: The emergency exit 🚪
 Sometimes you start a merge and realise you're not ready. Make a conflict on purpose, then back out:
 ```bash
-git switch -c experiment
-sed -i.bak 's/Masala Chai | ₹60/Masala Chai | ₹65/' menu.md && rm menu.md.bak && git commit -qam "Chai ₹65"
-git switch -c experiment-2 main
-sed -i.bak 's/Masala Chai | ₹60/Masala Chai | ₹70/' menu.md && rm menu.md.bak && git commit -qam "Chai ₹70"
+git checkout -b experiment
+sed -i.bak 's/Filter Coffee | ₹60/Filter Coffee | ₹65/' menu.md && rm menu.md.bak && git commit -qam "Coffee ₹65"
+git checkout -b experiment-2 main
+sed -i.bak 's/Filter Coffee | ₹60/Filter Coffee | ₹70/' menu.md && rm menu.md.bak && git commit -qam "Coffee ₹70"
 git merge experiment                # CONFLICT
 git merge --abort                   # everything back exactly as before the merge
 git status                          # clean
-git switch main && git branch -D experiment experiment-2
+git checkout main && git branch -D experiment experiment-2
 ```
 
 ## 🧯 Resolving conflicts: the checklist

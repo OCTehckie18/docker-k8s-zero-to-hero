@@ -32,4 +32,4 @@ git merge secret-recipe                  # bring it into main, if you want it th
 </details>
 
 ## 🏭 Production lesson
-Detached HEAD is perfect for **looking** at the past. Before committing there, run `git switch -c <name>`. Lost commits stay in the reflog for about 90 days.
+Detached HEAD is perfect for **looking** at the past. Before committing there, run `git checkout -b <name>`. Lost commits stay in the reflog for about 90 days.

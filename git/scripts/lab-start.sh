@@ -22,20 +22,20 @@ as() {  # as "<name>" <email> <git args...>
   local n=$1 e=$2; shift 2
   GIT_AUTHOR_NAME="$n" GIT_AUTHOR_EMAIL="$e" GIT_COMMITTER_NAME="$n" GIT_COMMITTER_EMAIL="$e" git "$@"
 }
-YOU=("You" "you@beanbyte.cafe")
-ASHA=("Asha (Lead Dev)" "asha@beanbyte.cafe")
-RAVI=("Ravi (Intern)" "ravi@beanbyte.cafe")
+YOU=("You" "you@bennebyte.in")
+ASHA=("Asha (Lead Dev)" "asha@bennebyte.in")
+RAVI=("Ravi (Intern)" "ravi@bennebyte.in")
 
-write_menu() {  # write_menu <espresso> <cappuccino> <chai> <filter> [extra rows...]
+write_menu() {  # write_menu <benne-dosa> <ghee-roast> <filter-coffee> <idli-vada> [extra rows...]
   {
-    echo "# ☕ Bean & Byte Café: Menu"
+    echo "# 🥞 Benne & Byte Darshini, Koramangala: Menu"
     echo
     echo "| Item | Price |"
     echo "|---|---|"
-    echo "| Espresso | ₹$1 |"
-    echo "| Cappuccino | ₹$2 |"
-    echo "| Masala Chai | ₹$3 |"
-    echo "| Filter Coffee | ₹$4 |"
+    echo "| Benne Dosa | ₹$1 |"
+    echo "| Ghee Roast Dosa | ₹$2 |"
+    echo "| Filter Coffee | ₹$3 |"
+    echo "| Idli Vada | ₹$4 |"
     shift 4
     for row in "$@"; do echo "$row"; done
   } > menu.md
@@ -47,7 +47,7 @@ new_repo() {
   git config user.name "${YOU[0]}"; git config user.email "${YOU[1]}"
 }
 
-# End of G01: menu, opening hours, espresso raised to ₹130.
+# End of G01: menu, opening hours, benne dosa raised to ₹130.
 state_g01_end() {
   new_repo
   write_menu 120 150 60 80
@@ -55,15 +55,15 @@ state_g01_end() {
   printf '# 🕗 Opening hours\n\nMon–Sat: 8 am – 10 pm\nSunday: 9 am – 6 pm\n' > hours.md
   git add hours.md && as "${YOU[@]}" commit -q -m "Add opening hours"
   write_menu 130 150 60 80
-  git commit -qam "Raise espresso to ₹130" --author="You <you@beanbyte.cafe>"
+  git commit -qam "Raise benne dosa to ₹130" --author="You <you@bennebyte.in>"
 }
 
 # Start of G02: Ravi the intern "borrowed your laptop" overnight.
 state_g02() {
   state_g01_end
-  write_menu 130 150 60 80 "| Masala Chai Latte | ₹90 |"
-  as "${RAVI[@]}" commit -qam "Add Masala Chai Latte"
-  write_menu 1 150 60 80 "| Masala Chai Latte | ₹90 |"
+  write_menu 130 150 60 80 "| Badam Milk | ₹90 |"
+  as "${RAVI[@]}" commit -qam "Add Badam Milk"
+  write_menu 1 150 60 80 "| Badam Milk | ₹90 |"
   as "${RAVI[@]}" commit -qam "Tidy up menu formatting"
 }
 
@@ -75,14 +75,14 @@ state_g03() {
   git add .gitignore && as "${YOU[@]}" commit -q -m "Ignore secret files"
 }
 
-# End of G03 = start of G04: cold brew merged, hours updated (merge commit).
+# End of G03 = start of G04: cold coffee merged, hours updated (merge commit).
 state_g04() {
   state_g03
-  git switch -q -c add-cold-brew
-  write_menu 130 150 60 80 "| Masala Chai Latte | ₹90 |" "| Cold Brew | ₹180 |"
-  as "${YOU[@]}" commit -qam "Add cold brew"
-  git switch -q main && git merge -q add-cold-brew && git branch -q -d add-cold-brew
-  printf '# 📖 Bean & Byte Café website\n\nThe menu and opening hours of our café.\n' > README.md
+  git checkout -q -b add-cold-coffee
+  write_menu 130 150 60 80 "| Badam Milk | ₹90 |" "| Cold Coffee | ₹180 |"
+  as "${YOU[@]}" commit -qam "Add cold coffee"
+  git checkout -q main && git merge -q add-cold-coffee && git branch -q -d add-cold-coffee
+  printf '# 📖 Benne & Byte Darshini website\n\nThe menu and opening hours of our café.\n' > README.md
   git add README.md && as "${YOU[@]}" commit -q -m "Add README"
 }
 
@@ -101,17 +101,17 @@ state_team() {
 state_g07() {
   state_team
   as "${YOU[@]}" tag -a v1.0.0 -m "Grand opening menu"
-  extras=("| Masala Chai Latte | ₹90 |" "| Cold Brew | ₹180 |")
-  write_menu 130 150 60 80 "${extras[@]}" "| Veg Puff | ₹45 |"
-  git add menu.md && as "${ASHA[@]}" commit -q -m "feat: add Veg Puff"
+  extras=("| Badam Milk | ₹90 |" "| Cold Coffee | ₹180 |")
+  write_menu 130 150 60 80 "${extras[@]}" "| Maddur Vada | ₹45 |"
+  git add menu.md && as "${ASHA[@]}" commit -q -m "feat: add Maddur Vada"
   printf '# 🕗 Opening hours\n\nMon–Sat: 7 am – 10 pm\nSunday: 9 am – 6 pm\n' > hours.md
   git add hours.md && as "${YOU[@]}" commit -q -m "feat: open at 7 am on weekdays"
-  write_menu 130 150 60 8 "${extras[@]}" "| Veg Puff | ₹45 |"
+  write_menu 130 150 60 8 "${extras[@]}" "| Maddur Vada | ₹45 |"
   git add menu.md && as "${RAVI[@]}" commit -q -m "refactor: align menu table columns"
-  printf '# 📖 Bean & Byte Café website\n\nThe menu and opening hours of our café.\nOrder online: coming soon!\n' > README.md
+  printf '# 📖 Benne & Byte Darshini website\n\nThe menu and opening hours of our café.\nOrder online: coming soon!\n' > README.md
   git add README.md && as "${ASHA[@]}" commit -q -m "docs: mention online ordering"
-  write_menu 130 150 60 8 "${extras[@]}" "| Veg Puff | ₹45 |" "| Brownie | ₹110 |"
-  git add menu.md && as "${YOU[@]}" commit -q -m "feat: add Brownie"
+  write_menu 130 150 60 8 "${extras[@]}" "| Maddur Vada | ₹45 |" "| Mysore Pak | ₹110 |"
+  git add menu.md && as "${YOU[@]}" commit -q -m "feat: add Mysore Pak"
   printf '# 🕗 Opening hours\n\nMon–Sat: 7 am – 11 pm\nSunday: 9 am – 6 pm\n' > hours.md
   git add hours.md && as "${ASHA[@]}" commit -q -m "feat: close at 11 pm on weekdays"
   git push -q origin main --tags

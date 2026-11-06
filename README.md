@@ -5,7 +5,7 @@
 Hands-on labs for complete beginners: students, teachers, career-switchers, and non-tech professionals. Everything runs on **Docker Desktop**, **kind**, **minikube**, or a free browser sandbox like **Killercoda**. No cloud account needed.
 
 ```
-  🕵️ Find who set espresso to ₹1, then hunt a bug with git bisect in seconds
+  🕵️ Find who set benne dosa to ₹1 at a Koramangala darshini, then hunt a bug with git bisect in seconds
   🍄 Play Mario from a container in 3 seconds
   🐱🐶 Build & ship a live voting app the whole room uses from their phones
   💀 Delete every server and watch Kubernetes bring them back
@@ -41,10 +41,10 @@ It's ~250 lines of standard-library Python plus one HTML page: no frameworks, no
 |---|---|---|
 | [G00](git/00-foundations/README.md) ⭐ | **foundations**: why version control, commits, branches, remotes, the team workflow (9 diagrams + quiz) | 🗺️ the "which undo do I need?" map |
 | [G01](git/01-first-repo/README.md) | init, add, commit, log, diff | your first save point |
-| [G02](git/02-time-travel-undo/README.md) | blame, revert, restore, amend, reflog | 😱 "who set espresso to ₹1?" |
+| [G02](git/02-time-travel-undo/README.md) | blame, revert, restore, amend, reflog | 😱 "who set benne dosa to ₹1?" |
 | [G03](git/03-branches/README.md) | branches, fast-forward vs merge commit | files change as you switch branches |
 | [G04](git/04-teamwork-remote/README.md) | remotes, push, pull, fetch | 💥 the rejected push |
-| [G05](git/05-merge-conflicts/README.md) | resolving conflicts | ☕⚔️ the cappuccino price war |
+| [G05](git/05-merge-conflicts/README.md) | resolving conflicts | 🥞⚔️ the ghee roast dosa price war |
 | [G06](git/06-pull-requests/README.md) | pull requests, review, CI checks | 🤖 a robot catches the ₹2600 typo |
 | [G07](git/07-release-and-incident/README.md) | tags, semver, bisect, hotfix | 🚨 find the guilty commit among many in seconds |
 | [🔥 G-scenarios](git/troubleshooting/README.md) | **8 Git emergencies** | |
@@ -77,7 +77,7 @@ It's ~250 lines of standard-library Python plus one HTML page: no frameworks, no
 | [K04](kubernetes/04-deployments/README.md) | Deployments, self-healing, scaling | 💀 delete every Pod; they come back |
 | [K05](kubernetes/05-services/README.md) | Services, DNS, NodePort/LB | 💥 one typo takes the whole room down |
 | [K06](kubernetes/06-rollouts/README.md) | rolling updates, rollback | 🎤 **new version mid-vote, 0 failures** |
-| [K07](kubernetes/07-config-secrets/README.md) | ConfigMaps, Secrets | 🍕 change tonight's poll live |
+| [K07](kubernetes/07-config-secrets/README.md) | ConfigMaps, Secrets | 🥞 change tonight's poll live |
 | [K08](kubernetes/08-probes/README.md) | startup / liveness / readiness | the probe that kills healthy apps |
 | [K09](kubernetes/09-resources-qos/README.md) | requests, limits, QoS, quotas | Pending: "Insufficient cpu" |
 | [K10](kubernetes/10-storage-statefulsets/README.md) | PVCs, StatefulSets | databases that keep their identity |

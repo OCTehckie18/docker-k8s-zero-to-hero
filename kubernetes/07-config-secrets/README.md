@@ -39,8 +39,8 @@ kubectl exec $POD -- ls -l /etc/secrets/
 The audience is watching. Swap the entire poll by editing **config only**:
 ```bash
 kubectl patch configmap showdown-config --type merge -p '{"data":{
-  "TITLE":"The Great Food Fight",
-  "VOTE_OPTIONS":"pizza:🍕:Pizza,biryani:🍛:Biryani,dosa:🥞:Dosa,burger:🍔:Burger",
+  "TITLE":"The Great Bengaluru Food Fight",
+  "VOTE_OPTIONS":"dosa:🥞:Benne Dosa,biryani:🍛:Biryani,coffee:☕:Filter Coffee,puri:🥙:Masala Puri",
   "THEME_COLOR":"#ffb400",
   "APP_VERSION":"1.2.0"}}'
 ```
@@ -52,7 +52,7 @@ Environment variables are read **once, when the container starts**. You need new
 ```bash
 kubectl rollout restart deploy/api
 ```
-Now the screen flips to 🍕🍛🥞🍔 in yellow, with zero downtime. **Same image. New app.** Let the room vote. 😄
+Now the screen flips to 🥞🍛☕🥙 in yellow, with zero downtime. **Same image. New app.** Let the room vote. 😄
 
 ### Step 4: Files update live (env vars don't)
 ```bash

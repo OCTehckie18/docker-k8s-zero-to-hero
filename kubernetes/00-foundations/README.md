@@ -39,7 +39,7 @@ Same rhythm as D00: **Explain → Illustrate → Relate → Map to the real thin
 
 On your laptop, Docker is wonderful. `docker compose up`, and three containers are running. You can see them all, restart them by hand, and nothing much goes wrong.
 
-Now imagine you're the engineer for a food-delivery app on **cricket-final night**. 🏏
+Now imagine you're the engineer for a Bengaluru food-delivery app on **RCB match night**: Chinnaswamy is packed and half of Koramangala is ordering at the innings break. 🏏
 
 > 📟 **3:07 a.m. pager:** "Server 5 is down."
 > 😴 **You:** Which containers were on server 5?

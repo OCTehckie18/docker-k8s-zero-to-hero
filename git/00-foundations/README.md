@@ -2,7 +2,7 @@
 
 > ⏱ 60–90 min · 🟢 Absolute beginner · no Git knowledge needed · hands-on starts in [G01](../01-first-repo/README.md)
 
-Every app you'll containerise in Track 1 and run on Kubernetes in Track 2 starts life as a **commit**. This module explains the **why** and the **mental model** in pictures. The labs that follow let you *live* it, as a new developer at **Bean & Byte Café** 🍵.
+Every app you'll containerise in Track 1 and run on Kubernetes in Track 2 starts life as a **commit**. This module explains the **why** and the **mental model** in pictures. The labs that follow let you *live* it, as a new developer at **Benne & Byte Darshini** 🥞, a busy (and fictional) darshini in Koramangala, Bengaluru.
 
 By the end you'll be able to explain, without notes:
 - what problem version control solves, and the difference between Git and GitHub
@@ -12,11 +12,11 @@ By the end you'll be able to explain, without notes:
 
 <details><summary>📑 Contents</summary>
 
-1. [The problem: "final_FINAL_really.docx"](#1-the-problem-final_final_reallydocx)
+1. [The problem: "resume_FINAL_really.docx"](#1-the-problem-resume_final_reallydocx)
 2. [Git in one sentence, and Git vs GitHub](#2-git-in-one-sentence-and-git-vs-github)
 3. [Commits: save points](#3-commits-save-points)
 4. [The three areas: edit → stage → commit](#4-the-three-areas-edit--stage--commit)
-5. [Branches: sticky notes that move](#5-branches-sticky-notes-that-move)
+5. [Branches: a safe draft copy](#5-branches-a-safe-draft-copy)
 6. [Local and remote: everyone has the full history](#6-local-and-remote-everyone-has-the-full-history)
 7. [How real teams ship a change](#7-how-real-teams-ship-a-change)
 8. [Merge conflicts](#8-merge-conflicts)
@@ -27,18 +27,35 @@ By the end you'll be able to explain, without notes:
 
 ---
 
-## 1. The problem: "final_FINAL_really.docx"
+## 1. The problem: "resume_FINAL_really.docx"
 
 ![Before and after Git](images/01-the-problem.svg)
 
-Monday morning at Bean & Byte Café. Customers are ordering **fifty espressos**, because the website says they cost **₹1**. ☕😱
+Open your Downloads folder. Be honest. 😄
+
+```
+resume.docx
+resume_final.docx
+resume_final_v2.docx
+resume_FINAL_really.docx
+resume_final_mom_edits(2).docx
+```
+
+- **Which one did you send to the recruiter** last Tuesday?
+- **What did you change** for the DevOps role, and why?
+- Your mentor fixed a typo, but in **which copy**?
+- How do you get back the version from **before** you deleted that internship?
+
+That's life **without version control**. With Git, there's **one** `resume.md` and a history that answers every one of those questions: each change saved with **who, what, when and why**, and you can jump back to any of them.
+
+### Now multiply that by a whole team 👥
+Monday morning at Benne & Byte Darshini, Koramangala. Customers are ordering **fifty benne dosas**, because the website says they cost **₹1**. 🥞😱
 
 > 👩‍💼 **Owner:** Who changed the price?
 > 👩‍💻 **Asha:** Not me. I only fixed the opening hours.
 > 🧑‍🎓 **Ravi (intern):** I just… tidied up the formatting?
-> 🧑 **You:** Which file is the real menu anyway: `menu_final.docx` or `menu_FINAL_really.docx`?
 
-Without version control, nobody knows **which version is current, who changed what, or how to get yesterday's version back**. With several people editing the same files, someone's work gets overwritten every week.
+When several people edit the same files, nobody knows **which version is current, who changed what, or how to get yesterday's version back**, and someone's work gets overwritten every week. (You'll solve this exact mystery in G02.)
 
 > 🧠 **Remember:** version control is a **time machine plus a logbook** for your project.
 
@@ -67,7 +84,7 @@ Without version control, nobody knows **which version is current, who changed wh
 - Each commit stores a **snapshot of all files**, the **author and date**, a **message** explaining *why*, and a link to its **parent** (the previous commit).
 - Every commit gets a unique ID such as `c94e1aa` (short for a 40-character hash).
 
-> 🧠 **Remember:** commit **early**, commit **often**, one idea per commit, and write messages your future self will thank you for. `Raise cappuccino to ₹160 (milk prices)` beats `update`.
+> 🧠 **Remember:** commit **early**, commit **often**, one idea per commit, and write messages your future self will thank you for. `Raise ghee roast dosa to ₹160 (milk prices)` beats `update`.
 
 ---
 
@@ -86,16 +103,28 @@ Why the middle step? Because you often change five things but want to save them 
 
 ---
 
-## 5. Branches: sticky notes that move
+## 5. Branches: a safe draft copy
 
 ![Branches](images/04-branches.svg)
 
-- A **branch** is a **sticky note** stuck on a commit. When you commit on that branch, the note **moves forward** to the new commit.
-- `main` is the branch everyone trusts: what's on `main` should always work.
-- New work (a feature, a fix) happens on its **own branch**, then gets **merged** back into `main` when it's ready.
-- **HEAD** is the "📍 you are here" pin: the branch you're on right now. Switch branches and your files change to match.
+Picture the **menu board on the wall** of the darshini 📋. Customers order from it all day, so nobody scribbles on it directly. Changing the menu takes three steps:
 
-> 🧠 **Remember:** branches are **free and instant**. Experiment on a branch, and keep `main` safe.
+| Step | In the darshini | In Git |
+|---|---|---|
+| 1 | ✏️ make a **draft copy** of the menu on paper | `git branch cold-coffee`, then `git checkout cold-coffee` *(shortcut: `git checkout -b cold-coffee`)* |
+| 2 | work on the draft as long as you like; the wall menu doesn't change | commit on the branch; `main` doesn't change |
+| 3 | owner approves → the **wall menu is updated** | `git checkout main`, then `git merge cold-coffee` |
+
+- **`main`** is the menu on the wall: the version everyone trusts, and it should always work.
+- You can have **many drafts at once**, one per feature or fix, without disturbing each other.
+- **HEAD** is the "📍 you are here" marker: the branch you're working on right now. `git checkout <branch>` moves you, and the files in your folder change to match.
+
+> 🧠 **Remember:** never scribble on the wall menu. **Branch → work → merge.**
+
+<details><summary>🔎 Under the hood (for the curious)</summary>
+
+A branch isn't a copy of your files. It's just a **name that points at a commit**, and that pointer moves forward every time you commit on the branch. That's why creating a branch is instant, even in a huge project.
+</details>
 
 ---
 
@@ -118,7 +147,7 @@ Why the middle step? Because you often change five things but want to save them 
 Nobody at a serious company pushes straight to `main`. The **GitHub flow** (used, with small variations, almost everywhere):
 
 1. **Task**: an issue or ticket says what to do
-2. **Branch**: `git switch -c feature/combo-offers`
+2. **Branch**: `git branch feature/combo-offers` + `git checkout feature/combo-offers` (or both at once: `git checkout -b feature/combo-offers`)
 3. **Commit**: small, clear commits
 4. **Push**: `git push -u origin feature/combo-offers`
 5. **Pull request (PR)**: "please review and merge my branch"
@@ -134,7 +163,7 @@ Nobody at a serious company pushes straight to `main`. The **GitHub flow** (used
 
 ![Merge conflict](images/07-merge-conflict.svg)
 
-- You and Asha both change the **same line** (the cappuccino price) on different branches.
+- You and Asha both change the **same line** (the ghee roast dosa price) on different branches.
 - **Different lines?** Git merges them automatically. **Same line?** Git **stops and asks a human**. It never guesses.
 - Git writes both versions into the file between `<<<<<<<`, `=======` and `>>>>>>>` markers. You pick the final text, delete the markers, then `git add` and `git commit`.
 
@@ -173,7 +202,7 @@ PROBLEM     which version? who changed it? how do I go back? who overwrote my wo
 GIT         a time machine + logbook (tool, offline) · GitHub = shared album + teamwork
 COMMIT      a save point: snapshot + author + date + message + parent
 3 AREAS     working dir --git add--> staging --git commit--> repository   (git status!)
-BRANCH      a moving sticky note; HEAD = "you are here"; keep main safe
+BRANCH      a safe draft copy: branch → work → merge; main = the menu on the wall
 REMOTE      origin = the team's shared copy · clone · push · pull
 TEAM FLOW   task → branch → commit → push → PR → review + CI → merge → deploy
 CONFLICT    same line, two changes → a human decides
@@ -195,4 +224,4 @@ Cover: save points, branches as "trying something on a copy", and why the team d
 ### 📝 Test yourself
 **[Take the G00 quiz →](quiz.md)** 30 questions with answers.
 
-➡️ **Next:** [G01: Day 1: Your First Repository](../01-first-repo/README.md). Time to open a terminal and start working at Bean & Byte Café.
+➡️ **Next:** [G01: Day 1: Your First Repository](../01-first-repo/README.md). Time to open a terminal and start working at Benne & Byte Darshini.

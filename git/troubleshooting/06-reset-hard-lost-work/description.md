@@ -4,7 +4,7 @@
 Trying to "clean up", you ran `git reset --hard HEAD~3`. Your three new menu items (two hours of work) disappeared. Your heart rate: 180. 💓
 
 ## 🔥 Symptoms
-- `git log` no longer shows Cold Brew, Veg Puff or Brownie
+- `git log` no longer shows Cold Coffee, Maddur Vada or Mysore Pak
 - `menu.md` lost those rows
 
 ## 🔍 Investigate
@@ -25,7 +25,7 @@ Which `HEAD@{n}` entry is the moment *just before* the reset?
 <details><summary>✅ Root cause & fix</summary>
 
 ```bash
-git reflog | head -3          # HEAD@{0}: reset… · HEAD@{1}: commit: Add Brownie
+git reflog | head -3          # HEAD@{0}: reset… · HEAD@{1}: commit: Add Mysore Pak
 git reset --hard HEAD@{1}     # go back to just before the reset
 git log --oneline -4          # all three commits are back 🛟
 ```

@@ -26,7 +26,7 @@ To choose exactly which changes go into the next commit, so one messy editing se
 </details>
 <details><summary><b>A6.</b> What is a branch?</summary>
 
-A movable label (a "sticky note") pointing at a commit. It moves forward each time you commit on it.
+A separate line of work: like a draft copy of the menu, where you can change things without touching `main`. Under the hood it is a name pointing at a commit, which moves forward each time you commit on it.
 </details>
 <details><summary><b>A7.</b> What is HEAD?</summary>
 
@@ -61,7 +61,7 @@ Linus Torvalds, in 2005, to manage development of the Linux kernel after its pre
 </details>
 <details><summary><b>B2.</b> You want to try a risky redesign without breaking the working site. What do you do?</summary>
 
-Create a branch (`git switch -c redesign`), work and commit there, and merge only when it's ready. `main` stays untouched.
+Create a branch (`git checkout -b redesign`), work and commit there, and merge only when it's ready. `main` stays untouched.
 </details>
 <details><summary><b>B3.</b> You committed on your laptop, but your teammate says she doesn't see your change. Why?</summary>
 
@@ -100,7 +100,7 @@ A release tag (for example `v1.4.2`) marks the exact commit that was released. C
 </details>
 <details><summary><b>C3.</b> Create a new branch and switch to it, in one command.</summary>
 
-`git switch -c <branch-name>`.
+`git checkout -b <branch-name>`.
 </details>
 <details><summary><b>C4.</b> Get a copy of a remote repository for the first time.</summary>
 
@@ -123,7 +123,7 @@ Almost certainly not. `git reflog` lists where HEAD has been; `git reset --hard 
 </details>
 <details><summary><b>D3.</b> Git says "You are in 'detached HEAD' state". Is that dangerous?</summary>
 
-No. You're looking at a specific commit instead of a branch. If you make commits there and want to keep them, create a branch: `git switch -c keep-my-work`. Otherwise `git switch main` takes you back.
+No. You're looking at a specific commit instead of a branch. If you make commits there and want to keep them, create a branch: `git checkout -b keep-my-work`. Otherwise `git checkout main` takes you back.
 </details>
 <details><summary><b>D4.</b> A merge stops with "CONFLICT (content): Merge conflict in menu.md". What are the steps?</summary>
 

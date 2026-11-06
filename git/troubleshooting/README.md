@@ -31,4 +31,4 @@ Each folder has `description.md` (story, symptoms, hints, and the answer, hidden
 | [G-05](05-committed-a-secret/description.md) | I committed a secret 🔐 | `rm --cached`, `.gitignore`, `commit --amend` | 🟡 |
 | [G-06](06-reset-hard-lost-work/description.md) | `reset --hard` ate my commits | `reflog`, `reset --hard HEAD@{1}` | 🟡 |
 | [G-07](07-pull-blocked-local-changes/description.md) | `git pull` refuses: local changes | `stash`, `pull`, `stash pop` | 🟢 |
-| [G-08](08-who-broke-it-bisect/description.md) | Who broke the chai price? | `bisect run`, `revert` | 🔴 |
+| [G-08](08-who-broke-it-bisect/description.md) | Who broke the filter coffee price? | `bisect run`, `revert` | 🔴 |

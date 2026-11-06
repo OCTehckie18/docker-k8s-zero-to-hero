@@ -16,7 +16,7 @@ git log --oneline --graph --all
 
 <details><summary>💡 Hint 1</summary>
 
-A branch is just a sticky note. Could you put a **new** sticky note on your latest commit?
+A branch is just a name pointing at a commit. Could you create a **new** branch right where you are, so your two commits get a home?
 </details>
 <details><summary>💡 Hint 2</summary>
 
@@ -26,9 +26,9 @@ Once the commits are safe on the new branch, where should `main` point? (Hint: `
 
 Create a branch where you are (it keeps the commits), move `main` back to match the remote, then continue on the branch:
 ```bash
-git branch feature/loyalty-card       # new sticky note on your latest commit
+git branch feature/loyalty-card       # give your two commits a branch of their own
 git reset --hard origin/main          # main back to the shared state (safe: not pushed)
-git switch feature/loyalty-card
+git checkout feature/loyalty-card
 git push -u origin feature/loyalty-card   # now open a PR
 ```
 </details>

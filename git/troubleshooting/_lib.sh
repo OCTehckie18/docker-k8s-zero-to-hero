@@ -14,14 +14,14 @@ as() {  # as "<name>" <email> <git args...>: run git as a given person
   GIT_AUTHOR_NAME="$n" GIT_AUTHOR_EMAIL="$e" GIT_COMMITTER_NAME="$n" GIT_COMMITTER_EMAIL="$e" git "$@"
 }
 
-menu() {  # menu <espresso> <cappuccino> <chai> <filter>
-  printf '# ☕ Bean & Byte Café: Menu\n\n| Item | Price |\n|---|---|\n| Espresso | ₹%s |\n| Cappuccino | ₹%s |\n| Masala Chai | ₹%s |\n| Filter Coffee | ₹%s |\n' "$1" "$2" "$3" "$4" > menu.md
+menu() {  # menu <benne-dosa> <ghee-roast> <filter-coffee> <idli-vada>
+  printf '# 🥞 Benne & Byte Darshini, Koramangala: Menu\n\n| Item | Price |\n|---|---|\n| Benne Dosa | ₹%s |\n| Ghee Roast Dosa | ₹%s |\n| Filter Coffee | ₹%s |\n| Idli Vada | ₹%s |\n' "$1" "$2" "$3" "$4" > menu.md
 }
 
 # solo <name>: a single repo at $T/<name>/cafe with two commits
 solo() {
   rm -rf "${T:?}/$1"; mkdir -p "$T/$1/cafe"; cd "$T/$1/cafe" || exit 1
-  git init -q -b main; git config user.name "You"; git config user.email "you@beanbyte.cafe"
+  git init -q -b main; git config user.name "You"; git config user.email "you@bennebyte.in"
   menu 130 150 60 80; git add menu.md; git commit -qm "Add menu"
   printf '# 🕗 Opening hours\n\nMon–Sat: 8 am – 10 pm\n' > hours.md; git add hours.md; git commit -qm "Add opening hours"
 }
@@ -33,7 +33,7 @@ team() {
   git remote add origin "$T/$1/github.git"; git push -q -u origin main
   cd "$T/$1" || exit 1; mv cafe you
   git clone -q "$T/$1/github.git" asha
-  git -C asha config user.name "Asha (Lead Dev)"; git -C asha config user.email "asha@beanbyte.cafe"
+  git -C asha config user.name "Asha (Lead Dev)"; git -C asha config user.email "asha@bennebyte.in"
   git -C you remote set-url origin "$T/$1/github.git"
   cd "$T/$1/you" || exit 1
 }

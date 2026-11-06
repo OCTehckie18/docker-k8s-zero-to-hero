@@ -48,14 +48,14 @@ Refresh the page and look for your name in the footer. Only the steps **after** 
 ### Step 3: 🎩 One image, infinite apps
 Configuration comes from **outside** the image:
 ```bash
-docker run -d --name food   -p 8081:8080 -e TITLE="The Great Food Fight" \
-  -e VOTE_OPTIONS="pizza:🍕:Pizza,burger:🍔:Burger,tacos:🌮:Tacos" -e THEME_COLOR="#ffb400" z2h/api:v1
+docker run -d --name food   -p 8081:8080 -e TITLE="Bengaluru Breakfast Battle" \
+  -e VOTE_OPTIONS="dosa:🥞:Benne Dosa,idli:🍘:Idli Vada,pongal:🍚:Pongal" -e THEME_COLOR="#ffb400" z2h/api:v1
 
 docker run -d --name ide    -p 8082:8080 -e TITLE="Editor Wars" \
   -e VOTE_OPTIONS="vim:🟢:Vim,vscode:🔵:VS Code,emacs:🟣:Emacs" -e THEME_COLOR="#4f8cff" z2h/api:v1
 
-docker run -d --name season -p 8083:8080 -e TITLE="Best Season" \
-  -e VOTE_OPTIONS="summer:☀️:Summer,monsoon:🌧️:Monsoon,winter:❄️:Winter" -e THEME_COLOR="#2fd47a" z2h/api:v1
+docker run -d --name spot   -p 8083:8080 -e TITLE="Best Weekend Spot" \
+  -e VOTE_OPTIONS="cubbon:🌳:Cubbon Park,lalbagh:🌺:Lalbagh,church:🎸:Church Street" -e THEME_COLOR="#2fd47a" z2h/api:v1
 ```
 Open :8081, :8082, :8083 side by side. **Same image, three different apps.** This is exactly how one image moves from dev → staging → production with different settings.
 
@@ -103,14 +103,14 @@ Create your own poll for your class (`TITLE`, three options, your own colour) an
 
 No. It's documentation. Only `-p` publishes a port.
 </details>
-<details><summary>2. Why do the Food Fight and Editor Wars apps need no rebuild?</summary>
+<details><summary>2. Why do the Breakfast Battle and Editor Wars apps need no rebuild?</summary>
 
 All app-specific values come from environment variables at runtime; the image itself is generic.
 </details>
 
 ## 🧹 Cleanup
 ```bash
-docker rm -f v1 food ide season lunch 2>/dev/null; docker rmi z2h/pyrun z2h/api:v1 2>/dev/null; rm -f /tmp/lunch.env
+docker rm -f v1 food ide spot lunch 2>/dev/null; docker rmi z2h/pyrun z2h/api:v1 2>/dev/null; rm -f /tmp/lunch.env
 ```
 
 ➡️ Next: [D05: Production-Grade Dockerfiles](../05-production-dockerfiles/README.md)

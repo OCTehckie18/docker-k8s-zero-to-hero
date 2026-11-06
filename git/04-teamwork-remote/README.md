@@ -44,7 +44,7 @@ branch 'main' set up to track 'origin/main'.
 git clone ~/z2h-git/github/cafe.git ~/z2h-git/asha
 cd ~/z2h-git/asha
 git config user.name  "Asha (Lead Dev)"       # this repo only, so she signs her own commits
-git config user.email "asha@beanbyte.cafe"
+git config user.email "asha@bennebyte.in"
 git log --oneline -3                           # she has the FULL history already
 ```
 
@@ -73,8 +73,8 @@ Both of you work at the same time, and Asha is faster.
 **ASHA:**
 ```bash
 cd ~/z2h-git/asha && git pull -q
-echo "| Veg Puff | ₹45 |" >> menu.md
-git commit -am "Add Veg Puff" && git push
+echo "| Maddur Vada | ₹45 |" >> menu.md
+git commit -am "Add Maddur Vada" && git push
 ```
 **YOU** (still at your old commit):
 ```bash
@@ -97,7 +97,7 @@ git log --oneline --graph -4
 ```
 ```
 * 7c3d9e1 (HEAD -> main, origin/main) Add phone number to README
-* 4b8a2f6 Add Veg Puff
+* 4b8a2f6 Add Maddur Vada
 * …
 ```
 🔍 `--rebase` replays your local commit **on top of** Asha's, giving a clean straight line. (Plain `git pull` would create a merge commit instead. Both are fine; many teams prefer rebase for local catch-ups.)
@@ -110,8 +110,8 @@ Both laptops and "GitHub" now hold identical history. That's a healthy team. ✅
 
 ## 🧭 The daily routine (print this!)
 ```bash
-git switch main && git pull          # 1. start the day up to date
-git switch -c feature/my-task        # 2. work on a branch
+git checkout main && git pull          # 1. start the day up to date
+git checkout -b feature/my-task        # 2. work on a branch
 #   …edit, git add, git commit (often)…
 git pull --rebase origin main        # 3. catch up with the team before pushing
 git push -u origin feature/my-task   # 4. share it, then open a pull request (G06)
@@ -132,4 +132,4 @@ git push -u origin feature/my-task   # 4. share it, then open a pull request (G0
 The remote had a commit (Asha's) that you didn't have. Pushing would have thrown it away, so Git refuses until you integrate it.
 </details>
 
-➡️ Next: [G05: Merge Conflicts: the Cappuccino Price War](../05-merge-conflicts/README.md)
+➡️ Next: [G05: Merge Conflicts: the Ghee Roast Dosa Price War](../05-merge-conflicts/README.md)

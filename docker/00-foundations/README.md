@@ -289,7 +289,7 @@ No. Containers share the host kernel, and a Linux kernel can't run Windows binar
 
 ## 5. Docker architecture, explained as a restaurant
 
-Forget the jargon for a moment. You walk into a restaurant and order **one slice of cake**. Follow that single order:
+Forget the jargon for a moment. It's Sunday morning and you walk into a busy restaurant in Koramangala to order **one slice of cake**. Follow that single order:
 
 ![Docker architecture as a restaurant](images/06-docker-architecture.svg)
 
