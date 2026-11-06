@@ -289,53 +289,50 @@ No. Containers share the host kernel, and a Linux kernel can't run Windows binar
 
 ## 5. Docker architecture, explained as a restaurant
 
-Forget the jargon for a moment. Picture a restaurant.
+Forget the jargon for a moment. You walk into a restaurant and order **one slice of cake**. Follow that single order:
 
 ![Docker architecture as a restaurant](images/06-docker-architecture.svg)
 
-1. 🧑 **You (the customer)** decide what you want: "one nginx, please."
-2. 📝 **The waiter** writes it down and takes it to the kitchen. The waiter doesn't cook.
-3. 👩‍🍳 **The head chef** checks the pantry, orders missing ingredients from the supplier, and tells the cooks what to make.
-4. 🔪 **The line cooks** do the actual cooking at the stove.
-5. 🍝 **The dish** arrives at your table: your order, now real.
-6. 🥫 **The pantry** keeps ingredients ready for next time, and 🏭 **the supplier** delivers whatever the pantry is missing.
+1. 🧑 **You** order: "one nginx cake slice, please!"
+2. 📝 **The waiter** carries your order to the kitchen. The waiter never cooks.
+3. 👩‍🍳 **The head chef** checks the kitchen **fridge**: is that cake already here?
+4. 🏬 If not, someone fetches it from the chain's **central warehouse**. The warehouse doesn't bake anything; it only **stores** finished cakes, each labelled with a name and version, and hands them to any kitchen that asks.
+5. 🔪 **The cooks** cut a slice and put it on a plate.
+6. 🍰 **Served!** Your order is now real, on the table.
 
-| Restaurant | Docker | What it really is |
+Now replace every restaurant word with its Docker word:
+
+| 🍽️ Restaurant | 🐳 Docker | What it really is |
 |---|---|---|
-| 🧑 Customer | **You** | typing commands in a terminal |
-| 📝 Waiter | **Docker CLI** (`docker`) | a client program that turns your command into an API request |
-| 👩‍🍳 Head chef | **Docker daemon** (`dockerd`) | a background service that does the real work |
-| 🔪 Line cooks | **containerd + runc** | the runtimes that actually create and supervise containers |
-| 🍝 Dish served | **Container** | a running, isolated process |
-| 🥫 Pantry | **Local image store** | images already downloaded to this machine |
-| 🏭 Supplier | **Registry** (e.g. Docker Hub) | an online store of images |
+| 🧑 you, ordering | **you** | typing `docker run nginx` |
+| 📝 waiter | **Docker CLI** (`docker`) | a client that turns your command into an API request |
+| 👩‍🍳 head chef | **Docker daemon** (`dockerd`) | the background service that runs the show |
+| 🧊 kitchen fridge | **local image store** | images already downloaded to this machine |
+| 🏬 central warehouse | **registry** (Docker Hub, GHCR…) | a server that **stores and hands out** images; it never builds them |
+| 🔪 cooks | **containerd + runc** | the runtimes that actually create the container |
+| 🍰 the cake | **image** | the packaged app: read-only, never changes |
+| 🍽️ a slice on a plate | **container** | the image, running |
+| 📄 recipe card | **Dockerfile** | how the image is built (`docker build`), before it's pushed to the warehouse |
 
-### The components, one by one
+> 🧠 **Remember:** the registry is a **warehouse, not a bakery**. `docker build` bakes, `docker push` delivers to the warehouse, and `docker pull` fetches from it.
 
-**1. Docker client (CLI): the waiter.** The `docker` command you type. It **never runs containers itself**: it converts `docker run nginx` into an HTTP API call and shows you the response. That's why the CLI can even talk to a Docker engine on another computer (`docker context`, `DOCKER_HOST`).
+### The components at a glance
+| # | Component | In the restaurant | Its one job |
+|---|---|---|---|
+| 1 | **Docker CLI** | waiter | turns your command into an API call. It never runs containers itself |
+| 2 | **dockerd** (Docker daemon) | head chef | receives requests; builds, pulls and pushes images; manages networks and volumes; asks the runtime to start containers |
+| 3 | **Docker Engine** | the whole kitchen | the server side as a package: dockerd + its API + containerd + runc |
+| 4 | **REST API** | the order slip | how the CLI talks to dockerd, usually over the socket `/var/run/docker.sock` |
+| 5 | **containerd** | kitchen supervisor | manages each container's lifecycle (start, stop, snapshots). Kubernetes uses it too |
+| 6 | **runc** | cook at the stove | asks the Linux kernel for namespaces and cgroups, starts the process, then exits |
+| 7 | **Image** | the cake | read-only package: file layers + settings (chapter 8) |
+| 8 | **Container** | a slice on a plate | a running, isolated process made from an image |
+| 9 | **Registry** | central warehouse | stores and distributes images: Docker Hub, GHCR, ECR, Harbor… |
+| 10 | **Docker Hub** | the biggest public warehouse | Docker's own registry. `nginx` means `docker.io/library/nginx:latest` |
+| 11 | **Networks** | the kitchen intercom | let containers find each other by name (Lab D07) |
+| 12 | **Volumes** | a labelled box in the cold room | data that survives when the container is removed (Lab D06) |
 
-**2. Docker daemon (`dockerd`): the head chef.** A long-running background service. It receives API requests and manages everything: building images, pulling and pushing them, creating networks and volumes, and asking the runtime to start containers. If `dockerd` isn't running, you get the famous *"Cannot connect to the Docker daemon"*.
-
-**3. Docker Engine: the whole kitchen.** The name for the server-side package: `dockerd` plus its API, together with **containerd** and **runc**. "Is Docker Engine installed?" means "is the server side there?"
-
-**4. Docker REST API: the order slip.** The language the CLI and daemon speak: plain HTTP requests like `POST /containers/create`. On Linux it usually listens on a **Unix socket**, `/var/run/docker.sock`; on Docker Desktop for Mac it lives at `~/.docker/run/docker.sock`.
 > 🔐 Anyone who can talk to `docker.sock` effectively has **root on the host**. Never expose it carelessly.
-
-**5. containerd: the kitchen supervisor.** An industry-standard container runtime (a graduated CNCF project). It manages the container **lifecycle**: preparing filesystem snapshots, starting and stopping containers, and, in newer Docker versions, storing images. Kubernetes uses containerd directly, too.
-
-**6. runc: the cook at the stove.** A small, low-level tool, the OCI reference runtime. It talks directly to the Linux kernel: "create these namespaces, apply these cgroup limits, mount this filesystem, start this process". Once the container is running, **runc exits**. A tiny **shim** process stays behind as the container's parent.
-
-**7. Images: the ingredients and recipe, sealed.** Read-only templates: a stack of filesystem layers plus metadata (default command, environment, exposed ports). Chapter 8 goes deeper.
-
-**8. Containers: the dish.** A running (or stopped) instance of an image: real processes on the host, isolated by namespaces, limited by cgroups, with a thin writable layer on top of the image.
-
-**9. Registries: the supplier's warehouse.** Servers that store and distribute images: Docker Hub, GitHub Container Registry (GHCR), Amazon ECR, Google Artifact Registry, Azure ACR, or a self-hosted Harbor.
-
-**10. Docker Hub: the most famous supplier.** Docker's public registry. When you type `nginx`, Docker reads it as `docker.io/library/nginx:latest`.
-
-**11. Docker networks: the restaurant's internal phone system.** Virtual networks that let containers talk to each other by name, isolated from other groups of containers (Lab D07).
-
-**12. Docker volumes: personal lockers.** Storage that lives **outside** a container's lifecycle. Delete the container and the volume (your data) stays, like a locker you keep after you move out (Lab D06).
 
 ### 🔬 See the architecture on your own machine
 ```bash
@@ -405,119 +402,109 @@ The image was already in the local image store, so no download was needed (steps
 
 ## 7. Inside a container: namespaces, cgroups and layers
 
-A container is not a magic box. It is **an ordinary Linux process** that the kernel has given:
-1. **blinkers**, so it sees only its own world: **namespaces**
-2. **a budget**, so it can use only its share: **cgroups**
-3. **a layered filesystem**, so it gets its own files cheaply: **union filesystem / overlayfs**
+Here's the secret: **a container is just a normal program running on the computer, with three tricks applied by the Linux kernel.**
 
-### 7.1 Namespaces: what a container can *see* 👀
+We'll use the apartment building from Era 3. Same building, three tricks:
+
+| Trick | What it gives the container | 🏢 In the apartment building |
+|---|---|---|
+| 🙈 **Namespaces** | its own **view**: it can't see anyone else | a private flat: your own door and rooms, and you can't see the neighbours |
+| 🧮 **cgroups** | its own **budget**: it can't hog the computer | each flat's water and power quota |
+| 🛋️ **Layers** | its own **files**, without copying everything | standard furniture from the builder, plus your own things |
+
+```
+container = a normal process  +  🙈 namespaces  +  🧮 cgroups  +  🛋️ layers
+```
+
+### 7.1 Namespaces: what a container can SEE 🙈
 
 ![Namespaces](images/08-namespaces.svg)
 
-**Analogy.** In an apartment building, every flat has its own door number, mailbox, rooms, name on the bell and keys. You can't see into your neighbour's flat, even though you share the building.
+- Inside its flat, the app thinks it's **alone**: it is process number **1**, with its own hostname, its own IP address and its own files.
+- From outside, the computer sees an **ordinary process** with an ordinary number.
 
-**Technical.** A **namespace** wraps a global system resource so that processes inside it see their own private copy:
-
-| Namespace | Isolates | Apartment analogy | In a container |
-|---|---|---|---|
-| **PID** | process IDs | own door numbering | the app is **PID 1**; host processes are invisible |
-| **NET** | network interfaces, IPs, ports, routes | own mailbox and address | own `eth0` and IP; port 80 can be used by many containers at once |
-| **MNT** | mounted filesystems | own rooms and furniture | own `/` root filesystem from the image |
-| **UTS** | hostname | own name on the bell | own hostname |
-| **IPC** | shared memory, message queues | own private notes | can't read other containers' shared memory |
-| **USER** | user and group IDs | own set of keys | with user-namespace remapping or rootless Docker, "root" inside maps to an unprivileged user outside |
-| *(cgroup)* | the view of the cgroup tree | | the container sees its own cgroup as the top |
-
-🔬 **Prove it:**
+**Prove it** (10 seconds):
 ```bash
-docker run --rm alpine ps                                # PID namespace
+docker run --rm alpine ps                             # only ONE process visible: itself, as PID 1
+docker run --rm --hostname kitchen alpine hostname    # prints: kitchen
 ```
 ```
 PID   USER     TIME  COMMAND
     1 root      0:00 ps
 ```
-The *only* process the container can see is itself, and it believes it's PID 1.
-```bash
-docker run --rm --hostname kitchen alpine hostname      # UTS namespace → kitchen
-docker run -d --name web nginx:1.27-alpine
-docker top web                                           # the SAME processes, seen from the host
-```
-```
-UID    PID    PPID   ...   CMD
-root   2565   2539   ...   nginx: master process nginx -g daemon off;
-```
-Inside, nginx is PID 1. From the host it's PID 2565. **Same process, two views.** That's a namespace.
 
-### 7.2 cgroups: what a container can *use* 🧮
+> 🧠 **Remember:** namespaces are **blinkers**. Same process, two views: alone inside, ordinary outside.
+
+<details><summary>🔎 For the curious: the six namespaces</summary>
+
+| Namespace | Gives the container its own… |
+|---|---|
+| PID | process numbers (the app is PID 1) |
+| NET | network card, IP address and ports |
+| MNT | files and folders (`/`) |
+| UTS | hostname |
+| IPC | private shared memory |
+| USER | user IDs (with rootless Docker, "root" inside is a normal user outside) |
+
+See both views of one process: `docker run -d --name web nginx:1.27-alpine`, then `docker top web` shows nginx with a normal host PID (for example 2565). Inside, the same nginx is PID 1. Clean up with `docker rm -f web`.
+</details>
+
+### 7.2 cgroups: what a container can USE 🧮
 
 ![cgroups](images/09-cgroups.svg)
 
-**Analogy.** Each flat gets a monthly quota. Use too much **water** and the supply is cut off. Use too much **power** and the lights dim, but nothing is cut off.
+Every flat has a quota, and the two kinds behave differently:
+- 💧 **Memory is like water.** Go over the limit and the supply is cut: the container is **killed** (`OOMKilled`, exit code 137).
+- ⚡ **CPU is like electricity.** Go over the limit and the lights **dim**: the container just runs slower. It's never killed for this.
 
-**Technical.** **Control groups (cgroups)** let the kernel **limit and account for** the resources a group of processes uses: CPU, memory, disk I/O, number of processes.
-
-| Resource | Flag | When exceeded |
-|---|---|---|
-| Memory | `--memory 256m` | the process is **killed** (OOMKilled, exit code 137), like the water being cut off |
-| CPU | `--cpus 0.5` | the process is **throttled**: it runs slower, like dimmed lights |
-| Processes | `--pids-limit 100` | new processes can't be created (stops "fork bombs") |
-
-🔬 **Prove it.** Ask the kernel what budget it set:
+**Prove it:** give a container a budget, then ask the kernel what it recorded:
 ```bash
 docker run --rm --memory 64m --cpus 0.5 alpine cat /sys/fs/cgroup/memory.max /sys/fs/cgroup/cpu.max
 ```
 ```
-67108864
-50000 100000
+67108864        ← 64 MB of memory
+50000 100000    ← 50 ms of CPU every 100 ms = half a CPU
 ```
-- `67108864` bytes = **64 MiB**: exactly what you asked for.
-- `50000 100000` = "50 ms of CPU time per 100 ms" = **half a CPU**.
 
-Docker just translated your flags into kernel settings. (Lab D11 makes a container exceed its memory and get OOM-killed, live.)
+> 🧠 **Remember:** namespaces limit what it can **SEE**; cgroups limit what it can **USE**.
 
-> 🧠 **Namespaces limit what a process can SEE. cgroups limit what it can USE.** Together, plus a filesystem, they *are* a container.
-
-### 7.3 Layers and copy-on-write: how a container gets its files 🥪
+### 7.3 Layers: how a container gets its files 🛋️
 
 ![Image layers](images/10-image-layers.svg)
 
-**Analogy.** A sandwich bar prepares the bread, cheese and tomato **once**, in advance. Every customer gets the same base and adds **their own sauce on top**. Nobody's sauce changes the shared ingredients.
+Think of a **furnished flat**:
+- Every flat gets the builder's **standard furniture**: the **image layers**. They're read-only and shared by every container from that image, so 10 containers don't need 10 copies.
+- Your own changes go into **your flat only**: a thin **writable layer** on top.
+- Repaint the builder's wardrobe? You get **your own copy** to paint, and the original stays untouched. That's **copy-on-write**.
+- Move out (`docker rm`) and your changes are cleared. Keep anything important in a **volume** (Lab D06).
 
-**Technical.**
-- An image is a stack of **read-only layers**. Each Dockerfile instruction that changes files (`FROM`, `RUN`, `COPY`) adds one.
-- Layers are **shared**: 10 containers from the same image don't store the image 10 times.
-- Each container gets one thin **writable layer** on top. A union filesystem (**overlayfs**) merges everything into the single `/` the container sees.
-- **Copy-on-write:** when a container modifies a file that lives in a read-only layer, the file is first **copied up** into the writable layer and changed there. The image itself is never touched.
-- When you **delete** the container, its writable layer is deleted too, along with anything written there. That's why databases use **volumes**, which live outside the layers (Lab D06).
-
-🔬 **Prove it:**
+**Prove it:** change things inside a container, then ask Docker what changed:
 ```bash
-docker image history nginx:1.27-alpine        # the layers, and the Dockerfile step that made each
-docker exec web touch /tmp/hello              # add a file
-docker exec web rm /etc/nginx/conf.d/default.conf   # "delete" a file from the image
-docker diff web
+docker run -d --name web nginx:1.27-alpine
+docker exec web touch /tmp/hello
+docker exec web rm /etc/nginx/conf.d/default.conf
+docker diff web | grep -E 'hello|default.conf'
 ```
 ```
-C /etc/nginx/conf.d
-D /etc/nginx/conf.d/default.conf
-A /tmp/hello
-…
+A /tmp/hello                          ← A = added
+D /etc/nginx/conf.d/default.conf      ← D = deleted
 ```
-`A` = added, `C` = changed, `D` = deleted, **all recorded only in this container's writable layer**. Start a new container from the same image and `default.conf` is back, untouched:
+A new container from the same image still has `default.conf`, because the image never changed:
 ```bash
-docker run --rm nginx:1.27-alpine ls /etc/nginx/conf.d/      # default.conf
+docker run --rm nginx:1.27-alpine ls /etc/nginx/conf.d/     # default.conf
 docker rm -f web
 ```
-> In `docker image history`, rows marked `<missing>` aren't errors. They're layers that came from the base image you pulled, which you didn't build locally.
+
+> 🧠 **Remember:** image layers are **read-only and shared**; every container gets its own thin **writable** layer.
 
 ### ⚡ Quick check
-<details><summary>1. Which kernel feature makes the app think it's PID 1, and which one stops it from using all the RAM?</summary>
+<details><summary>1. The app thinks it's PID 1. Which trick causes that? And which trick stops it from using all the memory?</summary>
 
-The **PID namespace** gives it its own process numbering. **cgroups** (the memory controller) cap its memory.
+Namespaces (the PID namespace) give it its own process numbers. cgroups cap its memory.
 </details>
 <details><summary>2. You delete a file inside a running container. Is it gone from the image?</summary>
 
-No. Image layers are read-only. The deletion is recorded as a "whiteout" in the container's writable layer. New containers from the image still have the file.
+No. The image layers are read-only. The deletion is recorded only in that container's writable layer, so new containers still have the file.
 </details>
 
 ---
@@ -526,34 +513,33 @@ No. Image layers are read-only. The deletion is recorded as a "whiteout" in the 
 
 ![Image vs container](images/11-image-vs-container.svg)
 
-**Analogy: the cake.**
-- 📄 **Dockerfile** = the **recipe**: a text file of instructions.
-- 🎂 **Image** = the **baked cake**: the result of following the recipe; fixed, unchangeable.
-- 🍰 **Container** = a **slice being served**: a running instance of the image. One cake, many slices.
-- 🏪 **Registry** = the **bakery shelf** where cakes are stored and picked up.
+Three words, one cake:
 
-⚠️ *Where the analogy stops:* a real cake gets used up. An image never does: one image can start **unlimited** containers, and running them doesn't change the image at all.
+- 📄 **Dockerfile = the recipe.** Written once.
+- 🎂 **Image = the baked cake.** It never changes; to change it, you bake a new one.
+- 🍰 **Container = a slice being served.** Cut as many as you like from the same cake.
 
-| | Image | Container |
+| | 🎂 Image | 🍰 Container |
 |---|---|---|
-| What | read-only template | running (or stopped) instance |
-| Created by | `docker build` / `docker pull` | `docker run` / `docker create` |
-| Changes? | **never** (immutable; a new build = a new image) | has its own writable layer |
-| Identity | `name:tag` and a content **digest** | container ID and name |
-| Lifetime | until you delete it | from `create` to `rm` |
+| What | a read-only template | a running copy of it |
+| Made by | `docker build` or `docker pull` | `docker run` |
+| Can it change? | **never** | yes, in its own writable layer |
+| How many? | one | as many as you want |
 
-🔬 **One image, three containers:**
+**Prove it:** one cake, three slices; change one slice and the others stay the same:
 ```bash
 docker run -d --name slice1 -p 8081:80 nginx:1.27-alpine
 docker run -d --name slice2 -p 8082:80 nginx:1.27-alpine
 docker run -d --name slice3 -p 8083:80 nginx:1.27-alpine
-docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Ports}}'
 docker exec slice1 sh -c 'echo "<h1>I am slice 1</h1>" > /usr/share/nginx/html/index.html'
-curl -s localhost:8081 | head -1      # changed
-curl -s localhost:8082 | head -4      # untouched: each slice has its own writable layer
+curl -s localhost:8081 | head -1      # I am slice 1
+curl -s localhost:8082 | grep title   # Welcome to nginx!   (untouched)
 docker rm -f slice1 slice2 slice3
 ```
-> 🧠 **Changing a running container never changes the image.** Want a change to stick? Edit the **Dockerfile** and **rebuild**. That's what Lab D04 is about.
+
+> 🧠 **Remember:** you never edit a cake; you **change the recipe and bake a new one**. Editing a running container never changes its image.
+
+⚠️ *Where the analogy stops:* a real cake runs out, but an image never does. It can serve unlimited containers.
 
 ---
 
@@ -561,17 +547,27 @@ docker rm -f slice1 slice2 slice3
 
 ![Registry flow](images/12-registry-flow.svg)
 
-1. A developer, or better, a CI pipeline, **builds** an image: `docker build -t shop:1.4.2 .`
-2. It's **pushed** to a registry: `docker push registry.example.com/shop:1.4.2`
-3. Every environment **pulls** that **same** image: test, staging, production, Kubernetes nodes.
+Back to the restaurant chain: the **registry is the central warehouse**. It doesn't bake anything; it stores finished cakes, labelled, and hands the same cake to every kitchen that asks.
 
-Key ideas:
-- **Name anatomy:** `docker.io/library/nginx:1.27-alpine` = registry / namespace / repository : **tag**
-- **Tags are movable labels** (`latest` can point to something new tomorrow). **Digests** (`@sha256:…`) are fingerprints of the exact content and **never change**.
-- Only **missing layers** are transferred, so pushes and pulls are fast after the first one.
-- Private registries need `docker login`.
+Three steps, three commands:
 
-> 🏭 **Build once, run everywhere:** the image tested in staging is byte-for-byte the image that runs in production. That's the cure for "it works on my machine".
+| Step | Command | In the restaurant |
+|---|---|---|
+| 1. Bake | `docker build -t shop:1.4.2 .` | bake the cake from the recipe |
+| 2. Deliver | `docker push …/shop:1.4.2` | send it to the central warehouse |
+| 3. Fetch | `docker pull …/shop:1.4.2` | any kitchen (laptop, test server, production) picks up the **same** cake |
+
+Reading an image name:
+```
+docker.io / library / nginx : 1.27-alpine
+ warehouse   shelf    cake    version label (the tag)
+```
+
+Two things worth knowing:
+- A **tag** (`1.27-alpine`, `latest`) is a label that can be moved to a different cake. A **digest** (`sha256:…`) is the cake's fingerprint and never changes.
+- Only **missing layers** are downloaded, so the second pull of a similar image is fast.
+
+> 🧠 **Remember:** **build once, push once, pull anywhere.** Test and production run the exact same image, and that's the cure for "it works on my machine".
 
 ---
 
@@ -601,7 +597,7 @@ Run them **in order**. They tell a story: check the kitchen → get an image →
 | | |
 |---|---|
 | **What** | lists images in the local store (alias of `docker image ls`) |
-| **Why** | see what's in the "pantry" before cooking |
+| **Why** | see what's in the "fridge" before cooking |
 | **Inside** | `GET /images/json` |
 | **Expect** | `REPOSITORY  TAG  IMAGE ID  CREATED  SIZE`, possibly empty on a fresh install |
 | **Real world** | spotting huge images and old versions that eat disk space |
@@ -716,7 +712,7 @@ ISOLATION    namespaces = what it can SEE · cgroups = what it can USE
 FILES        read-only image layers + a thin writable layer (copy-on-write)
 VM vs CTR    houses (own OS each) vs apartments (shared foundation = kernel)
 DOCKER       CLI → REST API → dockerd → containerd → shim/runc → kernel
-TRAVEL       build → push → registry → pull → run (same image everywhere)
+TRAVEL       build (bake) → push → registry (warehouse) → pull → run
 ```
 
 ### 🏆 Final challenge: explain Docker to a 10-year-old in 5 minutes

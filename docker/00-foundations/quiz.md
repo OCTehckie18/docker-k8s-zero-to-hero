@@ -83,7 +83,7 @@ When a container modifies a file from a read-only layer, the file is first copie
 
 <details><summary><b>A16.</b> What is a registry? Name two.</summary>
 
-A server that stores and distributes images. For example: Docker Hub, GitHub Container Registry (GHCR), Amazon ECR, Google Artifact Registry, Azure ACR, Harbor.
+A server that **stores and distributes** images: the central warehouse. It never builds them; `docker build` does, and `docker push` delivers them. For example: Docker Hub, GitHub Container Registry (GHCR), Amazon ECR, Google Artifact Registry, Azure ACR, Harbor.
 </details>
 
 <details><summary><b>A17.</b> What's the difference between a tag and a digest?</summary>
