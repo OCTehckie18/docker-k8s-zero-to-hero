@@ -74,15 +74,28 @@ Your first save point. 🎉 The `a9cca9d` is its ID (yours will be different).
 ### Step 5: Two changes, two clean commits
 Asha asks for opening hours, **and** the owner raises the benne dosa price. Do both, then look:
 
-##### create hours.md and add the following 
-```bash
-'# 🕗 Opening hours
-Mon–Sat: 8 am – 10 pm
-Sunday: 9 am – 6 pm'
-```
-##### Update Benne Dosa price ₹120/Benne Dosa to ₹130 in menu.md
+##### Create hours.md and add the following
+```markdown
+# 🕗 Opening hours
 
-### Verify the changes
+Mon–Sat: 8 am – 10 pm
+Sunday: 9 am – 6 pm
+```
+##### Update the Benne Dosa price in menu.md from ₹120 to ₹130
+```markdown
+| Benne Dosa | ₹130 |
+```
+
+<details><summary>⌨️ Prefer the terminal? Do both changes with two commands</summary>
+
+```bash
+printf '# 🕗 Opening hours\n\nMon–Sat: 8 am – 10 pm\nSunday: 9 am – 6 pm\n' > hours.md
+sed -i.bak 's/Benne Dosa | ₹120/Benne Dosa | ₹130/' menu.md && rm menu.md.bak
+```
+</details>
+
+##### Verify the changes
+```bash
 git status             # menu.md modified · hours.md untracked
 git diff               # exactly what changed, line by line
 ```
