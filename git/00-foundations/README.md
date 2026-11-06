@@ -51,7 +51,7 @@ That's life **without version control**. With Git, there's **one** `resume.md` a
 ### Now multiply that by a whole team 👥
 
 It was a chaotic Monday morning at **Vidyarthi Bhavan** in Basavanagudi.
-Online orders were exploding on Swiggy and Zomato. Customers weren't just ordering their usual breakfasts—they were buying 20 to 30 benne dosas at a time.
+Online orders were exploding on Swiggy and Zomato. Customers weren't just ordering their usual breakfasts, they were buying 20 to 30 benne dosas at a time.
 At first, the proud management thought their legendary reputation had reached a new peak. Then they checked the website.
 
 Bengaluru’s most famous iconic crispy dosas were accidentally selling for just ₹1.🥞😱
