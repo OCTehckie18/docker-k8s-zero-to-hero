@@ -2,7 +2,7 @@
 
 > ⏱ 60–90 min · 🟢 Absolute beginner · no Git knowledge needed · hands-on starts in [G01](../01-first-repo/README.md)
 
-Every app you'll containerise in Track 1 and run on Kubernetes in Track 2 starts life as a **commit**. This module explains the **why** and the **mental model** in pictures. The labs that follow let you *live* it, as a new developer at **Benne & Byte Darshini** 🥞, a busy (and fictional) darshini in Koramangala, Bengaluru.
+Every app you'll containerise in Track 1 and run on Kubernetes in Track 2 starts life as a **commit**. This module explains the **why** and the **mental model** in pictures. The labs that follow let you *live* it, as a new developer at **Vidyarthi Bhavan** 🥞, Bengaluru's legendary breakfast spot in Basavanagudi (serving benne dosas since 1943). *The website, team, prices and incidents in these labs are invented for teaching; they are not the restaurant's real systems.*
 
 By the end you'll be able to explain, without notes:
 - what problem version control solves, and the difference between Git and GitHub
@@ -49,7 +49,7 @@ resume_final_mom_edits(2).docx
 That's life **without version control**. With Git, there's **one** `resume.md` and a history that answers every one of those questions: each change saved with **who, what, when and why**, and you can jump back to any of them.
 
 ### Now multiply that by a whole team 👥
-Monday morning at Benne & Byte Darshini, Koramangala. Customers are ordering **fifty benne dosas**, because the website says they cost **₹1**. 🥞😱
+Monday morning at Vidyarthi Bhavan, Basavanagudi. Customers are ordering **fifty benne dosas**, because the website says they cost **₹1**. 🥞😱
 
 > 👩‍💼 **Owner:** Who changed the price?
 > 👩‍💻 **Asha:** Not me. I only fixed the opening hours.
@@ -107,9 +107,9 @@ Why the middle step? Because you often change five things but want to save them 
 
 ![Branches](images/04-branches.svg)
 
-Picture the **menu board on the wall** of the darshini 📋. Customers order from it all day, so nobody scribbles on it directly. Changing the menu takes three steps:
+Picture the **menu board on the wall** at Vidyarthi Bhavan 📋. Customers order from it all day, so nobody scribbles on it directly. Changing the menu takes three steps:
 
-| Step | In the darshini | In Git |
+| Step | At Vidyarthi Bhavan | In Git |
 |---|---|---|
 | 1 | ✏️ make a **draft copy** of the menu on paper | `git branch cold-coffee`, then `git checkout cold-coffee` *(shortcut: `git checkout -b cold-coffee`)* |
 | 2 | work on the draft as long as you like; the wall menu doesn't change | commit on the branch; `main` doesn't change |
@@ -226,4 +226,4 @@ Cover: save points, branches as "trying something on a copy", and why the team d
 ### 📝 Test yourself
 **[Take the G00 quiz →](quiz.md)** 30 questions with answers.
 
-➡️ **Next:** [G01: Day 1: Your First Repository](../01-first-repo/README.md). Time to open a terminal and start working at Benne & Byte Darshini.
+➡️ **Next:** [G01: Day 1: Your First Repository](../01-first-repo/README.md). Time to open a terminal and start working at Vidyarthi Bhavan.

@@ -49,7 +49,7 @@ Refresh the page and look for your name in the footer. Only the steps **after** 
 Configuration comes from **outside** the image:
 ```bash
 docker run -d --name food   -p 8081:8080 -e TITLE="Bengaluru Breakfast Battle" \
-  -e VOTE_OPTIONS="dosa:🥞:Benne Dosa,idli:🍘:Idli Vada,pongal:🍚:Pongal" -e THEME_COLOR="#ffb400" z2h/api:v1
+  -e VOTE_OPTIONS="vb:🥞:Vidyarthi Bhavan,rameshwaram:🍛:The Rameshwaram Cafe,ctr:🧈:CTR,mtr:☕:MTR" -e THEME_COLOR="#ffb400" z2h/api:v1
 
 docker run -d --name ide    -p 8082:8080 -e TITLE="Editor Wars" \
   -e VOTE_OPTIONS="vim:🟢:Vim,vscode:🔵:VS Code,emacs:🟣:Emacs" -e THEME_COLOR="#4f8cff" z2h/api:v1

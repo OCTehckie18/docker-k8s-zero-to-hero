@@ -65,7 +65,7 @@ git diff                            # nothing
 
 ### Step 5: 🔐 The secret that almost escaped
 ```bash
-echo "WIFI_PASSWORD=benne-byte-2026" > secrets.txt
+echo "WIFI_PASSWORD=vb-wifi-2026" > secrets.txt
 git add .
 git status                          # secrets.txt is staged!  🚨
 git restore --staged secrets.txt    # un-stage it (the file stays on disk)

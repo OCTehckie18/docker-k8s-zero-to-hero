@@ -5,7 +5,7 @@
 Hands-on labs for complete beginners: students, teachers, career-switchers, and non-tech professionals. Everything runs on **Docker Desktop**, **kind**, **minikube**, or a free browser sandbox like **Killercoda**. No cloud account needed.
 
 ```
-  🕵️ Find who set benne dosa to ₹1 at a Koramangala darshini, then hunt a bug with git bisect in seconds
+  🕵️ Find who set benne dosa to ₹1 at Vidyarthi Bhavan, then hunt a bug with git bisect in seconds
   🍄 Play Mario from a container in 3 seconds
   🐱🐶 Build & ship a live voting app the whole room uses from their phones
   💀 Delete every server and watch Kubernetes bring them back

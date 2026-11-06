@@ -3,7 +3,7 @@ source "$(dirname "$0")/../_lib.sh"
 team 02-push-rejected
 cd ../asha || exit 1
 printf '| Cold Coffee | ₹180 |\n' >> menu.md
-as "Asha (Lead Dev)" asha@bennebyte.in commit -qam "Add cold coffee"
+as "Asha (Lead Dev)" asha@vidyarthibhavan.example commit -qam "Add cold coffee"
 git push -q
 cd ../you || exit 1
 sed -i.bak 's/10 pm/10:30 pm/' hours.md && rm hours.md.bak

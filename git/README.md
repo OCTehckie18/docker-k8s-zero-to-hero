@@ -2,8 +2,8 @@
 
 Before an app can be containerised or deployed, it has to be **written, saved, shared, reviewed and released**. That's Git. This track turns you into the teammate everyone wants: you commit cleanly, collaborate without overwriting anyone, review through pull requests, and stay calm when something breaks.
 
-### 🥞 The story: you work at Benne & Byte Darshini, Koramangala
-A fictional (but very Bengaluru) darshini: benne dosa, ghee roast, idli vada and filter coffee. Every lab is a day on its tech team, maintaining the menu website with **Asha** (lead developer) and **Ravi** (intern). Real problems, real commands:
+### 🥞 The story: you work at Vidyarthi Bhavan, Basavanagudi
+Bengaluru's legendary breakfast spot in Basavanagudi (since 1943): benne dosa, idli vada, filter coffee. *The website, team, prices and incidents in these labs are invented for teaching; they are not the restaurant's real systems.* Every lab is a day on its tech team, maintaining the menu website with **Asha** (lead developer) and **Ravi** (intern). Real problems, real commands:
 
 | # | Lab | The situation | Time | Level |
 |---|---|---|---|---|

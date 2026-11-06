@@ -79,7 +79,7 @@ sed -i.bak 's/8 am – 10 pm/7 am – 10 pm/' hours.md && rm hours.md.bak
 git commit -am "Open at 7 am on weekdays"
 
 git checkout main
-printf '# 📖 Benne & Byte Darshini website\n\nThe menu and opening hours of our café.\n' > README.md
+printf '# 📖 Vidyarthi Bhavan website\n\nThe menu and opening hours of our café.\n' > README.md
 git add README.md && git commit -m "Add README"
 
 git merge update-hours -m "Merge branch 'update-hours'"

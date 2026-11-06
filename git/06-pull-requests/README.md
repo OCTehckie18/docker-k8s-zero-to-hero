@@ -112,7 +112,7 @@ git log --oneline -4
 Needs a free GitHub account and the GitHub CLI (`gh auth login`).
 ```bash
 cd ~/z2h-git/cafe
-gh repo create benne-byte-darshini --private --source . --remote github --push
+gh repo create vidyarthi-bhavan-menu --private --source . --remote github --push
 git checkout -b feature/student-discount
 echo "| Student discount (show ID) | -10% |" >> combos.md     # (no ₹, so the price check ignores it)
 git commit -am "Add student discount"

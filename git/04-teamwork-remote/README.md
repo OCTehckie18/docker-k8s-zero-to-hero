@@ -44,7 +44,7 @@ branch 'main' set up to track 'origin/main'.
 git clone ~/z2h-git/github/cafe.git ~/z2h-git/asha
 cd ~/z2h-git/asha
 git config user.name  "Asha (Lead Dev)"       # this repo only, so she signs her own commits
-git config user.email "asha@bennebyte.in"
+git config user.email "asha@vidyarthibhavan.example"
 git log --oneline -3                           # she has the FULL history already
 ```
 

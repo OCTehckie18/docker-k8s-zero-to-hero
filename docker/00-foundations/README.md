@@ -289,46 +289,47 @@ No. Containers share the host kernel, and a Linux kernel can't run Windows binar
 
 ## 5. Docker architecture, explained as a restaurant
 
-Forget the jargon for a moment. It's Sunday morning and you walk into a busy restaurant in Koramangala to order **one slice of cake**. Follow that single order:
+Forget the jargon for a moment. It's Sunday morning, and the breakfast rush at **The Rameshwaram Cafe** is in full swing. You order **one masala dosa**. Follow that single order:
 
-![Docker architecture as a restaurant](images/06-docker-architecture.svg)
+![Docker architecture as a breakfast order](images/06-docker-architecture.svg)
 
-1. 🧑 **You** order: "one nginx cake slice, please!"
-2. 📝 **The waiter** carries your order to the kitchen. The waiter never cooks.
-3. 👩‍🍳 **The head chef** checks the kitchen **fridge**: is that cake already here?
-4. 🏬 If not, someone fetches it from the chain's **central warehouse**. The warehouse doesn't bake anything; it only **stores** finished cakes, each labelled with a name and version, and hands them to any kitchen that asks.
-5. 🔪 **The cooks** cut a slice and put it on a plate.
-6. 🍰 **Served!** Your order is now real, on the table.
+1. 🧑 **You** order at the counter: "one nginx dosa, please!"
+2. 🧾 **The billing counter** takes your order, gives you a token, and passes it to the kitchen. The counter never cooks.
+3. 👩‍🍳 **The head chef** checks the kitchen **fridge**: is today's batter already here?
+4. 🏬 If not, a tub is fetched from the **central cold store**. The cold store doesn't grind anything; it only **stores** batter that was already ground, each tub labelled with a name and date, and hands it to any kitchen that asks.
+5. 🔥 **The cooks** pour the batter on the tawa and make *your* dosa, with your ghee and podi on top.
+6. 🥞 **Served!** Your token is called, and your order is now real, on the plate.
 
-Now replace every restaurant word with its Docker word:
+*(The kitchen details are invented for the analogy.)* Now replace every breakfast word with its Docker word:
 
-| 🍽️ Restaurant | 🐳 Docker | What it really is |
+| 🍽️ At the cafe | 🐳 Docker | What it really is |
 |---|---|---|
 | 🧑 you, ordering | **you** | typing `docker run nginx` |
-| 📝 waiter | **Docker CLI** (`docker`) | a client that turns your command into an API request |
+| 🧾 billing counter | **Docker CLI** (`docker`) | a client that turns your command into an API request |
 | 👩‍🍳 head chef | **Docker daemon** (`dockerd`) | the background service that runs the show |
 | 🧊 kitchen fridge | **local image store** | images already downloaded to this machine |
-| 🏬 central warehouse | **registry** (Docker Hub, GHCR…) | a server that **stores and hands out** images; it never builds them |
-| 🔪 cooks | **containerd + runc** | the runtimes that actually create the container |
-| 🍰 the cake | **image** | the packaged app: read-only, never changes |
-| 🍽️ a slice on a plate | **container** | the image, running |
-| 📄 recipe card | **Dockerfile** | how the image is built (`docker build`), before it's pushed to the warehouse |
+| 🏬 central cold store | **registry** (Docker Hub, GHCR…) | a server that **stores and hands out** images; it never builds them |
+| 🔥 cooks at the tawa | **containerd + runc** | the runtimes that actually create the container |
+| 🥣 the batter | **image** | the packaged app: read-only, never changes once ground |
+| 🥞 a dosa on your plate | **container** | the image, running |
+| 🧈 the ghee and podi on *your* dosa | the container's **writable layer** | changes that belong to that one container only (chapter 7) |
+| 📄 recipe card | **Dockerfile** | how the image is built (`docker build`), before it's pushed to the cold store |
 
-> 🧠 **Remember:** the registry is a **warehouse, not a bakery**. `docker build` bakes, `docker push` delivers to the warehouse, and `docker pull` fetches from it.
+> 🧠 **Remember:** the registry is a **cold store, not a kitchen**. `docker build` grinds the batter, `docker push` delivers it to the cold store, and `docker pull` fetches it.
 
 ### The components at a glance
 | # | Component | In the restaurant | Its one job |
 |---|---|---|---|
-| 1 | **Docker CLI** | waiter | turns your command into an API call. It never runs containers itself |
+| 1 | **Docker CLI** | billing counter | turns your command into an API call. It never runs containers itself |
 | 2 | **dockerd** (Docker daemon) | head chef | receives requests; builds, pulls and pushes images; manages networks and volumes; asks the runtime to start containers |
 | 3 | **Docker Engine** | the whole kitchen | the server side as a package: dockerd + its API + containerd + runc |
-| 4 | **REST API** | the order slip | how the CLI talks to dockerd, usually over the socket `/var/run/docker.sock` |
+| 4 | **REST API** | the order token | how the CLI talks to dockerd, usually over the socket `/var/run/docker.sock` |
 | 5 | **containerd** | kitchen supervisor | manages each container's lifecycle (start, stop, snapshots). Kubernetes uses it too |
-| 6 | **runc** | cook at the stove | asks the Linux kernel for namespaces and cgroups, starts the process, then exits |
-| 7 | **Image** | the cake | read-only package: file layers + settings (chapter 8) |
-| 8 | **Container** | a slice on a plate | a running, isolated process made from an image |
-| 9 | **Registry** | central warehouse | stores and distributes images: Docker Hub, GHCR, ECR, Harbor… |
-| 10 | **Docker Hub** | the biggest public warehouse | Docker's own registry. `nginx` means `docker.io/library/nginx:latest` |
+| 6 | **runc** | cook at the tawa | asks the Linux kernel for namespaces and cgroups, starts the process, then exits |
+| 7 | **Image** | the batter | read-only package: file layers + settings (chapter 8) |
+| 8 | **Container** | a dosa on a plate | a running, isolated process made from an image |
+| 9 | **Registry** | central cold store | stores and distributes images: Docker Hub, GHCR, ECR, Harbor… |
+| 10 | **Docker Hub** | the biggest public cold store | Docker's own registry. `nginx` means `docker.io/library/nginx:latest` |
 | 11 | **Networks** | the kitchen intercom | let containers find each other by name (Lab D07) |
 | 12 | **Volumes** | a labelled box in the cold room | data that survives when the container is removed (Lab D06) |
 
@@ -336,7 +337,7 @@ Now replace every restaurant word with its Docker word:
 
 ### 🔬 See the architecture on your own machine
 ```bash
-docker version            # TWO sections: Client (the waiter) and Server (the kitchen)
+docker version            # TWO sections: Client (the counter) and Server (the kitchen)
 docker version --format '{{range .Server.Components}}{{.Name}}={{.Version}}  {{end}}'
 docker info --format 'storage={{.Driver}}  runtime={{.DefaultRuntime}}  cgroups=v{{.CgroupVersion}}'
 docker context ls         # which engine is your CLI talking to?
@@ -513,33 +514,33 @@ No. The image layers are read-only. The deletion is recorded only in that contai
 
 ![Image vs container](images/11-image-vs-container.svg)
 
-Three words, one cake:
+Three words, one batch of batter:
 
 - 📄 **Dockerfile = the recipe.** Written once.
-- 🎂 **Image = the baked cake.** It never changes; to change it, you bake a new one.
-- 🍰 **Container = a slice being served.** Cut as many as you like from the same cake.
+- 🥣 **Image = the ground batter.** Once ground, it never changes; to change the taste, you grind a new batch.
+- 🥞 **Container = a dosa made from it.** Make as many as you like from the same batter, and each one gets its own toppings.
 
-| | 🎂 Image | 🍰 Container |
+| | 🥣 Image | 🥞 Container |
 |---|---|---|
 | What | a read-only template | a running copy of it |
 | Made by | `docker build` or `docker pull` | `docker run` |
 | Can it change? | **never** | yes, in its own writable layer |
 | How many? | one | as many as you want |
 
-**Prove it:** one cake, three slices; change one slice and the others stay the same:
+**Prove it:** one batter, three dosas; add extra ghee to one and the others stay the same:
 ```bash
-docker run -d --name slice1 -p 8081:80 nginx:1.27-alpine
-docker run -d --name slice2 -p 8082:80 nginx:1.27-alpine
-docker run -d --name slice3 -p 8083:80 nginx:1.27-alpine
-docker exec slice1 sh -c 'echo "<h1>I am slice 1</h1>" > /usr/share/nginx/html/index.html'
-curl -s localhost:8081 | head -1      # I am slice 1
+docker run -d --name dosa1 -p 8081:80 nginx:1.27-alpine
+docker run -d --name dosa2 -p 8082:80 nginx:1.27-alpine
+docker run -d --name dosa3 -p 8083:80 nginx:1.27-alpine
+docker exec dosa1 sh -c 'echo "<h1>I am dosa 1, with extra ghee</h1>" > /usr/share/nginx/html/index.html'
+curl -s localhost:8081 | head -1      # I am dosa 1, with extra ghee
 curl -s localhost:8082 | grep title   # Welcome to nginx!   (untouched)
-docker rm -f slice1 slice2 slice3
+docker rm -f dosa1 dosa2 dosa3
 ```
 
-> 🧠 **Remember:** you never edit a cake; you **change the recipe and bake a new one**. Editing a running container never changes its image.
+> 🧠 **Remember:** you never change the batter on the tawa; you **change the recipe and grind a new batch**. Editing a running container never changes its image.
 
-⚠️ *Where the analogy stops:* a real cake runs out, but an image never does. It can serve unlimited containers.
+⚠️ *Where the analogy stops:* a real tub of batter runs out, but an image never does. It can serve unlimited containers.
 
 ---
 
@@ -547,24 +548,24 @@ docker rm -f slice1 slice2 slice3
 
 ![Registry flow](images/12-registry-flow.svg)
 
-Back to the restaurant chain: the **registry is the central warehouse**. It doesn't bake anything; it stores finished cakes, labelled, and hands the same cake to every kitchen that asks.
+Back to the cafe: the **registry is the central cold store**. It doesn't grind anything; it stores labelled tubs of batter and hands the **same** batter to every kitchen that asks.
 
 Three steps, three commands:
 
 | Step | Command | In the restaurant |
 |---|---|---|
-| 1. Bake | `docker build -t shop:1.4.2 .` | bake the cake from the recipe |
-| 2. Deliver | `docker push …/shop:1.4.2` | send it to the central warehouse |
-| 3. Fetch | `docker pull …/shop:1.4.2` | any kitchen (laptop, test server, production) picks up the **same** cake |
+| 1. Grind | `docker build -t shop:1.4.2 .` | grind the batter from the recipe |
+| 2. Deliver | `docker push …/shop:1.4.2` | send the tub to the central cold store |
+| 3. Fetch | `docker pull …/shop:1.4.2` | any kitchen (laptop, test server, production) picks up the **same** batter |
 
 Reading an image name:
 ```
 docker.io / library / nginx : 1.27-alpine
- warehouse   shelf    cake    version label (the tag)
+ cold store  shelf    tub     version label (the tag)
 ```
 
 Two things worth knowing:
-- A **tag** (`1.27-alpine`, `latest`) is a label that can be moved to a different cake. A **digest** (`sha256:…`) is the cake's fingerprint and never changes.
+- A **tag** (`1.27-alpine`, `latest`) is a label that can be moved to a different tub. A **digest** (`sha256:…`) is the batter's fingerprint and never changes.
 - Only **missing layers** are downloaded, so the second pull of a similar image is fast.
 
 > 🧠 **Remember:** **build once, push once, pull anywhere.** Test and production run the exact same image, and that's the cure for "it works on my machine".
@@ -712,7 +713,7 @@ ISOLATION    namespaces = what it can SEE · cgroups = what it can USE
 FILES        read-only image layers + a thin writable layer (copy-on-write)
 VM vs CTR    houses (own OS each) vs apartments (shared foundation = kernel)
 DOCKER       CLI → REST API → dockerd → containerd → shim/runc → kernel
-TRAVEL       build (bake) → push → registry (warehouse) → pull → run
+TRAVEL       build (grind) → push → registry (cold store) → pull → run
 ```
 
 ### 🏆 Final challenge: explain Docker to a 10-year-old in 5 minutes
@@ -738,7 +739,7 @@ Close this page. Using only what you remember, explain to a friend or a family m
 
 ### 🧹 Cleanup
 ```bash
-docker rm -f web demo demo2 slice1 slice2 slice3 2>/dev/null
+docker rm -f web demo demo2 dosa1 dosa2 dosa3 2>/dev/null
 ```
 
 ➡️ **Next:** [D01: First Steps & the Image Arcade](../01-first-steps/README.md). Now that you know what's happening under the hood, every command you type from here on will make sense.

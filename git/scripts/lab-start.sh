@@ -22,13 +22,13 @@ as() {  # as "<name>" <email> <git args...>
   local n=$1 e=$2; shift 2
   GIT_AUTHOR_NAME="$n" GIT_AUTHOR_EMAIL="$e" GIT_COMMITTER_NAME="$n" GIT_COMMITTER_EMAIL="$e" git "$@"
 }
-YOU=("You" "you@bennebyte.in")
-ASHA=("Asha (Lead Dev)" "asha@bennebyte.in")
-RAVI=("Ravi (Intern)" "ravi@bennebyte.in")
+YOU=("You" "you@vidyarthibhavan.example")
+ASHA=("Asha (Lead Dev)" "asha@vidyarthibhavan.example")
+RAVI=("Ravi (Intern)" "ravi@vidyarthibhavan.example")
 
 write_menu() {  # write_menu <benne-dosa> <ghee-roast> <filter-coffee> <idli-vada> [extra rows...]
   {
-    echo "# 🥞 Benne & Byte Darshini, Koramangala: Menu"
+    echo "# 🥞 Vidyarthi Bhavan, Basavanagudi: Menu"
     echo
     echo "| Item | Price |"
     echo "|---|---|"
@@ -55,7 +55,7 @@ state_g01_end() {
   printf '# 🕗 Opening hours\n\nMon–Sat: 8 am – 10 pm\nSunday: 9 am – 6 pm\n' > hours.md
   git add hours.md && as "${YOU[@]}" commit -q -m "Add opening hours"
   write_menu 130 150 60 80
-  git commit -qam "Raise benne dosa to ₹130" --author="You <you@bennebyte.in>"
+  git commit -qam "Raise benne dosa to ₹130" --author="You <you@vidyarthibhavan.example>"
 }
 
 # Start of G02: Ravi the intern "borrowed your laptop" overnight.
@@ -82,7 +82,7 @@ state_g04() {
   write_menu 130 150 60 80 "| Badam Milk | ₹90 |" "| Cold Coffee | ₹180 |"
   as "${YOU[@]}" commit -qam "Add cold coffee"
   git checkout -q main && git merge -q add-cold-coffee && git branch -q -d add-cold-coffee
-  printf '# 📖 Benne & Byte Darshini website\n\nThe menu and opening hours of our café.\n' > README.md
+  printf '# 📖 Vidyarthi Bhavan website\n\nThe menu and opening hours of our café.\n' > README.md
   git add README.md && as "${YOU[@]}" commit -q -m "Add README"
 }
 
@@ -108,7 +108,7 @@ state_g07() {
   git add hours.md && as "${YOU[@]}" commit -q -m "feat: open at 7 am on weekdays"
   write_menu 130 150 60 8 "${extras[@]}" "| Maddur Vada | ₹45 |"
   git add menu.md && as "${RAVI[@]}" commit -q -m "refactor: align menu table columns"
-  printf '# 📖 Benne & Byte Darshini website\n\nThe menu and opening hours of our café.\nOrder online: coming soon!\n' > README.md
+  printf '# 📖 Vidyarthi Bhavan website\n\nThe menu and opening hours of our café.\nOrder online: coming soon!\n' > README.md
   git add README.md && as "${ASHA[@]}" commit -q -m "docs: mention online ordering"
   write_menu 130 150 60 8 "${extras[@]}" "| Maddur Vada | ₹45 |" "| Mysore Pak | ₹110 |"
   git add menu.md && as "${YOU[@]}" commit -q -m "feat: add Mysore Pak"

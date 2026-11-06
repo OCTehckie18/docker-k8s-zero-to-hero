@@ -1,4 +1,4 @@
-# Lab G01: Day 1 at Benne & Byte Darshini: Your First Repository
+# Lab G01: Day 1 at Vidyarthi Bhavan: Your First Repository
 
 > ⏱ 40 min · 🟢 Beginner · Needs: Git installed (`git --version`) · Concepts: [G00](../00-foundations/README.md)
 
@@ -40,7 +40,7 @@ nothing to commit (create/copy files and use "git add" to track)
 ### Step 3: Write the menu
 ```bash
 cat > menu.md <<'EOF'
-# 🥞 Benne & Byte Darshini, Koramangala: Menu
+# 🥞 Vidyarthi Bhavan, Basavanagudi: Menu
 
 | Item | Price |
 |---|---|

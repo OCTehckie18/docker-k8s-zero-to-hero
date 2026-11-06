@@ -339,7 +339,7 @@ They share the **same building blocks**: OCI images, containerd, runc, the Linux
 
 ## 11. Your first 15 kubectl commands, explained
 
-`kubectl` (say "cube-control" or "cube-cuttle"; both are fine) is **the waiter of Kubernetes**: every command becomes a request to the **API server**.
+`kubectl` (say "cube-control" or "cube-cuttle"; both are fine) is **the billing counter of Kubernetes** (like the Docker CLI in D00): every command becomes a request to the **API server**.
 
 | # | Command | What & why | What happens inside | Expect |
 |---|---|---|---|---|

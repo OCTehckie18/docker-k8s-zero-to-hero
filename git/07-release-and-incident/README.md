@@ -99,9 +99,9 @@ In a real company, pushing the tag triggers CI, which builds the image **named a
 ```bash
 git describe --tags                     # v1.0.1: the version
 git rev-parse --short HEAD              # the exact commit, for traceability
-echo "CI would run:  docker build -t ghcr.io/bennebyte/menu:$(git describe --tags) ."
-echo "               docker push  ghcr.io/bennebyte/menu:$(git describe --tags)"
-echo "then Kubernetes rolls out:  kubectl set image deploy/menu web=ghcr.io/bennebyte/menu:$(git describe --tags)"
+echo "CI would run:  docker build -t ghcr.io/your-org/vb-menu:$(git describe --tags) ."
+echo "               docker push  ghcr.io/your-org/vb-menu:$(git describe --tags)"
+echo "then Kubernetes rolls out:  kubectl set image deploy/menu web=ghcr.io/your-org/vb-menu:$(git describe --tags)"
 ```
 That's the whole chain you'll build in the next tracks: **Git tag → Docker image ([D10](../../docker/10-registry-tags/README.md)) → Kubernetes rollout ([K06](../../kubernetes/06-rollouts/README.md))**. When production misbehaves, the image tag tells you the Git tag, the Git tag tells you the commits, and `bisect` finds the line.
 

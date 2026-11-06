@@ -83,7 +83,7 @@ When a container modifies a file from a read-only layer, the file is first copie
 
 <details><summary><b>A16.</b> What is a registry? Name two.</summary>
 
-A server that **stores and distributes** images: the central warehouse. It never builds them; `docker build` does, and `docker push` delivers them. For example: Docker Hub, GitHub Container Registry (GHCR), Amazon ECR, Google Artifact Registry, Azure ACR, Harbor.
+A server that **stores and distributes** images: the central cold store. It never builds them; `docker build` does, and `docker push` delivers them. For example: Docker Hub, GitHub Container Registry (GHCR), Amazon ECR, Google Artifact Registry, Azure ACR, Harbor.
 </details>
 
 <details><summary><b>A17.</b> What's the difference between a tag and a digest?</summary>
@@ -164,9 +164,9 @@ Stronger isolation is wise: VMs, or sandboxes and micro-VMs (gVisor, Kata Contai
 
 ## Part C: Docker architecture (10)
 
-<details><summary><b>C1.</b> In the restaurant analogy, who is the waiter and who is the head chef?</summary>
+<details><summary><b>C1.</b> In the breakfast-cafe analogy, who is the billing counter and who is the head chef?</summary>
 
-The waiter is the **Docker CLI**: it takes your order and passes it on. The head chef is the **Docker daemon (dockerd)**, which runs the kitchen.
+The billing counter is the **Docker CLI**: it takes your order, gives you a token and passes it on. The head chef is the **Docker daemon (dockerd)**, which runs the kitchen.
 </details>
 
 <details><summary><b>C2.</b> How does the CLI talk to the daemon?</summary>
