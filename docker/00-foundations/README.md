@@ -124,34 +124,57 @@ Software containers borrowed the idea and the name: **a standard box for softwar
 
 ![Evolution timeline](images/03-evolution-timeline.svg)
 
+### 🗺️ One plot of land, three ways to use it
+To remember the first three eras **forever**, picture **one plot of land** that never changes. The plot is **one physical server**: its CPU, memory and disk. Each era is simply a smarter way to use the same land.
+
+| Era | 🧠 On the plot of land | ⚙️ On the server | Families (apps) per plot |
+|---|---|---|---|
+| 1 · Physical | 🏚️ **one mansion**, one family, one bedroom used | one OS, one app | 1 |
+| 2 · Virtual machines | 🏡🏡🏡 **several complete houses**, each with its own foundation, kitchen, water tank and meter | one hypervisor, several VMs, each with its **own full OS** | a handful |
+| 3 · Containers | 🏢 **one apartment building**: private flats on **one shared foundation** | one OS kernel, many isolated containers | many |
+
+The question that separates Era 2 from Era 3: **is the foundation duplicated or shared?** Houses each have their own (VMs each have their own OS kernel). Flats share one (containers share the host kernel).
+
 ### Era 1: physical servers (1990s–2000s) 🏚️
-**One application per physical server.** If you had a web app, a database and a reporting tool, you bought three servers.
+![Era 1: physical servers](images/03a-era1-physical.svg)
+
+**The analogy.** A family buys an entire plot, builds a mansion, and lives in **one bedroom**. The other rooms gather cobwebs. Want a second family nearby? Buy a second plot and build another mansion, which takes months.
+
+**The real thing.** **One application per physical server.** A web app, a database and a reporting tool meant three servers.
 
 - 💸 Expensive: each server costs money, power, space and cooling.
 - 😴 Wasteful: most servers sat at 5–15% CPU usage. (That's a common industry rule of thumb, not a law.)
 - 🐢 Slow: getting a new server could take weeks (order, deliver, rack, install).
-- 💥 Conflicts: put two apps on one server and they fight over library versions and ports.
+- 💥 Conflicts: put two apps on one server and they fight over library versions and ports, like two families forced to share one kitchen with no rules.
 
-> 🏠 *Like buying an entire house just to use one bedroom.*
+> 🧠 **Remember:** one plot, one mansion, one family → **one server, one app**.
 
 ### Era 2: virtual machines (2000s) 🧱
-A **hypervisor** (VMware, Hyper-V, KVM, Xen) splits one physical server into several **virtual machines**. Each VM pretends to be a complete computer, with **its own operating system**.
+![Era 2: virtual machines](images/03b-era2-vms.svg)
 
-- ✅ Much better hardware use: 10–20 VMs on one server
+**The analogy.** A clever owner divides the **same plot** and builds **several small, complete houses** on it. A **plot manager** decides how much land each house gets. Every house is fully independent: **its own foundation, walls, kitchen, water tank and electricity meter**. If one family's pipes burst, the neighbours are fine. But notice: every house **builds everything again**: three foundations, three kitchens, three water tanks.
+
+**The real thing.** A **hypervisor** (VMware, Hyper-V, KVM, Xen), the plot manager, splits one physical server into several **virtual machines**. Each VM pretends to be a complete computer, with **its own operating system and its own kernel**: its own foundation.
+
+- ✅ Much better land use: 10–20 VMs on one server instead of 10–20 servers
 - ✅ Strong isolation: a crash in one VM doesn't affect another
-- ❌ Every VM carries a **full guest OS**: often gigabytes of disk, its own memory, its own patching and boot time
+- ❌ Every VM carries a **full guest OS**: often gigabytes of disk, its own memory, its own patching and its own boot time. Every house needs its own foundation
 - ❌ "Works on my machine" still happens *inside* the VMs
 
-> 🏢 *Like an apartment complex where every family has a fully independent flat, with its own kitchen, bathroom, water tank and electricity meter.*
+> 🧠 **Remember:** one plot, several **complete** houses → **every VM brings its own operating system**.
 
 ### Era 3: containers (OS-level isolation) 📦
-Instead of virtualising **hardware**, containers isolate **processes** using features built into the Linux kernel. Every container shares the host's kernel but gets its own private view of files, processes and network.
+![Era 3: containers](images/03c-era3-containers.svg)
 
-- ✅ No guest OS to boot, so containers typically start in **about a second**
-- ✅ Images are often **megabytes**, not gigabytes
+**The analogy.** Instead of separate houses, the owner builds **one apartment building**. Every family gets a **private flat**: its own door, rooms, furniture and keys, and nobody walks into anyone else's flat. But the building has **one foundation, one water main and one power supply**, built once and shared by everyone. Far more families fit on the same land, and a new flat is ready almost instantly, because the foundation already exists.
+
+**The real thing.** Containers don't virtualise **hardware**; they isolate **processes**, using features built into the Linux kernel (chapter 7). All containers share the host's **one kernel** (the foundation), but each gets its own private view of files, processes and network (its own flat).
+
+- ✅ No OS to boot, so containers typically start in **about a second**
+- ✅ Images are often **megabytes**, not gigabytes: nothing duplicated
 - ✅ Dozens or hundreds of containers per machine
 
-> 🏢 *Like apartments in one building: private flats, but a shared foundation, water mains and electrical supply.*
+> 🧠 **Remember:** one building, private flats, **one shared foundation** → **containers share the host kernel**.
 
 ### Era 4: Docker changes the game (2013) 🐳
 **Important history:** Docker did **not** invent containers. The building blocks are decades old:
@@ -202,6 +225,7 @@ This is the most important comparison in the whole course. Take your time here.
 ![Physical vs VM vs containers](images/04-physical-vm-container.svg)
 
 ### The house vs apartment analogy
+Remember Era 2's **houses** and Era 3's **apartment building** on the same plot? Here they are side by side, because this single picture is the whole difference.
 
 ![Houses vs apartments](images/05-house-vs-apartment.svg)
 
