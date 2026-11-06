@@ -1,21 +1,22 @@
-# 🐳 ☸️ Docker & Kubernetes: Zero to Hero
+# 🌿 🐳 ☸️ Git, Docker & Kubernetes: Zero to Hero
 
-**From `docker --version` to running a hardened, self-healing, autoscaling app on Kubernetes, with a live audience voting on it from their phones.**
+**From your first `git commit` to running a hardened, self-healing, autoscaling app on Kubernetes, with a live audience voting on it from their phones.**
 
 Hands-on labs for complete beginners: students, teachers, career-switchers, and non-tech professionals. Everything runs on **Docker Desktop**, **kind**, **minikube**, or a free browser sandbox like **Killercoda**. No cloud account needed.
 
 ```
+  🕵️ Find who set espresso to ₹1, then hunt a bug with git bisect in seconds
   🍄 Play Mario from a container in 3 seconds
   🐱🐶 Build & ship a live voting app the whole room uses from their phones
   💀 Delete every server and watch Kubernetes bring them back
   🦄 "One more thing…": release a new version mid-vote with 0 failed requests
-  🔥 Break production on purpose, 25 times, and fix it like a pro
+  🔥 Break things on purpose, 33 times, and fix them like a pro
 ```
 
 ---
 
 ## 🎯 Who this is for
-- **Never touched a terminal?** Start at [00-setup](00-setup/README.md), then [D00 Docker Foundations](docker/00-foundations/README.md): the why and how, with stories and diagrams, before any command. Every command after that is given and explained.
+- **Never touched a terminal?** Start at [00-setup](00-setup/README.md), then **Track 0 · Git** ([G00](git/00-foundations/README.md)), then [D00 Docker Foundations](docker/00-foundations/README.md). Each track opens with the why and how, using stories and diagrams, before any command. Every command after that is given and explained.
 - **Used Docker a bit?** Jump to [D05 production Dockerfiles](docker/05-production-dockerfiles/README.md) or [Kubernetes K01](kubernetes/01-cluster-tour/README.md).
 - **Teaching this?** Read [🎤 SHOWTIME.md](SHOWTIME.md), a keynote-style run-of-show with timings, lines, and "wow" moments.
 
@@ -34,6 +35,20 @@ Every lab uses one small, fun app: a **live voting app** ([`apps/`](apps/)).
 It's ~250 lines of standard-library Python plus one HTML page: no frameworks, no `pip install`, nothing to distract from Docker and Kubernetes.
 
 ## 🗺️ The journey
+
+### 🌿 Track 0: Git ([overview](git/README.md)): where every change begins
+| Lab | You will… | Wow moment |
+|---|---|---|
+| [G00](git/00-foundations/README.md) ⭐ | **foundations**: why version control, commits, branches, remotes, the team workflow (9 diagrams + quiz) | 🗺️ the "which undo do I need?" map |
+| [G01](git/01-first-repo/README.md) | init, add, commit, log, diff | your first save point |
+| [G02](git/02-time-travel-undo/README.md) | blame, revert, restore, amend, reflog | 😱 "who set espresso to ₹1?" |
+| [G03](git/03-branches/README.md) | branches, fast-forward vs merge commit | files change as you switch branches |
+| [G04](git/04-teamwork-remote/README.md) | remotes, push, pull, fetch | 💥 the rejected push |
+| [G05](git/05-merge-conflicts/README.md) | resolving conflicts | ☕⚔️ the cappuccino price war |
+| [G06](git/06-pull-requests/README.md) | pull requests, review, CI checks | 🤖 a robot catches the ₹2600 typo |
+| [G07](git/07-release-and-incident/README.md) | tags, semver, bisect, hotfix | 🚨 find the guilty commit among many in seconds |
+| [🔥 G-scenarios](git/troubleshooting/README.md) | **8 Git emergencies** | |
+
 
 ### 🐳 Track 1: Docker ([overview](docker/README.md))
 | Lab | You will… | Wow moment |
@@ -91,7 +106,7 @@ open http://localhost:8080            # 🐱 vs 🐶  (Linux: xdg-open; or just 
 ```bash
 ./labs.sh            # interactive menu: pick a scenario, it breaks, you fix it
 ```
-25 real-world incidents: crash loops, OOM kills, DNS failures, broken selectors, RBAC denials, NetworkPolicy outages, stuck rollouts, and more. Each has a story, symptoms, hints, and a hidden answer. Then level up with 35 more in [troubleshoot-kubernetes-like-a-pro](https://github.com/vellankikoti/troubleshoot-kubernetes-like-a-pro).
+33 real-world incidents: committed secrets, rejected pushes and lost commits in Git; crash loops, OOM kills, DNS failures, broken selectors, RBAC denials, NetworkPolicy outages, stuck rollouts, and more. Each has a story, symptoms, hints, and a hidden answer. Then level up with 35 more in [troubleshoot-kubernetes-like-a-pro](https://github.com/vellankikoti/troubleshoot-kubernetes-like-a-pro).
 
 ## 📁 Repository layout
 ```
@@ -101,7 +116,8 @@ docker-k8s-zero-to-hero/
 ├── apps/
 │   ├── api/                 🐱🐶 the Showdown app (Python stdlib + one HTML page)
 │   └── frontend/            nginx reverse proxy tier
-├── docker/                  D01–D11 + troubleshooting/ (10 scenarios)
+├── git/                     G00–G07 + troubleshooting/ (8 scenarios) + scripts/lab-start.sh
+├── docker/                  D00–D11 + troubleshooting/ (10 scenarios)
 ├── kubernetes/              K01–K18 + stack/ (shared manifests) + troubleshooting/ (15 scenarios)
 ├── cheatsheets/             docker.md · kubectl.md
 ├── scripts/                 check-prereqs.sh · load-image.sh

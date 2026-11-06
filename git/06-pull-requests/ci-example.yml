@@ -1,0 +1,19 @@
+# EXAMPLE GitHub Actions workflow (not active in this course repo).
+# To use it in your own café repo, copy it to .github/workflows/menu-check.yml
+# and copy check-menu.sh to the repo root. GitHub then runs it on every pull request,
+# and you can make it a REQUIRED check in the branch protection rules.
+name: menu-check
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  check-prices:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prices must be between ₹10 and ₹1000
+        run: bash ./check-menu.sh

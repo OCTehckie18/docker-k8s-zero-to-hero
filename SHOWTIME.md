@@ -24,6 +24,11 @@ docker build -t z2h/api:1.0 apps/api && docker build -t z2h/frontend:1.0 apps/fr
 
 ---
 
+## PRELUDE: "Every change starts with Git" · 30–45 min · [Track 0](git/README.md)
+1. **The ₹1 espresso** ☕ *(G00 §1, G02)*. Read the owner/Asha/Ravi dialogue, then live: `git blame menu.md` names the commit in one second, and `git revert` fixes it safely. Ask: *"How long would this take with menu_FINAL_really.docx?"*
+2. **The cappuccino price war** ⚔️ *(G05)*. Two volunteers, two laptops (or two terminals on the projector): both change the same line and both push. The room watches the conflict markers appear, then decides the price together.
+3. **The Friday incident** 🚨 *(G07)*. `git bisect run` names the guilty commit among the suspects in about 3 seconds. Then: *"…and that tag becomes the Docker image you'll build after lunch."* That's your bridge into the Docker acts.
+
 ## ACT 0: "Why?" (foundations) · 30–45 min · [D00](docker/00-foundations/README.md)
 Open with **stories, not commands**. Use the D00 diagrams as your slides.
 
@@ -158,5 +163,6 @@ Close with the checklist on screen: *"Every line on this list is something you *
 |---|---|
 | **3-hour keynote workshop** | Act 0 (short), Scenes 1–3, 5–7, 9–12, then the Gauntlet (demo-led, audience votes) |
 | **1 day hands-on** | D01–D08, K01–K08, 4 troubleshooting scenarios each |
-| **2 days, zero to hero** | Day 1: all Docker labs + D-scenarios + K01–K06. Day 2: K07–K18 + K-scenarios |
+| **2 days, zero to hero** | Day 1: Git G00–G06 (morning) + Docker D00–D08. Day 2: K00–K12 + scenarios |
+| **3 days, complete** | Day 1: Track 0 Git + G-scenarios. Day 2: Track 1 Docker + D-scenarios. Day 3: Track 2 Kubernetes + K-scenarios |
 | **Semester course** | One lab per session + one troubleshooting scenario as homework |

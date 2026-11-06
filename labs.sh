@@ -2,6 +2,8 @@
 # 🔥 Troubleshooting scenario runner for docker-k8s-zero-to-hero
 #
 #   ./labs.sh                     interactive menu
+#   ./labs.sh git 02              break Git scenario G-02 (sandbox in /tmp/z2h-git-ts)
+#   ./labs.sh git 02 fix
 #   ./labs.sh docker 03           break Docker scenario D-03
 #   ./labs.sh docker 03 fix       apply the reference fix
 #   ./labs.sh k8s 04              break Kubernetes scenario K-04
@@ -12,6 +14,7 @@
 set -uo pipefail
 
 ROOT="$(cd "$(dirname "$0")" && pwd)"
+GITTS_DIR="$ROOT/git/troubleshooting"
 DOCKER_DIR="$ROOT/docker/troubleshooting"
 K8S_DIR="$ROOT/kubernetes/troubleshooting"
 NS=troubleshoot
@@ -24,8 +27,9 @@ die()   { printf '\033[1;31m✖ %s\033[0m\n' "$*"; exit 1; }
 
 title_of() { head -1 "$1/description.md" | sed 's/^# //'; }
 
-scenario_dir() {   # $1 = docker|k8s, $2 = number
-  local base; [ "$1" = docker ] && base="$DOCKER_DIR" || base="$K8S_DIR"
+scenario_dir() {   # $1 = git|docker|k8s, $2 = number
+  local base
+  case "$1" in git) base="$GITTS_DIR" ;; docker) base="$DOCKER_DIR" ;; *) base="$K8S_DIR" ;; esac
   local n; n=$(printf '%02d' "$((10#$2))")
   local d; d=$(ls -d "$base/$n"-*/ 2>/dev/null | head -1)
   [ -n "$d" ] || die "No $1 scenario number $2. Try: ./labs.sh list"
@@ -33,6 +37,9 @@ scenario_dir() {   # $1 = docker|k8s, $2 = number
 }
 
 list() {
+  bold "🌿 Git scenarios"
+  for d in "$GITTS_DIR"/[0-9]*/; do printf '  %s\n' "$(title_of "$d")"; done
+  echo
   bold "🐳 Docker scenarios"
   for d in "$DOCKER_DIR"/[0-9]*/; do printf '  %s\n' "$(title_of "$d")"; done
   echo
@@ -43,6 +50,17 @@ list() {
 # ---------------------------------------------------------------- docker --
 docker_break() { bash "$1/break.sh"; }
 docker_fix()   { bash "$1/fix.sh"; }
+# ------------------------------------------------------------------- git --
+git_break() {
+  info "Breaking: $(title_of "$1")"
+  bash "$1/break.sh"
+  echo
+  bold "📖 Read the story and investigate:  $1/description.md"
+  echo "   Sandbox: /tmp/z2h-git-ts/$(basename "$1")   ·   start with: git status · git log --oneline --graph --all"
+}
+git_fix()   { info "Applying the reference fix for: $(title_of "$1")"; bash "$1/fix.sh"; }
+git_clean() { rm -rf "${Z2H_GIT_TS:-/tmp/z2h-git-ts}"; ok "Git scenario sandboxes removed"; }
+
 docker_clean() { bash -c "source '$DOCKER_DIR/_lib.sh'; ts_cleanup"; ok "Docker scenario resources removed"; }
 
 # ------------------------------------------------------------------- k8s --
@@ -102,6 +120,7 @@ menu() {
   bold "🔥 Troubleshooting Arena: break it, find it, fix it"
   echo
   local i=1 entries=()
+  for d in "$GITTS_DIR"/[0-9]*/;  do entries+=("git:${d%/}");    printf '  %2d) 🌿 %s\n' $i "$(title_of "$d")"; i=$((i+1)); done
   for d in "$DOCKER_DIR"/[0-9]*/; do entries+=("docker:${d%/}"); printf '  %2d) 🐳 %s\n' $i "$(title_of "$d")"; i=$((i+1)); done
   for d in "$K8S_DIR"/[0-9]*/;   do entries+=("k8s:${d%/}");    printf '  %2d) ☸️  %s\n' $i "$(title_of "$d")"; i=$((i+1)); done
   echo "   c) clean up everything      q) quit"
@@ -109,7 +128,7 @@ menu() {
   read -r -p "Pick a scenario: " choice
   case "$choice" in
     q|Q) exit 0 ;;
-    c|C) docker_clean; kubectl cluster-info >/dev/null 2>&1 && k8s_clean; exit 0 ;;
+    c|C) git_clean; docker_clean; kubectl cluster-info >/dev/null 2>&1 && k8s_clean; exit 0 ;;
   esac
   [[ "$choice" =~ ^[0-9]+$ ]] && [ "$choice" -ge 1 ] && [ "$choice" -le ${#entries[@]} ] || die "Invalid choice"
   local kind=${entries[$((choice-1))]%%:*} dir=${entries[$((choice-1))]#*:}
@@ -130,7 +149,7 @@ menu() {
 case "${1:-}" in
   "") menu ;;
   list) list ;;
-  docker|k8s)
+  git|docker|k8s)
     kind=$1
     case "${2:-}" in
       clean) "${kind}_clean" ;;

@@ -13,6 +13,13 @@ Pick **one** option. Everything in this course works on all of them.
 
 ---
 
+## Step 0: Git (needed for everything, and the whole of Track 0)
+```bash
+git --version          # anything 2.30 or newer is fine
+```
+Not installed? **macOS:** `xcode-select --install` (or `brew install git`) · **Ubuntu/Debian:** `sudo apt install git` · **Windows:** [git-scm.com](https://git-scm.com/download/win) (includes Git Bash) · **Killercoda:** preinstalled.
+Track 0 (Git) needs nothing else. Docker and Kubernetes come in Tracks 1 and 2.
+
 ## Option A: Docker Desktop (recommended for beginners)
 1. Install Docker Desktop: https://www.docker.com/products/docker-desktop/
 2. Start it and wait for the whale icon to show **running**.
