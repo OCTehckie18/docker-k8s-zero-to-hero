@@ -41,7 +41,7 @@ resume_FINAL_really.docx
 resume_final_mom_edits(2).docx
 ```
 
-- **Which one did you send to the recruiter** last Tuesday?
+- **Which one did you send to the recruiter** last time when you applied for internship/job?
 - **What did you change** for the DevOps role, and why?
 - Your mentor fixed a typo, but in **which copy**?
 - How do you get back the version from **before** you deleted that internship?
