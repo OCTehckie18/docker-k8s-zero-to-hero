@@ -33,4 +33,6 @@ Optional "real GitHub" steps (with the `gh` CLI) are included in G04 and G06.
 ### What you need
 Just **Git** (`git --version`), with no Docker or Kubernetes required for this track. Works on macOS, Linux, Windows (Git Bash or WSL) and the Killercoda Ubuntu playground.
 
+📚 Keep the [Git cheat sheet](../cheatsheets/git.md) open while you work: every command in both its classic (`checkout`) and modern (`switch`/`restore`) form.
+
 ➡️ Start with [G00 Git Foundations](00-foundations/README.md) · then continue to [🐳 Track 1: Docker](../docker/README.md)

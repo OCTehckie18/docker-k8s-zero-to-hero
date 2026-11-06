@@ -27,7 +27,7 @@ git branch
   main
 ```
 > ⚡ **Shortcut used every day:** `git checkout -b add-cold-coffee` creates **and** moves in one go.
-> 🆕 You'll also see `git switch add-cold-coffee` / `git switch -c add-cold-coffee` in newer docs. They're the same thing under a newer name (Git 2.23+). Use whichever your team uses.
+> 🆕 You'll also see `git switch add-cold-coffee` / `git switch -c add-cold-coffee`: the same job under a newer name. See [checkout vs switch](#-git-checkout-vs-git-switch-know-both) below.
 
 ### Step 2: Work and commit on the branch
 ```bash
@@ -97,6 +97,48 @@ git log --oneline --graph -6
 ```bash
 git branch -d update-hours
 ```
+
+## 🔀 `git checkout` vs `git switch`: know both
+You'll meet **both** at work: older scripts, tutorials and many teams use `checkout`, while newer docs use `switch`. They move you between branches in exactly the same way.
+
+**Why two commands?** `git checkout` used to do two unrelated jobs: **switching branches** *and* **restoring files** (`git checkout -- menu.md`). That confused people, so Git 2.23 (2019) split it into `git switch` (branches) and `git restore` (files). `checkout` still works and isn't going away.
+
+| Action | Classic: `git checkout` | Modern: `git switch` |
+|---|---|---|
+| Move to an existing branch | `git checkout cold-coffee` | `git switch cold-coffee` |
+| Create a branch **and** move to it | `git checkout -b cold-coffee` | `git switch -c cold-coffee` |
+| Toggle back to the previous branch | `git checkout -` | `git switch -` |
+| Start a branch from the team's latest main | `git checkout -b hotfix origin/main` | `git switch -c hotfix origin/main` |
+| Work on a teammate's branch (exists only on GitHub) | `git checkout asha-feature` | `git switch asha-feature` |
+| Look at an old commit (detached HEAD) | `git checkout a1f3c9e` | `git switch --detach a1f3c9e` |
+| Throw away uncommitted edits to a file | `git checkout -- menu.md` | `git restore menu.md` *(the files job moved to `restore`)* |
+
+Try the toggle, the one people love:
+```bash
+git checkout main        # or: git switch main
+git checkout -           # back to the branch you were just on (or: git switch -)
+git checkout -           # …and back again
+```
+
+🔍 Two safety details worth knowing:
+- Asking for a teammate's branch that you don't have yet (`git switch asha-feature`) automatically creates a local copy that **tracks** `origin/asha-feature`. Same with `checkout`.
+- `git switch a1f3c9e` **refuses** ("a branch is expected, got commit"). You must say `--detach` on purpose. `git checkout a1f3c9e` quietly puts you in detached HEAD. That's one reason `switch` was introduced.
+
+### "Your local changes would be overwritten": switching with uncommitted work
+If you've edited a file that is also different on the target branch, **both** commands stop you:
+```
+error: Your local changes to the following files would be overwritten by checkout:
+	menu.md
+Please commit your changes or stash them before you switch branches.
+```
+Pick one:
+| Option | Commands | Your edits |
+|---|---|---|
+| ✅ **Commit** them first | `git commit -am "WIP: …"`, then switch | kept, on the current branch |
+| ✅ **Stash** them (put them in a drawer) | `git stash`, then switch, and later `git stash pop` | kept, brought back when you pop |
+| 🛑 **Force** the switch | `git checkout -f <branch>` / `git switch -f <branch>` | **thrown away for good** |
+
+> 🧠 **Remember:** `checkout -b` = `switch -c`, `checkout -` = `switch -`. Use whichever your team uses, and recognise both. Full list: [Git cheat sheet](../../cheatsheets/git.md).
 
 ## 🏷️ Branch names teams actually use
 | Prefix | For | Example |

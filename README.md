@@ -119,7 +119,7 @@ docker-k8s-zero-to-hero/
 ├── git/                     G00–G07 + troubleshooting/ (8 scenarios) + scripts/lab-start.sh
 ├── docker/                  D00–D11 + troubleshooting/ (10 scenarios)
 ├── kubernetes/              K01–K18 + stack/ (shared manifests) + troubleshooting/ (15 scenarios)
-├── cheatsheets/             docker.md · kubectl.md
+├── cheatsheets/             git.md · docker.md · kubectl.md
 ├── scripts/                 check-prereqs.sh · load-image.sh
 └── labs.sh                  🔥 troubleshooting scenario runner
 ```
@@ -128,7 +128,7 @@ docker-k8s-zero-to-hero/
 🎯 what you'll learn → 🧠 the concept in 60 seconds → 🧪 hands-on steps with expected output → 🏭 what changes in production → 🏆 challenge → ✅ checkpoint quiz (answers hidden) → 🧹 cleanup
 
 ## 📚 Cheat sheets
-[Docker](cheatsheets/docker.md) · [kubectl](cheatsheets/kubectl.md)
+[Git](cheatsheets/git.md) (checkout *and* switch) · [Docker](cheatsheets/docker.md) · [kubectl](cheatsheets/kubectl.md)
 
 ---
 *Built to accompany the Christ University DevOps course (Units 1–3). Learn the **why**, then the command.*

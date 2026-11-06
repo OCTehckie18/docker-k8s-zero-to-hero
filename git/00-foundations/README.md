@@ -121,6 +121,8 @@ Picture the **menu board on the wall** of the darshini 📋. Customers order fro
 
 > 🧠 **Remember:** never scribble on the wall menu. **Branch → work → merge.**
 
+> 🔀 **`git checkout` or `git switch`?** Both move between branches: `git checkout -b x` = `git switch -c x`. `switch` is the newer name (Git 2.23+). You'll see both at work. Comparison: [G03](../03-branches/README.md#-git-checkout-vs-git-switch-know-both) · [cheat sheet](../../cheatsheets/git.md)
+
 <details><summary>🔎 Under the hood (for the curious)</summary>
 
 A branch isn't a copy of your files. It's just a **name that points at a commit**, and that pointer moves forward every time you commit on the branch. That's why creating a branch is instant, even in a huge project.
