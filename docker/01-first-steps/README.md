@@ -58,7 +58,6 @@ Every one of these is **one command**. Nothing to install, nothing to configure,
 | 4 | 🎓 [Student survival kit](#-4-the-student-survival-kit-real-apps-one-command-each) | VS Code, Jupyter, whiteboard, dev tools, PDF toolkit | 25 MB – 1 GB each |
 | 5 | 🐳 [Docker's welcome page](#-5-dockers-own-welcome-page) | your first web page from a container | small |
 | 6 | 🌐 [A server that says who it is](#-6-a-web-server-that-tells-you-who-it-is) | meet load balancing (later) | small |
-| 7 | 🪦 [A dead whale](#-7-a-lesson-from-a-dead-whale) | why images get old | fails, on purpose |
 
 ### 🍄 1. A full video game, from the internet, in your browser
 ```bash
@@ -263,14 +262,6 @@ Open **http://localhost:8089**. It shows the container's **name and IP**. Refres
 ```bash
 docker stop hello
 ```
-
-### 🪦 7. A lesson from a dead whale
-Old tutorials all start with this:
-```bash
-docker run docker/whalesay cowsay hello
-```
-💥 It fails: `media type ... manifest.v1+prettyjws is no longer supported`. The image was built in 2015 in a format modern Docker no longer reads.
-> 🏭 **Production lesson #1:** images age. Unmaintained base images break, collect vulnerabilities, and eventually stop working. Rebuild regularly, from maintained images.
 
 ---
 

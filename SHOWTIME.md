@@ -56,8 +56,6 @@ Open http://localhost:8600 and **play Mario on the projector**. Hand the keyboar
 
 Quick-fire arcade (one line each, rapid): `nyancat` → `cmatrix` → `cowsay | lolcat`. Each one appears and **vanishes**: *"Containers are disposable. That's a feature."*
 
-**Gasp moment:** `docker run docker/whalesay`, which **fails**. *"Every tutorial on the internet starts with this. It's dead: the format is too old. Software rots. Remember that when someone says 'it worked in 2015'."*
-
 ### Scene 2: Meet the Showdown 🐱🐶 *(Lab D03)*
 ```bash
 docker run -d --name showdown -p 8080:8080 z2h/api:1.0
