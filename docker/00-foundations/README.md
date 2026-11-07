@@ -206,7 +206,7 @@ As containers took over, the industry standardised the pieces so nobody depended
 - **Kubernetes** (open-sourced 2014, v1.0 in 2015): runs containers across **many** machines. That's Track 2 of this course.
 - **Cloud native**: apps designed as many small, independently deployable containerised services.
 
-### 🧒 The whole story in 2 minutes (explain it like I'm 10)
+### 🧒 The whole story in 2 minutes
 > **Start with a question:** *"Who here shares a room with a brother or sister? What happens when they touch your stuff?"* 😤
 
 Computers have the same problem. One computer runs many programs, and programs "fight": one gobbles all the memory, another messes up someone else's files. Since 1979, people have been finding better ways to give **each program its own room**.
