@@ -219,7 +219,7 @@ Computers have the same problem. One computer runs many programs, and programs "
 | 2013 | 📦 **Ready-made rooms in a box.** One command gives you a furnished room for any program, and you can hand a copy to a friend that works **exactly the same** on their computer. | **Docker** | made containers **easy and shareable** |
 | 2014 | 📚 **A library of rooms** and 🏨 **a hotel manager** who looks after thousands of rooms in many buildings and moves guests when a room breaks. | Docker Hub · Kubernetes | sharing + running at huge scale |
 | 2015 · 2017 | 🤝 **Everyone agrees on one box size**, like shipping containers that fit every ship and truck. Docker also gives its engine room to the community. | OCI · runc · containerd | rooms from any tool work everywhere |
-| 2022 | 🔧 **The hotel manager talks to the builder directly**, skipping the middle-man. Rooms made with Docker still work perfectly. | K8s drops dockershim | simpler, same standard box |
+| 2022 | 🔧 **The hotel manager talks to the floor manager directly**, skipping the middle-man. Rooms made with Docker still work perfectly. | K8s drops dockershim | simpler, same standard box |
 
 > 🎯 **The big message:** Docker **didn't invent** the walls or the snack limit; they already existed. Docker's magic was making them **so easy that a student can do it in one command.**
 
@@ -231,6 +231,39 @@ Say it out loud once, then try it from memory:
 <details><summary>🎤 Teach it back (the best way to never forget)</summary>
 
 Explain the chain to the person next to you in 60 seconds, **without** looking. Then swap. If you can teach it, you own it. Bonus: tell someone at home tonight. If a 10-year-old gets it, you've mastered it.
+</details>
+
+### 🧩 One step deeper: who actually runs your container?
+> 😌 **Relax: nothing to memorise or type here.** You'll never run these programs yourself in this course. Docker and Kubernetes use them for you. You only need **three words**.
+
+You've heard the names *containerd*, *runc* and *OCI* in the story above. Here's how they fit together:
+
+![Who actually runs a container: containerd, runc and OCI](images/03d-runtime-stack.svg)
+
+| Name | Its nickname | Its one job | 🧒 In the "own room" story |
+|---|---|---|---|
+| **containerd** | 🧑‍💼 **The Manager** | Looks after **all** the containers on one machine: fetches images, sets up the network, starts and stops containers | the **floor manager** who knows every room on the floor |
+| **runc** | 👷 **The Worker** | Builds **one** container using namespaces (the *walls*) and cgroups (the *snack limit*), starts your app, then steps away | the **builder** who puts up the walls, opens the door and leaves |
+| **OCI** | 📘 **The Rulebook** | **Not a program.** The standards for how images are packed and how containers are started | the **building code** every builder follows: the "one box size" |
+
+Why should you care? Just **two** reasons:
+1. **It's why "build once, run anywhere" works.** Docker and Kubernetes both hand containers to **containerd**, and everything follows the **OCI** rulebook. So an image you build with Docker on your laptop runs unchanged on Kubernetes in the cloud.
+2. **You'll see these names in error messages** (`failed to create containerd task`, `runc create failed`). Now you'll know: *"the Manager or the Worker hit a problem"*, and usually your app or its settings are the cause.
+
+> ⚠️ **Don't mix up the two managers.** Kubernetes is the **hotel manager** for **many** machines. containerd is the **floor manager** on **one** machine. Kubernetes tells containerd what to do; containerd asks runc to build each room.
+
+<details><summary>🔬 30-second proof: meet the Manager and the Worker on your own machine</summary>
+
+```bash
+docker version --format '{{range .Server.Components}}{{.Name}} {{.Version}}{{"\n"}}{{end}}'
+```
+```
+Engine 29.7.2
+containerd v2.3.3
+runc 1.4.3
+docker-init 0.19.0
+```
+There they are: when you install Docker, you also get **containerd** (the Manager) and **runc** (the Worker). Your versions may differ. You'll see exactly how a `docker run` flows through them in [chapter 5](#5-docker-architecture-explained-as-a-restaurant) and [chapter 6](#6-what-happens-when-you-type-docker-run-nginx).
 </details>
 
 ### ⚡ Quick check
@@ -253,6 +286,10 @@ The hotel manager is **Kubernetes**: it runs and looks after thousands of contai
 <details><summary>5. Kubernetes dropped dockershim in 2022. Do images built with Docker still run on Kubernetes?</summary>
 
 Yes. Thanks to the **OCI standard** (the "one box size"), any OCI image runs on any OCI runtime. Kubernetes simply talks to **containerd** directly instead of going through Docker.
+</details>
+<details><summary>6. Manager, Worker, Rulebook: match them to containerd, runc and OCI. Which one is not a program?</summary>
+
+containerd = **Manager** (looks after all containers on a machine), runc = **Worker** (builds and starts one container), OCI = **Rulebook** (the standards). OCI is **not a program**: it's a set of specifications that containerd and runc follow.
 </details>
 
 ---
@@ -363,8 +400,8 @@ Forget the jargon for a moment. It's Sunday morning, and the breakfast rush at *
 | 2 | **dockerd** (Docker daemon) | head chef | receives requests; builds, pulls and pushes images; manages networks and volumes; asks the runtime to start containers |
 | 3 | **Docker Engine** | the whole kitchen | the server side as a package: dockerd + its API + containerd + runc |
 | 4 | **REST API** | the order token | how the CLI talks to dockerd, usually over the socket `/var/run/docker.sock` |
-| 5 | **containerd** | kitchen supervisor | manages each container's lifecycle (start, stop, snapshots). Kubernetes uses it too |
-| 6 | **runc** | cook at the tawa | asks the Linux kernel for namespaces and cgroups, starts the process, then exits |
+| 5 | **containerd** | kitchen supervisor (🧑‍💼 *the Manager* from §3) | manages each container's lifecycle (start, stop, snapshots). Kubernetes uses it too |
+| 6 | **runc** | cook at the tawa (👷 *the Worker* from §3) | asks the Linux kernel for namespaces and cgroups, starts the process, then exits |
 | 7 | **Image** | the batter | read-only package: file layers + settings (chapter 8) |
 | 8 | **Container** | a dosa on a plate | a running, isolated process made from an image |
 | 9 | **Registry** | central cold store | stores and distributes images: Docker Hub, GHCR, ECR, Harbor… |
