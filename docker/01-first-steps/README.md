@@ -218,14 +218,22 @@ Open **http://localhost:8090**, then **File → Open Folder → `/home/coder/pro
 docker stop vscode
 ```
 
-<details><summary>☁️ On a cloud playground (Killercoda, iximiuz Labs, Play with Docker)? Use a password instead</summary>
+<details><summary>☁️ On a cloud playground (Killercoda, iximiuz Labs, Play with Docker)? Use these steps</summary>
 
-There, you open apps through the playground's **public URL**, which reaches the machine **from outside**. `127.0.0.1` blocks exactly that, so remove it, and protect VS Code with a password instead of `--auth none`:
+On a playground you open apps through its **public URL**, which reaches the machine **from outside**. `127.0.0.1` blocks exactly that, so leave it out, and protect VS Code with **a password you choose** (never `--auth none` on a public URL):
 ```bash
 docker rm -f vscode
-docker run -d --rm --name vscode -p 8090:8080 -e PASSWORD=pick-your-own-password -v "$PWD:/home/coder/project" codercom/code-server:latest
+docker run -d --rm --name vscode -p 8090:8080 -e PASSWORD=change-me-123 -v "$PWD:/home/coder/project" codercom/code-server:latest
+docker ps --format '{{.Names}}  {{.Ports}}'     # must show 0.0.0.0:8090->8080/tcp
 ```
-Open the playground's URL for **port 8090** and log in with your password.
+1. Open the playground's URL for **port 8090** (Killercoda: the *Traffic / Ports* menu; iximiuz Labs: expose port 8090 from the playground's menu).
+2. Type the password **`change-me-123`** (or whatever you put after `PASSWORD=`).
+
+| If you see… | It means | Fix |
+|---|---|---|
+| `127.0.0.1:8090->8080/tcp` in `docker ps` | you started the laptop version | run the three commands above |
+| *upstream connect error* in the browser | the playground can't reach the port | same as above; also check you exposed port **8090** |
+| *Incorrect password* | the password doesn't match `PASSWORD=` | check for typos, or `docker rm -f vscode` and start again with a simpler password |
 </details>
 
 #### 📓 b. Jupyter Lab, for your Python / data science / ML classes
@@ -238,21 +246,26 @@ Open that link, create a notebook inside **`work/`**, and type `print("Hello fro
 docker stop jupyter
 ```
 
-<details><summary>☁️ On a cloud playground (Killercoda, iximiuz Labs, Play with Docker)? The link won't open: here's the fix</summary>
+<details><summary>☁️ On a cloud playground (Killercoda, iximiuz Labs, Play with Docker)? The link won't open: use these steps</summary>
 
-**Why it fails:** `-p 127.0.0.1:8888:8888` means *"only accept visitors from inside this machine"*. On your laptop that's you. On a playground, your browser arrives through the playground's **public URL**, from **outside** the machine, so the door is closed and the page keeps loading. The `127.0.0.1` link in the logs doesn't help either: it points at *your* laptop, not the playground.
+**Why the link fails:** `-p 127.0.0.1:8888:8888` means *"only accept visitors from inside this machine"*. On your laptop that's you. On a playground your browser arrives through the playground's **public URL**, from **outside** the machine, so the door is closed. The `127.0.0.1` link in the logs doesn't help either: it points at *your own* computer, not the playground.
 
-**The fix:** publish the port normally (Jupyter's token still protects it), then use the playground's URL **plus** the token.
+**The fix:** leave out `127.0.0.1`, and choose **your own token** (Jupyter's password), so there's nothing to copy from the logs:
 ```bash
 docker rm -f jupyter
-docker run -d --rm --name jupyter -p 8888:8888 -v "$PWD:/home/jovyan/work" quay.io/jupyter/base-notebook:latest
-docker logs jupyter 2>&1 | grep -m1 -o "token=.*"     # copy your token
+docker run -d --rm --name jupyter -p 8888:8888 -v "$PWD:/home/jovyan/work" quay.io/jupyter/base-notebook:latest start-notebook.py --IdentityProvider.token=change-me-123
+docker ps --format '{{.Names}}  {{.Ports}}'     # must show 0.0.0.0:8888->8888/tcp
 ```
 1. Open the playground's URL for **port 8888** (Killercoda: the *Traffic / Ports* menu; iximiuz Labs: expose port 8888 from the playground's menu).
-2. Add `/lab?token=` and your token to the end, for example: `https://<your-playground-url>/lab?token=6ab8a5…`
-   *(or open the URL without it and paste the token into the "Password or token" box)*
+2. In the **"Password or token"** box, type **`change-me-123`** (or whatever you put after `token=`). Or add it to the URL: `https://<your-playground-url>/lab?token=change-me-123`
 
-🔍 Same app, same image. Only **where you're allowed to knock from** changed. That's what the IP part of `-p` controls.
+| If you see… | It means | Fix |
+|---|---|---|
+| `127.0.0.1:8888->8888/tcp` in `docker ps` | you started the laptop version | run the three commands above |
+| *upstream connect error* in the browser | the playground can't reach the port | same as above; also check you exposed port **8888** |
+| *Invalid credentials* | the box got something other than the token itself, e.g. `token=…` or an old token from a previous container | type only the token, e.g. `change-me-123` |
+
+🔍 Same app, same image. Only **where you're allowed to knock from** changed. That's what the IP part of `-p` controls: `127.0.0.1` = only from inside this machine, nothing (or `0.0.0.0`) = from anywhere.
 </details>
 
 #### 🎨 c. Excalidraw: a whiteboard for group projects and exam diagrams
