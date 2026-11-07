@@ -6,7 +6,7 @@
 # Everything lives in ~/z2h-git (override with Z2H_GIT_HOME). The folder is wiped and recreated.
 #   ~/z2h-git/cafe          your repository
 #   ~/z2h-git/github/       our offline "GitHub" (bare repositories)
-#   ~/z2h-git/asha          your teammate Asha's clone (labs G04+)
+#   ~/z2h-git/lakshmi          your teammate Lakshmi's clone (labs G04+)
 set -euo pipefail
 # Ignore personal global settings (signing, pull.rebase, hooks…) so every learner gets the same start.
 export GIT_CONFIG_GLOBAL=/dev/null
@@ -23,7 +23,7 @@ as() {  # as "<name>" <email> <git args...>
   GIT_AUTHOR_NAME="$n" GIT_AUTHOR_EMAIL="$e" GIT_COMMITTER_NAME="$n" GIT_COMMITTER_EMAIL="$e" git "$@"
 }
 YOU=("You" "you@vidyarthibhavan.example")
-ASHA=("Asha (Lead Dev)" "asha@vidyarthibhavan.example")
+LAKSHMI=("Lakshmi (Lead Dev)" "lakshmi@vidyarthibhavan.example")
 RAVI=("Ravi (Intern)" "ravi@vidyarthibhavan.example")
 
 write_menu() {  # write_menu <benne-dosa> <ghee-roast> <filter-coffee> <idli-vada> [extra rows...]
@@ -86,15 +86,15 @@ state_g04() {
   git add README.md && as "${YOU[@]}" commit -q -m "Add README"
 }
 
-# Start of G05/G06: remote + your clone + Asha's clone, all in sync.
+# Start of G05/G06: remote + your clone + Lakshmi's clone, all in sync.
 state_team() {
   state_g04
   mkdir -p "$W/github"
   git init -q --bare -b main "$W/github/cafe.git"
   git remote add origin "$W/github/cafe.git"
   git push -q -u origin main
-  git clone -q "$W/github/cafe.git" "$W/asha"
-  git -C "$W/asha" config user.name "${ASHA[0]}"; git -C "$W/asha" config user.email "${ASHA[1]}"
+  git clone -q "$W/github/cafe.git" "$W/lakshmi"
+  git -C "$W/lakshmi" config user.name "${LAKSHMI[0]}"; git -C "$W/lakshmi" config user.email "${LAKSHMI[1]}"
 }
 
 # Start of G07: a release tag, then a week of commits with one hidden bug.
@@ -103,19 +103,19 @@ state_g07() {
   as "${YOU[@]}" tag -a v1.0.0 -m "Grand opening menu"
   extras=("| Badam Milk | ₹90 |" "| Cold Coffee | ₹180 |")
   write_menu 130 150 60 80 "${extras[@]}" "| Maddur Vada | ₹45 |"
-  git add menu.md && as "${ASHA[@]}" commit -q -m "feat: add Maddur Vada"
+  git add menu.md && as "${LAKSHMI[@]}" commit -q -m "feat: add Maddur Vada"
   printf '# 🕗 Opening hours\n\nMon–Sat: 7 am – 10 pm\nSunday: 9 am – 6 pm\n' > hours.md
   git add hours.md && as "${YOU[@]}" commit -q -m "feat: open at 7 am on weekdays"
   write_menu 130 150 60 8 "${extras[@]}" "| Maddur Vada | ₹45 |"
   git add menu.md && as "${RAVI[@]}" commit -q -m "refactor: align menu table columns"
   printf '# 📖 Vidyarthi Bhavan website\n\nThe menu and opening hours of our café.\nOrder online: coming soon!\n' > README.md
-  git add README.md && as "${ASHA[@]}" commit -q -m "docs: mention online ordering"
+  git add README.md && as "${LAKSHMI[@]}" commit -q -m "docs: mention online ordering"
   write_menu 130 150 60 8 "${extras[@]}" "| Maddur Vada | ₹45 |" "| Mysore Pak | ₹110 |"
   git add menu.md && as "${YOU[@]}" commit -q -m "feat: add Mysore Pak"
   printf '# 🕗 Opening hours\n\nMon–Sat: 7 am – 11 pm\nSunday: 9 am – 6 pm\n' > hours.md
-  git add hours.md && as "${ASHA[@]}" commit -q -m "feat: close at 11 pm on weekdays"
+  git add hours.md && as "${LAKSHMI[@]}" commit -q -m "feat: close at 11 pm on weekdays"
   git push -q origin main --tags
-  git -C "$W/asha" pull -q --no-rebase
+  git -C "$W/lakshmi" pull -q --no-rebase
 }
 
 case "$LAB" in

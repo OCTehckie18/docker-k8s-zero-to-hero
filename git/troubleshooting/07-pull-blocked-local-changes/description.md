@@ -1,7 +1,7 @@
 # G-07: git pull refuses: "local changes would be overwritten"
 
 ## 📖 The story
-You're halfway through editing the menu (not ready to commit) when Asha asks you to pull her urgent fix. `git pull` refuses.
+You're halfway through editing the menu (not ready to commit) when Lakshmi asks you to pull her urgent fix. `git pull` refuses.
 
 ## 🔥 Symptoms
 - `git pull` prints `error: Your local changes to the following files would be overwritten by merge: menu.md`
@@ -26,7 +26,7 @@ There's a command that works like a drawer: put things in, take them out later.
 
 ```bash
 git stash          # put your unfinished edits in a drawer
-git pull           # Asha's fix comes in cleanly
+git pull           # Lakshmi's fix comes in cleanly
 git stash pop      # take your edits back out, on top of her fix
 git diff           # your work is still here ✅
 ```

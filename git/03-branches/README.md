@@ -109,7 +109,7 @@ You'll meet **both** at work: older scripts, tutorials and many teams use `check
 | Create a branch **and** move to it | `git checkout -b cold-coffee` | `git switch -c cold-coffee` |
 | Toggle back to the previous branch | `git checkout -` | `git switch -` |
 | Start a branch from the team's latest main | `git checkout -b hotfix origin/main` | `git switch -c hotfix origin/main` |
-| Work on a teammate's branch (exists only on GitHub) | `git checkout asha-feature` | `git switch asha-feature` |
+| Work on a teammate's branch (exists only on GitHub) | `git checkout lakshmi-feature` | `git switch lakshmi-feature` |
 | Look at an old commit (detached HEAD) | `git checkout a1f3c9e` | `git switch --detach a1f3c9e` |
 | Throw away uncommitted edits to a file | `git checkout -- menu.md` | `git restore menu.md` *(the files job moved to `restore`)* |
 
@@ -121,7 +121,7 @@ git checkout -           # …and back again
 ```
 
 🔍 Two safety details worth knowing:
-- Asking for a teammate's branch that you don't have yet (`git switch asha-feature`) automatically creates a local copy that **tracks** `origin/asha-feature`. Same with `checkout`.
+- Asking for a teammate's branch that you don't have yet (`git switch lakshmi-feature`) automatically creates a local copy that **tracks** `origin/lakshmi-feature`. Same with `checkout`.
 - `git switch a1f3c9e` **refuses** ("a branch is expected, got commit"). You must say `--detach` on purpose. `git checkout a1f3c9e` quietly puts you in detached HEAD. That's one reason `switch` was introduced.
 
 ### "Your local changes would be overwritten": switching with uncommitted work

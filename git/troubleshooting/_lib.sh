@@ -26,14 +26,14 @@ solo() {
   printf '# 🕗 Opening hours\n\nMon–Sat: 8 am – 10 pm\n' > hours.md; git add hours.md; git commit -qm "Add opening hours"
 }
 
-# team <name>: "GitHub" at $T/<name>/github.git, your clone at .../you, Asha's at .../asha
+# team <name>: "GitHub" at $T/<name>/github.git, your clone at .../you, Lakshmi's at .../lakshmi
 team() {
   solo "$1"
   git init -q --bare -b main "$T/$1/github.git"
   git remote add origin "$T/$1/github.git"; git push -q -u origin main
   cd "$T/$1" || exit 1; mv cafe you
-  git clone -q "$T/$1/github.git" asha
-  git -C asha config user.name "Asha (Lead Dev)"; git -C asha config user.email "asha@vidyarthibhavan.example"
+  git clone -q "$T/$1/github.git" lakshmi
+  git -C lakshmi config user.name "Lakshmi (Lead Dev)"; git -C lakshmi config user.email "lakshmi@vidyarthibhavan.example"
   git -C you remote set-url origin "$T/$1/github.git"
   cd "$T/$1/you" || exit 1
 }

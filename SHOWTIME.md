@@ -25,7 +25,7 @@ docker build -t z2h/api:1.0 apps/api && docker build -t z2h/frontend:1.0 apps/fr
 ---
 
 ## PRELUDE: "Every change starts with Git" · 30–45 min · [Track 0](git/README.md)
-1. **The ₹1 benne dosa** 🥞 *(G00 §1, G02)*. Read the owner/Asha/Ravi dialogue, then live: `git blame menu.md` names the commit in one second, and `git revert` fixes it safely. Ask: *"How long would this take with menu_FINAL_really.docx?"*
+1. **The ₹1 benne dosa** 🥞 *(G00 §1, G02)*. Read the owner/Lakshmi/Ravi dialogue, then live: `git blame menu.md` names the commit in one second, and `git revert` fixes it safely. Ask: *"How long would this take with menu_FINAL_really.docx?"*
 2. **The ghee roast dosa price war** ⚔️ *(G05)*. Two volunteers, two laptops (or two terminals on the projector): both change the same line and both push. The room watches the conflict markers appear, then decides the price together.
 3. **The Friday incident** 🚨 *(G07)*. `git bisect run` names the guilty commit among the suspects in about 3 seconds. Then: *"…and that tag becomes the Docker image you'll build after lunch."* That's your bridge into the Docker acts.
 

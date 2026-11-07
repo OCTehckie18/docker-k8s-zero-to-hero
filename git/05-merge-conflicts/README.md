@@ -4,22 +4,22 @@
 
 ## 📖 The story
 Two good intentions, one line of text:
-- 👩 **Asha** switched to pure desi ghee: *ghee roast dosa ₹150 → ₹180*.
+- 👩 **Lakshmi** switched to pure desi ghee: *ghee roast dosa ₹150 → ₹180*.
 - 🧑 **You** heard rice prices went up: *ghee roast dosa ₹150 → ₹160*.
 
 Neither knew about the other. Git can't decide who's right, and it shouldn't. Let's experience the conflict and resolve it calmly.
 
 ## 🚀 Start here
 ```bash
-./git/scripts/lab-start.sh 05        # "GitHub" + your clone + Asha's clone, all in sync
+./git/scripts/lab-start.sh 05        # "GitHub" + your clone + Lakshmi's clone, all in sync
 ```
-Use two terminals again: **YOU** (`cd ~/z2h-git/cafe`) and **ASHA** (`cd ~/z2h-git/asha`).
+Use two terminals again: **YOU** (`cd ~/z2h-git/cafe`) and **LAKSHMI** (`cd ~/z2h-git/lakshmi`).
 
 ## 🧪 Hands-on
 
-### Step 1: Asha changes the price and ships it first (ASHA)
+### Step 1: Lakshmi changes the price and ships it first (LAKSHMI)
 ```bash
-cd ~/z2h-git/asha
+cd ~/z2h-git/lakshmi
 sed -i.bak 's/Ghee Roast Dosa | ₹150/Ghee Roast Dosa | ₹180/' menu.md && rm menu.md.bak
 git commit -am "Ghee Roast Dosa ₹180: pure desi ghee"
 git push
@@ -75,7 +75,7 @@ grep -n -A4 '<<<<<<<' menu.md
 🔍 Notice what **didn't** conflict: every other line merged automatically. Git only asks about the one line you both changed.
 
 ### Step 5: Talk, decide, resolve 🤝
-You message Asha. You agree: **₹170**, pure desi ghee *and* a fair price. Open `menu.md` in any editor, replace the whole marked block with the agreed line, and **delete all three marker lines**:
+You message Lakshmi. You agree: **₹170**, pure desi ghee *and* a fair price. Open `menu.md` in any editor, replace the whole marked block with the agreed line, and **delete all three marker lines**:
 ```
 | Ghee Roast Dosa | ₹170 |
 ```
@@ -104,7 +104,7 @@ git merge fix/ghee-roast-price
 git push
 grep 'Ghee Roast' menu.md                 # | Ghee Roast Dosa | ₹170 |  ✅
 ```
-**ASHA:** `git pull && grep 'Ghee Roast' menu.md`: everyone agrees. ☕🤝
+**LAKSHMI:** `git pull && grep 'Ghee Roast' menu.md`: everyone agrees. ☕🤝
 
 ### Step 7: The emergency exit 🚪
 Sometimes you start a merge and realise you're not ready. Make a conflict on purpose, then back out:

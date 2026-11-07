@@ -21,11 +21,11 @@ After `git fetch`, does `git status` say *behind*, *ahead*, or *both* (diverged)
 </details>
 <details><summary>💡 Hint 2</summary>
 
-You need Asha's commit **before** yours can go on top.
+You need Lakshmi's commit **before** yours can go on top.
 </details>
 <details><summary>✅ Root cause & fix</summary>
 
-Asha pushed first. Bring her commit in, put yours on top, then push:
+Lakshmi pushed first. Bring her commit in, put yours on top, then push:
 ```bash
 git pull --rebase
 git push

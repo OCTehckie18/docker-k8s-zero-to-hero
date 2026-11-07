@@ -47,7 +47,7 @@ git blame menu.md                # who last changed each line, and in which comm
 | Create **and** move | `git checkout -b cold-coffee` | `git switch -c cold-coffee` |
 | Toggle to the previous branch | `git checkout -` | `git switch -` |
 | New branch from the team's latest main | `git checkout -b hotfix origin/main` | `git switch -c hotfix origin/main` |
-| Teammate's branch (only on GitHub so far) | `git checkout asha-feature` | `git switch asha-feature` |
+| Teammate's branch (only on GitHub so far) | `git checkout lakshmi-feature` | `git switch lakshmi-feature` |
 | Visit an old commit (detached HEAD) | `git checkout <commit>` | `git switch --detach <commit>` |
 | Back to the present | `git checkout main` | `git switch main` |
 | Discard local edits while switching ⚠️ | `git checkout -f <branch>` | `git switch -f <branch>` |

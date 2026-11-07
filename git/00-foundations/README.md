@@ -57,7 +57,7 @@ At first, the proud management thought their legendary reputation had reached a 
 Bengaluru’s most famous iconic crispy dosas were accidentally selling for just ₹1.🥞😱
 
 > 👩‍💼 **Owner:** Who changed the price?
-> 👩‍💻 **Asha:** Not me. I only fixed the opening hours.
+> 👩‍💻 **Lakshmi:** Not me. I only fixed the opening hours.
 > 🧑‍🎓 **Ravi (intern):** I just… tidied up the formatting?
 
 When several people edit the same files, nobody knows **which version is current, who changed what, or how to get yesterday's version back**, and someone's work gets overwritten every week. (You'll solve this exact mystery in G02.)
@@ -177,7 +177,7 @@ Nobody at a serious company pushes straight to `main`. The **GitHub flow** (used
 
 ![Merge conflict](images/07-merge-conflict.svg)
 
-- You and Asha both change the **same line** (the ghee roast dosa price) on different branches.
+- You and Lakshmi both change the **same line** (the ghee roast dosa price) on different branches.
 - **Different lines?** Git merges them automatically. **Same line?** Git **stops and asks a human**. It never guesses.
 - Git writes both versions into the file between `<<<<<<<`, `=======` and `>>>>>>>` markers. You pick the final text, delete the markers, then `git add` and `git commit`.
 

@@ -3,7 +3,7 @@
 > ⏱ 50 min · 🟡 Intermediate · Concept: [local and remote](../00-foundations/README.md#6-local-and-remote-everyone-has-the-full-history)
 
 ## 📖 The story
-Until now the menu lived only on your laptop. If it's stolen, the café's website history is gone. 😬 Asha wants the code on the team's **shared repository**, and she'll start working on it too.
+Until now the menu lived only on your laptop. If it's stolen, the café's website history is gone. 😬 Lakshmi wants the code on the team's **shared repository**, and she'll start working on it too.
 
 To make this work **offline, on one laptop**, we'll simulate the whole team:
 
@@ -11,9 +11,9 @@ To make this work **offline, on one laptop**, we'll simulate the whole team:
 |---|---|
 | `~/z2h-git/github/cafe.git` | ☁️ **GitHub**: the shared copy |
 | `~/z2h-git/cafe` | 🧑 **your** laptop |
-| `~/z2h-git/asha` | 👩 **Asha's** laptop |
+| `~/z2h-git/lakshmi` | 👩 **Lakshmi's** laptop |
 
-> 💡 Open **two terminal windows** side by side, labelled "YOU" and "ASHA". It feels like real teamwork. In a classroom, pair up and let two people play the roles.
+> 💡 Open **two terminal windows** side by side, labelled "YOU" and "LAKSHMI". It feels like real teamwork. In a classroom, pair up and let two people play the roles.
 
 ## 🚀 Start here
 ```bash
@@ -39,16 +39,16 @@ branch 'main' set up to track 'origin/main'.
 ```
 > 🌐 With real GitHub, the only difference is the address: `git remote add origin https://github.com/<you>/cafe.git`. (Or let the GitHub CLI do it all: `gh repo create cafe --private --source . --push`.)
 
-### Step 2: Asha joins the team (terminal ASHA)
+### Step 2: Lakshmi joins the team (terminal LAKSHMI)
 ```bash
-git clone ~/z2h-git/github/cafe.git ~/z2h-git/asha
-cd ~/z2h-git/asha
-git config user.name  "Asha (Lead Dev)"       # this repo only, so she signs her own commits
-git config user.email "asha@vidyarthibhavan.example"
+git clone ~/z2h-git/github/cafe.git ~/z2h-git/lakshmi
+cd ~/z2h-git/lakshmi
+git config user.name  "Lakshmi (Lead Dev)"       # this repo only, so she signs her own commits
+git config user.email "lakshmi@vidyarthibhavan.example"
 git log --oneline -3                           # she has the FULL history already
 ```
 
-### Step 3: Asha pushes a change (terminal ASHA)
+### Step 3: Lakshmi pushes a change (terminal LAKSHMI)
 ```bash
 sed -i.bak 's/Sunday: 9 am – 6 pm/Sunday: 10 am – 6 pm/' hours.md && rm hours.md.bak
 git commit -am "Open at 10 am on Sundays"
@@ -68,11 +68,11 @@ grep Sunday hours.md               # Sunday: 10 am – 6 pm
 🔍 `git status` only knows what your laptop knew at the last **fetch**. `git pull` = `git fetch` + bring the changes in.
 
 ### Step 5: 💥 The rejected push
-Both of you work at the same time, and Asha is faster.
+Both of you work at the same time, and Lakshmi is faster.
 
-**ASHA:**
+**LAKSHMI:**
 ```bash
-cd ~/z2h-git/asha && git pull -q
+cd ~/z2h-git/lakshmi && git pull -q
 echo "| Maddur Vada | ₹45 |" >> menu.md
 git commit -am "Add Maddur Vada" && git push
 ```
@@ -89,7 +89,7 @@ error: failed to push some refs to '…/cafe.git'
 hint: Updates were rejected because the remote contains work that you do not
 hint: have locally. …
 ```
-😱 Don't panic: **nothing is broken**. Git refuses to let you overwrite Asha's work. You need her commit first:
+😱 Don't panic: **nothing is broken**. Git refuses to let you overwrite Lakshmi's work. You need her commit first:
 ```bash
 git pull --rebase          # put YOUR commit on top of hers
 git push                   # ✅ accepted
@@ -100,11 +100,11 @@ git log --oneline --graph -4
 * 4b8a2f6 Add Maddur Vada
 * …
 ```
-🔍 `--rebase` replays your local commit **on top of** Asha's, giving a clean straight line. (Plain `git pull` would create a merge commit instead. Both are fine; many teams prefer rebase for local catch-ups.)
+🔍 `--rebase` replays your local commit **on top of** Lakshmi's, giving a clean straight line. (Plain `git pull` would create a merge commit instead. Both are fine; many teams prefer rebase for local catch-ups.)
 
-### Step 6: Asha syncs too (terminal ASHA)
+### Step 6: Lakshmi syncs too (terminal LAKSHMI)
 ```bash
-cd ~/z2h-git/asha && git pull && git log --oneline -3
+cd ~/z2h-git/lakshmi && git pull && git log --oneline -3
 ```
 Both laptops and "GitHub" now hold identical history. That's a healthy team. ✅
 
@@ -129,7 +129,7 @@ git push -u origin feature/my-task   # 4. share it, then open a pull request (G0
 </details>
 <details><summary>2. Why was your push rejected, and why is that good?</summary>
 
-The remote had a commit (Asha's) that you didn't have. Pushing would have thrown it away, so Git refuses until you integrate it.
+The remote had a commit (Lakshmi's) that you didn't have. Pushing would have thrown it away, so Git refuses until you integrate it.
 </details>
 
 ➡️ Next: [G05: Merge Conflicts: the Ghee Roast Dosa Price War](../05-merge-conflicts/README.md)

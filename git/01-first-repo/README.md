@@ -3,7 +3,7 @@
 > ⏱ 40 min · 🟢 Beginner · Needs: Git installed (`git --version`) · Concepts: [G00](../00-foundations/README.md)
 
 ## 📖 The story
-It's your first day on the café's tech team. 🎉 Asha, the lead developer, hands you your first task:
+It's your first day on the café's tech team. 🎉 Lakshmi, the lead developer, hands you your first task:
 
 > *"Put our menu online, and track it with Git from minute one. In this team, if it isn't committed, it doesn't exist."*
 
@@ -72,7 +72,7 @@ git commit -m "Add menu with 4 items"
 Your first save point. 🎉 The `a9cca9d` is its ID (yours will be different).
 
 ### Step 5: Two changes, two clean commits
-Asha asks for opening hours, **and** the owner raises the benne dosa price. Do both, then look:
+Lakshmi asks for opening hours, **and** the owner raises the benne dosa price. Do both, then look:
 
 ##### Create hours.md and add the following
 ```markdown

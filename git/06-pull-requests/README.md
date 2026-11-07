@@ -15,7 +15,7 @@ From the course repo:
 export Z2H=$PWD                      # remember where the course repo is: we'll use its check script
 ./git/scripts/lab-start.sh 06
 ```
-Two terminals: **YOU** (`~/z2h-git/cafe`) and **ASHA** (`~/z2h-git/asha`). Run the `export Z2H=…` line in the YOU terminal.
+Two terminals: **YOU** (`~/z2h-git/cafe`) and **LAKSHMI** (`~/z2h-git/lakshmi`). Run the `export Z2H=…` line in the YOU terminal.
 
 ## 🧪 Part 1: The full flow, offline
 
@@ -62,10 +62,10 @@ bash "$Z2H/git/06-pull-requests/check-menu.sh"
 ```
 On GitHub this shows as a red ❌ on the PR, and **the merge button stays locked**. (See [`ci-example.yml`](ci-example.yml): that's the 15-line GitHub Actions file that would run it.)
 
-### Step 4: 👀 The human reviews (ASHA)
-Asha fetches your branch and reviews **exactly what the PR would merge**:
+### Step 4: 👀 The human reviews (LAKSHMI)
+Lakshmi fetches your branch and reviews **exactly what the PR would merge**:
 ```bash
-cd ~/z2h-git/asha
+cd ~/z2h-git/lakshmi
 git fetch
 git log --oneline main..origin/feature/combo-offers     # the commits in the PR
 git diff main...origin/feature/combo-offers            # the changes in the PR (three dots!)
@@ -84,9 +84,9 @@ bash "$Z2H/git/06-pull-requests/check-menu.sh"     # ✅ menu check passed
 git push
 ```
 
-### Step 6: Approve and merge (ASHA)
+### Step 6: Approve and merge (LAKSHMI)
 ```bash
-cd ~/z2h-git/asha
+cd ~/z2h-git/lakshmi
 git fetch
 git diff main...origin/feature/combo-offers        # re-review: looks good ✅ Approve
 git checkout main && git pull
@@ -145,7 +145,7 @@ Now even *you* can't push straight to `main`. That's the point.
 - Most CI checks you'll see: build, unit tests, linting, security scans, and in later tracks, **building the Docker image**.
 
 ## ✅ Checkpoint
-<details><summary>1. Why did the robot catch the typo before Asha did, and why do we still need Asha?</summary>
+<details><summary>1. Why did the robot catch the typo before Lakshmi did, and why do we still need Lakshmi?</summary>
 
 Automated checks are fast and never get tired, but they only catch what they were programmed to look for. Humans catch logic, intent and design problems (the "Valid until" suggestion) that no script knows about.
 </details>
