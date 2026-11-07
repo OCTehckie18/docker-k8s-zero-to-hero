@@ -218,6 +218,16 @@ Open **http://localhost:8090**, then **File → Open Folder → `/home/coder/pro
 docker stop vscode
 ```
 
+<details><summary>☁️ On a cloud playground (Killercoda, iximiuz Labs, Play with Docker)? Use a password instead</summary>
+
+There, you open apps through the playground's **public URL**, which reaches the machine **from outside**. `127.0.0.1` blocks exactly that, so remove it, and protect VS Code with a password instead of `--auth none`:
+```bash
+docker rm -f vscode
+docker run -d --rm --name vscode -p 8090:8080 -e PASSWORD=pick-your-own-password -v "$PWD:/home/coder/project" codercom/code-server:latest
+```
+Open the playground's URL for **port 8090** and log in with your password.
+</details>
+
 #### 📓 b. Jupyter Lab, for your Python / data science / ML classes
 ```bash
 docker run -d --rm --name jupyter -p 127.0.0.1:8888:8888 -v "$PWD:/home/jovyan/work" quay.io/jupyter/base-notebook:latest
@@ -227,6 +237,23 @@ Open that link, create a notebook inside **`work/`**, and type `print("Hello fro
 ```bash
 docker stop jupyter
 ```
+
+<details><summary>☁️ On a cloud playground (Killercoda, iximiuz Labs, Play with Docker)? The link won't open: here's the fix</summary>
+
+**Why it fails:** `-p 127.0.0.1:8888:8888` means *"only accept visitors from inside this machine"*. On your laptop that's you. On a playground, your browser arrives through the playground's **public URL**, from **outside** the machine, so the door is closed and the page keeps loading. The `127.0.0.1` link in the logs doesn't help either: it points at *your* laptop, not the playground.
+
+**The fix:** publish the port normally (Jupyter's token still protects it), then use the playground's URL **plus** the token.
+```bash
+docker rm -f jupyter
+docker run -d --rm --name jupyter -p 8888:8888 -v "$PWD:/home/jovyan/work" quay.io/jupyter/base-notebook:latest
+docker logs jupyter 2>&1 | grep -m1 -o "token=.*"     # copy your token
+```
+1. Open the playground's URL for **port 8888** (Killercoda: the *Traffic / Ports* menu; iximiuz Labs: expose port 8888 from the playground's menu).
+2. Add `/lab?token=` and your token to the end, for example: `https://<your-playground-url>/lab?token=6ab8a5…`
+   *(or open the URL without it and paste the token into the "Password or token" box)*
+
+🔍 Same app, same image. Only **where you're allowed to knock from** changed. That's what the IP part of `-p` controls.
+</details>
 
 #### 🎨 c. Excalidraw: a whiteboard for group projects and exam diagrams
 ```bash
