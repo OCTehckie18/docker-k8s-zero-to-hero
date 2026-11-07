@@ -111,7 +111,8 @@ bin  boot  dev  etc  examples  home  lib  lib64  media  menu.sh  mnt  opt  proc 
 |---|---|
 | `docker run --rm curlimages/curl:8.11.1 -s "wttr.in/Bengaluru?0"` | ☁️ today's **Bengaluru weather**, drawn in your terminal (try your home town!) |
 | `docker run --rm curlimages/curl:8.11.1 -s "wttr.in/Moon"` | 🌙 tonight's **moon phase** |
-| `docker run --rm curlimages/curl:8.11.1 -s qrenco.de/https://github.com/your-name` | 🔳 a **scannable QR code** of your GitHub or LinkedIn (scan it with your phone!) |
+| `docker run --rm curlimages/curl:8.11.1 -s qrenco.de/https://github.com/vellankikoti`  | 🔳 a **scannable QR code** of your GitHub (scan it with your phone!) |
+| `docker run --rm curlimages/curl:8.11.1 -s qrenco.de/https://www.linkedin.com/in/vellankikoti/`  | 🔳 a **scannable QR code** of your LinkedIn (scan it with your phone!) |
 | `docker run --rm curlimages/curl:8.11.1 -s "cheat.sh/tar?T"` | 📖 **instant help** for any command, with real examples: try `git`, `docker`, `chmod`, `ssh` |
 
 > 💡 Bookmark that last one. `cheat.sh/<command>` saves you in every lab, viva and interview prep.
