@@ -19,6 +19,9 @@ IMAGES=(
   nicolaka/netshoot curlimages/curl:8.11.1
   docker/welcome-to-docker nginxdemos/hello
   pengbai/docker-supermario wernight/funbox
+  # D01 student survival kit (Stirling-PDF is left out on purpose: ~1 GB, optional bonus)
+  codercom/code-server:latest quay.io/jupyter/base-notebook:latest
+  excalidraw/excalidraw:latest corentinth/it-tools:latest
 )
 
 head1 "🧰 Tools"
