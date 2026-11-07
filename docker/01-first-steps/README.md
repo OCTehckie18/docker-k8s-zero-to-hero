@@ -105,14 +105,81 @@ bin  boot  dev  etc  examples  home  lib  lib64  media  menu.sh  mnt  opt  proc 
 🔍 Each run starts a **brand-new** container, and `--rm` deletes it the moment it exits. Containers are **disposable**.
 
 ### 🌍 3. Ask the internet from a 10 MB box
-`curlimages/curl` is a **tiny** container (about 10 MB) whose only job is to fetch web pages. Some websites answer in pure text art, made for terminals:
+`curlimages/curl` is a **tiny** container (about 10 MB) whose only job is to fetch a web page and print it. Some websites answer in plain text made for terminals. Let's use them.
 
+#### ☁️ a. Weather, in three levels: one line → a clear card → the full picture
+**Level 1: one line.** The quickest answer:
+```bash
+docker run --rm curlimages/curl:8.11.1 -s "wttr.in/Bengaluru?format=3"
+```
+```
+Bengaluru: 🌫️  +19°C
+```
+
+**Level 2: a weather card anyone can read** ⭐ *(the best one to show on a projector)*
+```bash
+docker run --rm curlimages/curl:8.11.1 -s 'wttr.in/Bengaluru?format=📍+%l\n🌡️+Temperature:+%t+(feels+like+%f)\n☁️+Sky:+%C+%c\n💧+Humidity:+%h\n🌬️+Wind:+%w\n🌅+Sunrise:+%S+++🌇+Sunset:+%s\n🌙+Moon:+%m\n'
+```
+```
+📍 Bengaluru
+🌡️ Temperature: +19°C (feels like +21°C)
+☁️ Sky: Mist 🌫️
+💧 Humidity: 96%
+🌬️ Wind: ←9km/h
+🌅 Sunrise: 06:15:05   🌇 Sunset: 17:51:31
+🌙 Moon: 🌘
+```
+Each `%` letter asks for one piece of information: `%t` temperature, `%C` sky, `%h` humidity, `%w` wind, `%S` sunrise, `%m` moon. Swap **Bengaluru** for your home town: `Mysuru`, `Chennai`, `Kochi`…
+
+**Level 3: the full picture.** The famous ASCII-art weather report:
+```bash
+docker run --rm curlimages/curl:8.11.1 -s "wttr.in/Bengaluru?0"
+```
+```
+Weather report: Bengaluru
+
+                Mist
+   _ - _ - _ -  +19(21) °C
+    _ - _ - _   ← 9 km/h
+   _ - _ - _ -  2 km
+                0.0 mm
+```
+<details><summary>🔎 How to read the picture</summary>
+
+| You see | It means |
+|---|---|
+| `_ - _ - _` (the drawing) | a picture of the sky: lines = mist or fog, a ☀️ circle = sun, a cloud shape = clouds, `'` `,` under a cloud = rain |
+| `Mist` | the sky right now, in words |
+| `+19(21) °C` | it's **19 °C**, but it **feels like 21 °C** (humidity makes it feel warmer) |
+| `← 9 km/h` | **wind** at 9 km/h; the arrow shows which way it's blowing |
+| `2 km` | **visibility**: how far you can see clearly |
+| `0.0 mm` | **rain** expected right now: none |
+
+Want 3 days? Remove `?0`: `docker run --rm curlimages/curl:8.11.1 -s "wttr.in/Bengaluru?n"` shows a table for today, tomorrow and the day after (noon and night).
+</details>
+
+#### 🌙 b. The moon, drawn in your terminal
+```bash
+docker run --rm curlimages/curl:8.11.1 -s "wttr.in/Moon"
+```
+<details><summary>🔎 How to read the moon picture</summary>
+
+- The **`@` characters are the lit part** of the moon; the empty part is in shadow. A thin `@` edge on the left = a thin crescent.
+- The text on the right tells you where we are in the moon's 29.5-day cycle:
+
+| You see | It means |
+|---|---|
+| `Last Quarter +5  4:51:08` | the **last quarter** (half moon) was **5 days and 4 hours ago** (`+` = in the past) |
+| `New Moon -2  5:41:19` | the **new moon** (no moon visible) comes in **2 days and 5 hours** (`-` = in the future) |
+
+So tonight it's a **thin crescent**, shrinking towards a new moon. The simple version is in the Level 2 card above: `🌙 Moon: 🌘`.
+</details>
+
+#### 🔳 c. QR codes and 📖 instant command help
 | Run this | What you get |
 |---|---|
-| `docker run --rm curlimages/curl:8.11.1 -s "wttr.in/Bengaluru?0"` | ☁️ today's **Bengaluru weather**, drawn in your terminal (try your home town!) |
-| `docker run --rm curlimages/curl:8.11.1 -s "wttr.in/Moon"` | 🌙 tonight's **moon phase** |
-| `docker run --rm curlimages/curl:8.11.1 -s qrenco.de/https://github.com/vellankikoti`  | 🔳 a **scannable QR code** of your GitHub (scan it with your phone!) |
-| `docker run --rm curlimages/curl:8.11.1 -s qrenco.de/https://www.linkedin.com/in/vellankikoti/`  | 🔳 a **scannable QR code** of your LinkedIn (scan it with your phone!) |
+| `docker run --rm curlimages/curl:8.11.1 -s qrenco.de/https://github.com/vellankikoti` | 🔳 a **scannable QR code** of a GitHub profile: scan it with your phone! Put **your** username at the end |
+| `docker run --rm curlimages/curl:8.11.1 -s qrenco.de/https://www.linkedin.com/in/vellankikoti/` | 🔳 the same for a **LinkedIn** profile: great on a slide or a poster |
 | `docker run --rm curlimages/curl:8.11.1 -s "cheat.sh/tar?T"` | 📖 **instant help** for any command, with real examples: try `git`, `docker`, `chmod`, `ssh` |
 
 > 💡 Bookmark that last one. `cheat.sh/<command>` saves you in every lab, viva and interview prep.
