@@ -116,11 +116,14 @@ docker run --rm curlimages/curl:8.11.1 -s "wttr.in/Bengaluru?format=3"
 Bengaluru: 🌫️  +19°C
 ```
 
-**Level 2: a weather card anyone can read** ⭐ *(the best one to show on a projector)*
+**Level 2: a weather card anyone can read, stamped with today's date and time** ⭐ *(the best one to show on a projector)*
 ```bash
-docker run --rm curlimages/curl:8.11.1 -s 'wttr.in/Bengaluru?format=📍+%l\n🌡️+Temperature:+%t+(feels+like+%f)\n☁️+Sky:+%C+%c\n💧+Humidity:+%h\n🌬️+Wind:+%w\n🌅+Sunrise:+%S+++🌇+Sunset:+%s\n🌙+Moon:+%m\n'
+docker run --rm -e TZ=IST-5:30 --entrypoint sh curlimages/curl:8.11.1 -c '
+  date "+📅 %A, %d %B %Y · 🕒 %I:%M %p IST"
+  curl -s "wttr.in/Bengaluru?format=📍+%l\n🌡️+Temperature:+%t+(feels+like+%f)\n☁️+Sky:+%C+%c\n💧+Humidity:+%h\n🌬️+Wind:+%w\n🌅+Sunrise:+%S+++🌇+Sunset:+%s\n🌙+Moon:+%m\n"'
 ```
 ```
+📅 Saturday, 07 November 2026 · 🕒 07:06 AM IST
 📍 Bengaluru
 🌡️ Temperature: +19°C (feels like +21°C)
 ☁️ Sky: Mist 🌫️
@@ -129,7 +132,21 @@ docker run --rm curlimages/curl:8.11.1 -s 'wttr.in/Bengaluru?format=📍+%l\n�
 🌅 Sunrise: 06:15:05   🌇 Sunset: 17:51:31
 🌙 Moon: 🌘
 ```
-Each `%` letter asks for one piece of information: `%t` temperature, `%C` sky, `%h` humidity, `%w` wind, `%S` sunrise, `%m` moon. Swap **Bengaluru** for your home town: `Mysuru`, `Chennai`, `Kochi`…
+✅ The first line is **today's real date and time**, so everyone can see the report is live, not a screenshot from a slide. Your numbers will differ from the ones above: that's the point!
+
+How the command works, in plain words:
+- `--entrypoint sh -c '…'` runs a **tiny two-line script** inside the container instead of just `curl`: line 1 prints the date, line 2 fetches the weather.
+- Each `%` letter asks wttr.in for one piece of information: `%t` temperature, `%C` sky, `%h` humidity, `%w` wind, `%S` sunrise, `%m` moon. Swap **Bengaluru** for your home town: `Mysuru`, `Chennai`, `Kochi`…
+- `-e TZ=IST-5:30` sets the container's clock to **India time**.
+
+<details><summary>🤔 Why do we need <code>TZ</code>? (a 10-second experiment)</summary>
+
+```bash
+docker run --rm alpine date                  # Sat Nov  7 01:36:10 UTC 2026
+docker run --rm -e TZ=IST-5:30 alpine date   # Sat Nov  7 07:06:10 IST 2026
+```
+Same moment, two answers. A container has **no time-zone setting** by default, so it shows **UTC** (world standard time). But the clock itself is never wrong: every container **shares your computer's clock**, because it shares your computer's kernel (remember [D00 §4](../00-foundations/README.md#4-virtual-machines-vs-containers)). `TZ` only changes how the time is displayed. Servers almost always run in UTC; that's why logs from production often look "5½ hours behind".
+</details>
 
 **Level 3: the full picture.** The famous ASCII-art weather report:
 ```bash
