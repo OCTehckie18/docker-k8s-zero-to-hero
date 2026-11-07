@@ -196,6 +196,7 @@ So tonight it's a **thin crescent**, shrinking towards a new moon. The simple ve
 | Run this | What you get |
 |---|---|
 | `docker run --rm curlimages/curl:8.11.1 -s qrenco.de/https://github.com/vellankikoti` | 🔳 a **scannable QR code** of a GitHub profile: scan it with your phone! Put **your** username at the end |
+| `docker run --rm curlimages/curl:8.11.1 -s qrenco.de/https://www.linkedin.com/in/pradeep-gopalgowda-59008a33/` | 🔳 the same for a **LinkedIn** profile: great on a slide or a poster |
 | `docker run --rm curlimages/curl:8.11.1 -s qrenco.de/https://www.linkedin.com/in/vellankikoti/` | 🔳 the same for a **LinkedIn** profile: great on a slide or a poster |
 | `docker run --rm curlimages/curl:8.11.1 -s "cheat.sh/tar?T"` | 📖 **instant help** for any command, with real examples: try `git`, `docker`, `chmod`, `ssh` |
 
