@@ -34,9 +34,10 @@ Open with **stories, not commands**. Use the D00 diagrams as your slides.
 
 1. **The broken phone** 📱 *(D00 §1)*. Ask: *"Same phone, different seller: what made the difference?"* Let them say "the packaging", then reveal the mapping: app = phone, image = package, container = unboxed phone.
 2. **"It works on my machine!"** *(D00 §1)*. Perform the developer/tester/ops dialogue with two volunteers reading the lines. Everybody laughs, and everybody has lived it.
-3. **Houses vs apartments** 🏠🏢 *(D00 §4)*. Then the proof: `uname -r` in Alpine and in Ubuntu prints **the same kernel**. Let the room react.
-4. **Sunday breakfast at The Rameshwaram Cafe** 🥞 *(D00 §5)*. Counter, token, head chef, fridge, cold store, tawa. Then `docker version` shows Engine, containerd and runc: the kitchen staff, for real.
-5. **"Are you PID 1?"** *(D00 §7)*. `docker run --rm alpine ps` shows that the container believes it's alone in the world. Then `docker top` shows the host's view: two views of one process.
+3. **"Containers didn't start with Docker"** 🧒 *(D00 §3)*. Open with *"Who shares a room with a brother or sister?"*, then tell the story with the timeline slide: curtain (1979) → walls → snack limit → ready-made room (Docker, 2013) → library + hotel manager → standard box → direct line. Land the punchline: *"Docker didn't invent containers; it made them so easy a student can do it in one command."* Have pairs teach the 7-step chain back to each other in 60 seconds, then go straight to `docker run hello-world`.
+4. **Houses vs apartments** 🏠🏢 *(D00 §4)*. Then the proof: `uname -r` in Alpine and in Ubuntu prints **the same kernel**. Let the room react.
+5. **Sunday breakfast at The Rameshwaram Cafe** 🥞 *(D00 §5)*. Counter, token, head chef, fridge, cold store, tawa. Then `docker version` shows Engine, containerd and runc: the kitchen staff, for real.
+6. **"Are you PID 1?"** *(D00 §7)*. `docker run --rm alpine ps` shows that the container believes it's alone in the world. Then `docker top` shows the host's view: two views of one process.
 
 Close Act 0 with: *"Now that you know what's inside the box, let's play with some boxes."*
 

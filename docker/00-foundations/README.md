@@ -206,6 +206,33 @@ As containers took over, the industry standardised the pieces so nobody depended
 - **Kubernetes** (open-sourced 2014, v1.0 in 2015): runs containers across **many** machines. That's Track 2 of this course.
 - **Cloud native**: apps designed as many small, independently deployable containerised services.
 
+### 🧒 The whole story in 2 minutes (explain it like I'm 10)
+> **Start with a question:** *"Who here shares a room with a brother or sister? What happens when they touch your stuff?"* 😤
+
+Computers have the same problem. One computer runs many programs, and programs "fight": one gobbles all the memory, another messes up someone else's files. Since 1979, people have been finding better ways to give **each program its own room**.
+
+| Year | 🧒 The picture | ⚙️ The real name | What it added |
+|---|---|---|---|
+| 1979 | 🪟 **A curtain** in a shared room. You can't see the other side, but you can still hear everything and eat all the snacks. | `chroot` | a private view of **files** only |
+| 2000 · 2004 | 🧱 **Real walls.** Proper private rooms, but only in a few buildings (FreeBSD, Solaris), and hard to build. | Jails · Zones | real isolation, rarely used |
+| 2008 | 🍪 **A snack limit.** *"This room gets only 2 cookies (memory) and 1 hour of TV (CPU)."* | cgroups + LXC | **limits**, so one greedy program can't take everything. Powerful, but expert-only: building a house from raw bricks. |
+| 2013 | 📦 **Ready-made rooms in a box.** One command gives you a furnished room for any program, and you can hand a copy to a friend that works **exactly the same** on their computer. | **Docker** | made containers **easy and shareable** |
+| 2014 | 📚 **A library of rooms** and 🏨 **a hotel manager** who looks after thousands of rooms in many buildings and moves guests when a room breaks. | Docker Hub · Kubernetes | sharing + running at huge scale |
+| 2015 · 2017 | 🤝 **Everyone agrees on one box size**, like shipping containers that fit every ship and truck. Docker also gives its engine room to the community. | OCI · runc · containerd | rooms from any tool work everywhere |
+| 2022 | 🔧 **The hotel manager talks to the builder directly**, skipping the middle-man. Rooms made with Docker still work perfectly. | K8s drops dockershim | simpler, same standard box |
+
+> 🎯 **The big message:** Docker **didn't invent** the walls or the snack limit; they already existed. Docker's magic was making them **so easy that a student can do it in one command.**
+
+#### 🧠 Never forget it: the 7-step chain
+Say it out loud once, then try it from memory:
+
+**🪟 Curtain → 🧱 Walls → 🍪 Snack limit → 📦 Ready-made room → 📚 Library + 🏨 Hotel manager → 🤝 Standard box → 🔧 Direct line**
+
+<details><summary>🎤 Teach it back (the best way to never forget)</summary>
+
+Explain the chain to the person next to you in 60 seconds, **without** looking. Then swap. If you can teach it, you own it. Bonus: tell someone at home tonight. If a 10-year-old gets it, you've mastered it.
+</details>
+
 ### ⚡ Quick check
 <details><summary>1. Did Docker invent containers?</summary>
 
@@ -214,6 +241,18 @@ No. chroot (1979), FreeBSD Jails (2000), Solaris Zones (2004), Linux namespaces,
 <details><summary>2. What problem did VMs solve, and which one did they leave?</summary>
 
 VMs solved *hardware waste* by putting many isolated machines on one server. They didn't solve *packaging*: each VM still needs a full OS and still suffers from "works on my machine" inside it. And each one carries the overhead of a whole guest OS.
+</details>
+<details><summary>3. In the "own room" story, which one is the snack limit, and what does it stop?</summary>
+
+**cgroups** (2008). It caps how much memory and CPU a container can use, so one greedy program can't starve the others. You'll use it yourself in chapter 7.2.
+</details>
+<details><summary>4. Who is the "hotel manager", and who is the "library of rooms"?</summary>
+
+The hotel manager is **Kubernetes**: it runs and looks after thousands of containers across many machines. The library is **Docker Hub** (a registry): where ready-made images are shared.
+</details>
+<details><summary>5. Kubernetes dropped dockershim in 2022. Do images built with Docker still run on Kubernetes?</summary>
+
+Yes. Thanks to the **OCI standard** (the "one box size"), any OCI image runs on any OCI runtime. Kubernetes simply talks to **containerd** directly instead of going through Docker.
 </details>
 
 ---
